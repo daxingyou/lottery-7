@@ -10,13 +10,33 @@
 </head>
 <body>
     <div id="vue-lottery">
-        <lottery-top></lottery-top>
+        <lottery-top :lotteryConfig="lotteryConfig" :lotteryCode="lotteryCode" :currentIssue="currentIssue" :countTime="countTime" :openIssue="openIssue" :lotteryType="lotteryType"></lottery-top>
         <lottery-plate></lottery-plate>
         <lottery-trend></lottery-trend>
         <lottery-order></lottery-order>
         <lottery-trace></lottery-trace>
         <lottery-history></lottery-history>
     </div>
+    <template id="lottery-top">
+        <div class="lottery-top-wrap clearfix">
+            <div class="lottery-top-left fl">
+                <img :src="`./images/logo/${lotteryCode}.png`">
+                <span>{{lotteryConfig[lotteryCode]}}</span>
+            </div>
+            <div class="lottery-top-center fl">
+                <div class="lottery-current-issue">{{currentIssue}}</div>
+                <div class="lottery-count-time">
+                    {{hours}}{{minutes}}{{seconds}}
+                </div>
+            </div>
+            <div class="lottery-top-right fr">
+                <div class="lottery-open-issue">{{openIssue}}</div>
+                <div class="lottery-open-code">
+                    <i v-for="(item,index) in openCodeArr" :class="openCodeClassObject">{{item}}</i>
+                </div>
+            </div>
+        </div>
+    </template>
     <script src="./js/vue.min.js"></script>
     <script src="./js/components/top.js"></script>
     <script src="./js/components/plate.js"></script>
