@@ -4,7 +4,7 @@ const vueLottery = new Vue({
         lotteryConfig: {
             "CQSSC": {
                 "cnName": "重庆时时彩",
-                "ltTab": {
+                "ltNormalTab": {
                     "wx": "五星",
                     "sx": "四星",
                     "qsm": "前三",
@@ -15,8 +15,9 @@ const vueLottery = new Vue({
                     "bdd": "不定胆",
                     "dxds": "大小单双",
                     "qw": "趣味",
-                    "nn": "牛牛",
-                    "rx": "任选",
+                    "nn": "牛牛"
+                },
+                "ltRxTab": {
                     "rx2": "任选二",
                     "rx3": "任选三",
                     "rx4": "任选四"
@@ -877,3 +878,11 @@ const vueLottery = new Vue({
 
     }
 });
+
+Vue.prototype.range = (start, end, step = 1) => {
+    const resultArr = [];
+    for (let i = start; i < end; i += step) {
+        i <= end && resultArr.push(i);
+    }
+    return resultArr;
+}

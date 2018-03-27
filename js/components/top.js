@@ -1,7 +1,7 @@
 Vue.component('lottery-top', {
     template: '#lottery-top',
     props: ['lottery-config', 'lottery-type', 'lottery-code', 'current-issue', 'count-time', 'open-issue', 'open-code'],
-    data() {console.log(this)
+    data() {
         return {
             openCodeClassObject: {
                 'open-code-ssc': this.lotteryType === 'ssc',
@@ -23,6 +23,7 @@ Vue.component('lottery-top', {
         hours() {
             let hours = Math.floor(this['countTime'] / 60 / 60);
             hours = hours > 99 ? 99 : hours;
+            hours = hours < 10 ? `0${hours}` : hours;
             return hours;
         },
         minutes() {

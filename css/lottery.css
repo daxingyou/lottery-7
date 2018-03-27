@@ -3,10 +3,14 @@ body {
     background: #343843;
 }
 
+#vue-lottery {
+    width: 1200px;
+    margin: 0 auto;
+}
+
 .lottery-top-wrap {
     width: 1200px;
     height: 80px;
-    margin: 0 auto;
     font-size: 0;
 }
 
@@ -124,4 +128,58 @@ body {
     text-align: center;
     vertical-align: middle;
     margin-left: 10px;
+}
+
+.lottery-plate-wrap {
+    width: 710px;
+    box-sizing: border-box;
+    background: #20242E;
+}
+
+.plate-tab {
+    width: 710px;
+    font-size: 0;
+    box-sizing: border-box;
+    padding-left: 12px;
+    padding-right: 13px;
+}
+
+.plate-tab-item {
+    font-size: 14px;
+    color: #FFFFFF;
+    letter-spacing: 0;
+    cursor: pointer;
+    text-align: center;
+    padding: 0 8px;
+    height: 36px;
+    line-height: 36px;
+}
+
+.plate-tab-item.on {
+    color: #FFF75D;
+    border-bottom: 3px solid #FFF75D;
+}
+
+.plate-tab-item-more {
+    background: #3B4050;
+    border-radius: 6px;
+    font-size: 12px;
+    color: #FFFFFF;
+    letter-spacing: 0;
+    width: 86px;
+    height: 26px;
+    line-height: 26px;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.plate-tab-item-more-icon {
+    display: inline-block;
+    background: url(../images/plate-tab-item-more.png) center no-repeat;
+    background-size: cover;
+    width: 15px;
+    height: 14px;
+    vertical-align: middle;
+    margin-left: 4.5px;
 }

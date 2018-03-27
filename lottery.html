@@ -11,7 +11,7 @@
 <body>
     <div id="vue-lottery">
         <lottery-top :lottery-config="lotteryConfig" :lottery-code="lotteryCode" :current-issue="currentIssue" :count-time="countTime" :open-issue="openIssue" :open-code="openCode" :lottery-type="lotteryType"></lottery-top>
-        <lottery-plate></lottery-plate>
+        <lottery-plate :lottery-config="lotteryConfig" :lottery-code="lotteryCode"></lottery-plate>
         <lottery-trend></lottery-trend>
         <lottery-order></lottery-order>
         <lottery-trace></lottery-trace>
@@ -43,6 +43,22 @@
                 <div class="lottery-open-code">
                     <i v-for="(item,index) in openCodeArr" class="open-code-num" :class="openCodeClassObject">{{item}}</i>
                 </div>
+            </div>
+        </div>
+    </script>
+    <script type="x/template" id="lottery-plate">
+        <div class="lottery-plate-wrap">
+            <div class="plate-tab clearfix" v-if="normalTabFlag === 'normal'">
+                <span class="plate-tab-item fl" :key="key" :class="{on: currentTab === key}" v-for="(value,key,index) in lotteryConfig[lotteryCode]['ltNormalTab']" :tab="key" @click="renderPlate(key)">
+                    {{value}}
+                </span>
+                <span class="plate-tab-item-more fr" @click="changeNormalTabFlag('rx')">任选玩法<i class="plate-tab-item-more-icon"></i></span>
+            </div>
+            <div class="plate-tab clearfix" v-if="normalTabFlag === 'rx'">
+                <span class="plate-tab-item fl" :key="key" :class="{on: currentTab === key}" v-for="(value,key,index) in lotteryConfig[lotteryCode]['ltRxTab']" :tab="key" @click="renderPlate(key)">
+                    {{value}}
+                </span>
+                <span class="plate-tab-item-more fr" @click="changeNormalTabFlag('normal')">常规玩法<i class="plate-tab-item-more-icon"></i></span>
             </div>
         </div>
     </script>
