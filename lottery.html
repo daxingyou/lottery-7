@@ -10,34 +10,44 @@
 </head>
 <body>
     <div id="vue-lottery">
-        <lottery-top :lotteryConfig="lotteryConfig" :lotteryCode="lotteryCode" :currentIssue="currentIssue" :countTime="countTime" :openIssue="openIssue" :lotteryType="lotteryType"></lottery-top>
+        <lottery-top :lottery-config="lotteryConfig" :lottery-code="lotteryCode" :current-issue="currentIssue" :count-time="countTime" :open-issue="openIssue" :open-code="openCode" :lottery-type="lotteryType"></lottery-top>
         <lottery-plate></lottery-plate>
         <lottery-trend></lottery-trend>
         <lottery-order></lottery-order>
         <lottery-trace></lottery-trace>
         <lottery-history></lottery-history>
+        
     </div>
-    <template id="lottery-top">
+    <script type="x/template" id="lottery-top">
         <div class="lottery-top-wrap clearfix">
             <div class="lottery-top-left fl">
-                <img :src="`./images/logo/${lotteryCode}.png`">
-                <span>{{lotteryConfig[lotteryCode]}}</span>
+                <img :src="`./images/logo/${lotteryCode}.png`" width="50" height="50" class="lottery-top-logo">
+                <span class="lottery-top-name">{{lotteryConfig[lotteryCode]['cnName']}}</span>
             </div>
             <div class="lottery-top-center fl">
-                <div class="lottery-current-issue">{{currentIssue}}</div>
+                <div class="lottery-current-issue">
+                    <p class="current-issue-text current-issue-text-up">第<span class="current-issue-num">{{currentIssue}}</span>期</p>
+                    <p class="current-issue-text">投注截止还有</p>
+                </div>
                 <div class="lottery-count-time">
-                    {{hours}}{{minutes}}{{seconds}}
+                    <i class="lottery-count-time-item">{{hours}}</i>
+                    <i class="lottery-count-time-item lottery-count-time-minutes">{{minutes}}</i>
+                    <i class="lottery-count-time-item">{{seconds}}</i>
                 </div>
             </div>
             <div class="lottery-top-right fr">
-                <div class="lottery-open-issue">{{openIssue}}</div>
+                <div class="lottery-open-issue">
+                    <p class="open-issue-text open-issue-text-up">第<span class="open-issue-num">{{openIssue}}</span>期</p>
+                    <p class="open-issue-text">开奖号码</p>
+                </div>
                 <div class="lottery-open-code">
-                    <i v-for="(item,index) in openCodeArr" :class="openCodeClassObject">{{item}}</i>
+                    <i v-for="(item,index) in openCodeArr" class="open-code-num" :class="openCodeClassObject">{{item}}</i>
                 </div>
             </div>
         </div>
-    </template>
+    </script>
     <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.min.js"></script>
     <script src="./js/components/top.js"></script>
     <script src="./js/components/plate.js"></script>
     <script src="./js/components/trend.js"></script>
