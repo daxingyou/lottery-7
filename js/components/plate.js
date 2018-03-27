@@ -26,7 +26,9 @@ Vue.component('lottery-plate', {
         },
         firstSubTab() {
             //获取'wx_zx_fs'中的zx值
+            console.log(this.currentTab)
             const firstMiddleCode = Object.keys(this.lotteryConfig[this.lotteryCode]['ltMethod'][this.currentTab])[0];
+            console.log(firstMiddleCode)
             return Object.keys(this.lotteryConfig[this.lotteryCode]['ltMethod'][this.currentTab][firstMiddleCode]['method'])[0];
         }
     },
@@ -36,22 +38,21 @@ Vue.component('lottery-plate', {
             this.currentTab = localStorage.getItem(`${this.lotteryCode}-${this.normalTabFlag}-currentTab`) || this.firstTab;            
         },
         getCurrentSubTab() {
-            this.currentTab = localStorage.getItem(`${this.lotteryCode}-${this.normalTabFlag}-currentSubTab`) || this.firstSubTab;            
+            this.currentSubTab = this.firstSubTab;            
         },
         changeNormalTabFlag(tabFlag) {
             this.normalTabFlag = tabFlag;
             localStorage.setItem(`${this.lotteryCode}-normalTabFlag`, tabFlag);
             this.getCurrentTab();
             this.switchTab(this.currentTab);
-            this.getCurrentSubTab();
-            this.switchSubTab(this.currentSubTab);
         },
         switchTab(tab) {
             localStorage.setItem(`${this.lotteryCode}-${this.normalTabFlag}-currentTab`, tab);
             this.currentTab = tab;
+            this.getCurrentSubTab();
+            this.switchSubTab(this.currentSubTab);
         },
         switchSubTab(subTab) {
-            localStorage.getItem(`${this.lotteryCode}-${this.normalTabFlag}-currentSubTab`, subTab)
             this.currentSubTab = subTab;
         }
     }
