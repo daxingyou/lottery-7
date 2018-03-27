@@ -3,19 +3,20 @@ Vue.component('lottery-plate', {
     props: ['lottery-config', 'lottery-code'],
     data() {console.log(this)
         return {
-            normalTabFlag: 'normal'
+            normalTabFlag: localStorage.getItem(`${this.lotteryCode}-normalTabFlag`) || 'normal',
+            currentTab: '',
+            currentSubTab: '',
         };
     },
     beforeCreate() {},
-    created() {},
+    created() {
+        this.getCurrentTab();
+    },
     beforeMount() {},
     mounted() {
-        this.renderPlate(this.currentTab);
+        this.switchTab(this.currentTab);
     },
     computed: {
-        // normalTabFlag() {
-        //     return localStorage.getItem(`${this.lotteryCode}-normalTabFlag`) || 'normal';
-        // },
         firstTab() {
             if (this.normalTabFlag === 'normal') {
                 return Object.keys(this.lotteryConfig[this.lotteryCode]['ltNormalTab'])[0];
@@ -23,20 +24,35 @@ Vue.component('lottery-plate', {
                 return Object.keys(this.lotteryConfig[this.lotteryCode]['ltRxTab'])[0];
             }
         },
-        currentTab() {
-            return localStorage.getItem(`${this.lotteryCode}-currentTab`) || this.firstTab;
+        firstSubTab() {
+            //获取'wx_zx_fs'中的zx值
+            const firstMiddleCode = Object.keys(this.lotteryConfig[this.lotteryCode]['ltMethod'][this.currentTab])[0];
+            return Object.keys(this.lotteryConfig[this.lotteryCode]['ltMethod'][this.currentTab][firstMiddleCode]['method'])[0];
         }
     },
     watch: {},
     methods: {
-        changeNormalTabFlag(tabFlag) {
-            localStorage.setItem(`${this.lotteryCode}-normalTabFlag`, tabFlag);
-            this.normalTabFlag = tabFlag;
-            this.renderPlate(this.currentTab);
+        getCurrentTab() {
+            this.currentTab = localStorage.getItem(`${this.lotteryCode}-${this.normalTabFlag}-currentTab`) || this.firstTab;            
         },
-        renderPlate(tab) {console.log(tab)
-            localStorage.setItem(`${this.lotteryCode}-currentTab`, tab);
+        getCurrentSubTab() {
+            this.currentTab = localStorage.getItem(`${this.lotteryCode}-${this.normalTabFlag}-currentSubTab`) || this.firstSubTab;            
+        },
+        changeNormalTabFlag(tabFlag) {
+            this.normalTabFlag = tabFlag;
+            localStorage.setItem(`${this.lotteryCode}-normalTabFlag`, tabFlag);
+            this.getCurrentTab();
+            this.switchTab(this.currentTab);
+            this.getCurrentSubTab();
+            this.switchSubTab(this.currentSubTab);
+        },
+        switchTab(tab) {
+            localStorage.setItem(`${this.lotteryCode}-${this.normalTabFlag}-currentTab`, tab);
             this.currentTab = tab;
+        },
+        switchSubTab(subTab) {
+            localStorage.getItem(`${this.lotteryCode}-${this.normalTabFlag}-currentSubTab`, subTab)
+            this.currentSubTab = subTab;
         }
     }
 });

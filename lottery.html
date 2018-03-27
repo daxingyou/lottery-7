@@ -49,16 +49,22 @@
     <script type="x/template" id="lottery-plate">
         <div class="lottery-plate-wrap">
             <div class="plate-tab clearfix" v-if="normalTabFlag === 'normal'">
-                <span class="plate-tab-item fl" :key="key" :class="{on: currentTab === key}" v-for="(value,key,index) in lotteryConfig[lotteryCode]['ltNormalTab']" :tab="key" @click="renderPlate(key)">
+                <span class="plate-tab-item fl" :key="key" :class="{on: currentTab === key}" v-for="(value,key,index) in lotteryConfig[lotteryCode]['ltNormalTab']" :tab="key" @click="switchTab(key)">
                     {{value}}
                 </span>
                 <span class="plate-tab-item-more fr" @click="changeNormalTabFlag('rx')">任选玩法<i class="plate-tab-item-more-icon"></i></span>
             </div>
             <div class="plate-tab clearfix" v-if="normalTabFlag === 'rx'">
-                <span class="plate-tab-item fl" :key="key" :class="{on: currentTab === key}" v-for="(value,key,index) in lotteryConfig[lotteryCode]['ltRxTab']" :tab="key" @click="renderPlate(key)">
+                <span class="plate-tab-item fl" :key="key" :class="{on: currentTab === key}" v-for="(value,key,index) in lotteryConfig[lotteryCode]['ltRxTab']" :tab="key" @click="switchTab(key)">
                     {{value}}
                 </span>
                 <span class="plate-tab-item-more fr" @click="changeNormalTabFlag('normal')">常规玩法<i class="plate-tab-item-more-icon"></i></span>
+            </div>
+            <div class="plate-sub-tab">
+                <div class="sub-tab-wrap" v-for="(subTabObj,tabCode) in lotteryConfig[lotteryCode]['ltMethod'][currentTab]">
+                    <span class="sub-tab-title">{{subTabObj.title}}:</span>
+                    <span class="sub-tab-item" :class="{on: currentSubTab === key}" :sub-tab="key" v-for="(obj,key) in subTabObj['method']" @click="switchSubTab(key)">{{obj.desc}}</span>
+                </div>
             </div>
         </div>
     </script>

@@ -171,7 +171,7 @@ body {
     line-height: 26px;
     text-align: center;
     cursor: pointer;
-    margin-top: 5px;
+    margin-top: 6px;
 }
 
 .plate-tab-item-more-icon {
@@ -182,4 +182,48 @@ body {
     height: 14px;
     vertical-align: middle;
     margin-left: 4.5px;
+}
+
+.plate-sub-tab {
+    width: 710px;
+    font-size: 0;
+    box-sizing: border-box;
+    padding-left: 20px;
+    background: #FBFBFB;
+}
+
+.sub-tab-title {
+    display: inline-block;
+    font-size: 12px;
+    color: #99A9BF;
+    letter-spacing: 0;
+    width: 64px;
+    height: 20px;
+    line-height: 20px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.sub-tab-item {
+    display: inline-block;
+    font-size: 12px;
+    color: #475669;
+    letter-spacing: 0;
+    width: 60px;
+    height: 20px;
+    line-height: 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.sub-tab-item.on {
+    background: #E9272A; 
+    color: #FFFFFF;   
+}
+
+.sub-tab-wrap {
+    height: 30px;
+    line-height: 30px;
 }
