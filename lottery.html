@@ -15,8 +15,7 @@
         <lottery-trend></lottery-trend>
         <lottery-order></lottery-order>
         <lottery-trace></lottery-trace>
-        <lottery-history></lottery-history>
-        
+        <lottery-history></lottery-history>      
     </div>
     <script type="x/template" id="lottery-top">
         <div class="lottery-top-wrap clearfix">
@@ -62,8 +61,27 @@
             </div>
             <div class="plate-sub-tab">
                 <div class="sub-tab-wrap" v-for="(subTabObj,tabCode) in lotteryConfig[lotteryCode]['ltMethod'][currentTab]">
-                    <span class="sub-tab-title">{{subTabObj.title}}:</span>
-                    <span class="sub-tab-item" :class="{on: currentSubTab === key}" :sub-tab="key" v-for="(obj,key) in subTabObj['method']" @click="switchSubTab(key)">{{obj.desc}}</span>
+                    <span class="sub-tab-title" :class="{'sub-tab-dxds-title': currentTab === 'dxds'}">{{subTabObj.title}}:</span>
+                    <span class="sub-tab-item" :class="{on: currentSubTab === key,'sub-tab-dxds-item': currentTab === 'dxds'}" :sub-tab="key" v-for="(obj,key) in subTabObj['method']" @click="switchSubTab(key)">{{obj.desc}}</span>
+                </div>
+            </div>
+            <div class="plate-number">
+                <div class="plate-number-top clearfix">
+                    <span class="plate-method-hint fl">五星直选复式<i class="question-mark-icon" title="在万位、千位、百位上分别选择一个或多个号码，组合成一注或多注。所选号码与开奖号码一致且顺序相同，即为中奖。"></i></span>
+                    <span class="hot-miss-tab fl">
+                        <span class="miss-tab on">遗漏</span>
+                        <span class="hot-tab">冷热</span>
+                        <i class="question-mark-icon" title="遗漏：表示该号码从上次开出至今，有多少期未出现；冷热：表示在最近100期开奖中，该号码在对应的位置上出现的次数"></i>
+                    </span>
+                </div>
+                <div class="plate-number-list">
+                    <div class="plate-number-item clearfix" v-for="(plateNumObj,index) in plateNumArr">
+                        <span class="plate-number-position fl">{{plateNumObj.position}}</span>
+                        <span class="plate-number-each fl" v-for="(num,numIndex) in plateNumObj.num">{{num}}</span>
+                        <span class="plate-filter-button fr" v-if="plateNumObj.filter === 'all'">
+                            <i class="filter-button" v-for="value in ['全','大','小','奇','偶','清']">{{value}}</i>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>

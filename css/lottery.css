@@ -204,6 +204,10 @@ body {
     vertical-align: middle;
 }
 
+.sub-tab-dxds-title {
+    width: 80px;
+}
+
 .sub-tab-item {
     display: inline-block;
     font-size: 12px;
@@ -218,6 +222,10 @@ body {
     vertical-align: middle;
 }
 
+.sub-tab-dxds-item {
+    width: 90px;
+}
+
 .sub-tab-item.on {
     background: #E9272A; 
     color: #FFFFFF;   
@@ -226,4 +234,112 @@ body {
 .sub-tab-wrap {
     height: 30px;
     line-height: 30px;
+}
+
+.plate-number {
+    width: 710px;
+    font-size: 0;
+    box-sizing: border-box;
+    padding-left: 20px;
+    background: #FBFBFB;
+    border-top: 1px dashed #E0E6ED;
+    border-bottom: 1px dashed #E0E6ED;
+}
+
+.plate-method-hint {
+    font-size: 12px;
+    color: #475669;
+    letter-spacing: 0;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.question-mark-icon {
+    display: inline-block;
+    background: url(../images/question-mark.png) center no-repeat;
+    background-size: cover;
+    width: 15px;
+    height: 15px;
+    vertical-align: middle;
+    margin-left: 10px;
+}
+
+.plate-method-hint {
+    height: 38px;
+    line-height: 38px;
+    display: inline-block;
+}
+
+.hot-miss-tab {
+    height: 38px;
+    line-height: 38px;
+    display: inline-block;
+    margin-left: 32px;
+}
+
+.miss-tab,
+.hot-tab {
+    background: #FFFFFF;
+    border: 1px solid #E0E6ED;
+    display: inline-block;
+    width: 48px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    font-size: 12px;
+    color: #475669;
+    letter-spacing: 0;
+    vertical-align: middle;
+}
+
+.miss-tab {
+    border-radius: 4px 0 0 4px;
+}
+
+.hot-tab {
+    border-radius: 0 4px 4px 0;
+}
+
+.miss-tab.on,
+.hot-tab.on {
+    background: #E9272A;
+    color: #FFFFFF;
+}
+
+.plate-number-position {
+    font-size: 18px;
+    color: #475669;
+    letter-spacing: 0;
+    text-align: left;
+}
+
+.plate-number-each {
+    width: 28px;
+    height: 28px;
+    font-size: 20px;
+    color: #000000;
+    letter-spacing: 0;
+    text-align: center;
+}
+
+.plate-number-each.on {
+    color: #FFFFFF;
+    background: #E9272A;
+    margin-left: 14px;
+}
+
+.plate-filter-button {
+    background: #FFFFFF;
+    border: 1px solid #E0E6ED;
+    border-radius: 8px;
+    height: 26px;
+    line-height: 26px;
+    text-align: center;
+}
+
+.filter-button {
+    font-size: 14px;
+    color: #475669;
+    letter-spacing: 0;
+    margin: 0 9px;
 }

@@ -10,7 +10,8 @@ const vueLottery = new Vue({
                     "qsm": "前三",
                     "zsm": "中三",
                     "hsm": "后三",
-                    "em": "二星",
+                    "qem": "前二",
+                    "hem": "后二",
                     "dwd": "定位胆",
                     "bdd": "不定胆",
                     "dxds": "大小单双",
@@ -298,9 +299,9 @@ const vueLottery = new Vue({
                             }
                         }
                     },
-                    "em": {
+                    "qem": {
                         "zx": {
-                            "title": "直选",
+                            "title": "前二直选",
                             "method": {
                                 "zx_qfs": {
                                     "desc": "复式",
@@ -321,7 +322,39 @@ const vueLottery = new Vue({
                                     "desc": "跨度",
                                     "num": "跨度|0-9|all",
                                     "name": "前二直选跨度"
+                                }
+                            }
+                        },
+                        "zux": {
+                            "title": "前二组选",
+                            "method": {
+                                "zux_qfs": {
+                                    "desc": "复式",
+                                    "num": "组选|0-9|all",
+                                    "name": "前二组选复式"
                                 },
+                                "zux_qds": {
+                                    "desc": "单式",
+                                    "num": "input|zux|2",
+                                    "name": "前二组选单式"
+                                },
+                                "zux_qhz": {
+                                    "desc": "和值",
+                                    "num": "和值|1-17|",
+                                    "name": "前二组选和值"
+                                },
+                                "zux_qbd": {
+                                    "desc": "包胆",
+                                    "num": "包胆|0-9|",
+                                    "name": "前二组选包胆"
+                                }
+                            }
+                        }
+                    },
+                    "hem": {
+                        "zx": {
+                            "title": "后二直选",
+                            "method": {
                                 "zx_hfs": {
                                     "desc": "复式",
                                     "num": "十位,个位|0-9|all",
@@ -345,28 +378,8 @@ const vueLottery = new Vue({
                             }
                         },
                         "zux": {
-                            "title": "组选",
+                            "title": "后二组选",
                             "method": {
-                                "zux_qfs": {
-                                    "desc": "复式",
-                                    "num": "组选|0-9|all",
-                                    "name": "前二组选复式"
-                                },
-                                "zux_qds": {
-                                    "desc": "单式",
-                                    "num": "input|zux|2",
-                                    "name": "前二组选单式"
-                                },
-                                "zux_qhz": {
-                                    "desc": "和值",
-                                    "num": "和值|1-17|",
-                                    "name": "前二组选和值"
-                                },
-                                "zux_qbd": {
-                                    "desc": "包胆",
-                                    "num": "包胆|0-9|",
-                                    "name": "前二组选包胆"
-                                },
                                 "zux_hfs": {
                                     "desc": "复式",
                                     "num": "组选|0-9|all",
@@ -879,7 +892,9 @@ const vueLottery = new Vue({
     }
 });
 
-Vue.prototype.range = (start, end, step = 1) => {
+Vue.prototype.$range = (start, end, step = 1) => {
+    start = Number(start);
+    end = Number(end);
     const resultArr = [];
     for (let i = start; i < end; i += step) {
         i <= end && resultArr.push(i);
