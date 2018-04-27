@@ -1,0 +1,25 @@
+{
+  "name": "lottery",
+  "version": "1.0.0",
+  "description": "彩票投注页",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leeseean/lottery.git"
+  },
+  "keywords": [
+    "vue"
+  ],
+  "author": "leeseean",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/leeseean/lottery/issues"
+  },
+  "homepage": "https://github.com/leeseean/lottery#readme",
+  "dependencies": {
+    "mockjs": "^1.0.1-beta3"
+  }
+}
