@@ -1,25 +1,18 @@
 {
   "name": "lottery",
-  "version": "1.0.0",
-  "description": "彩票投注页",
-  "main": "index.html",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/leeseean/lottery.git"
-  },
-  "keywords": [
-    "vue"
-  ],
-  "author": "leeseean",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/leeseean/lottery/issues"
-  },
-  "homepage": "https://github.com/leeseean/lottery#readme",
   "dependencies": {
-    "mockjs": "^1.0.1-beta3"
+    "axios": "^0.18.0",
+    "cookie-parser": "^1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.16.0",
+    "http-errors": "~1.6.2",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.0",
+    "vue": "^2.5.16"
   }
 }

@@ -1,0 +1,14 @@
+{
+    "typeAcquisition": {
+        "include": [
+            "vue",
+            "axios"
+        ]
+    },
+    "compilerOptions": {
+        "target": "ES6"
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}
