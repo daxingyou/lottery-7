@@ -11,83 +11,15 @@
 <body>
     <div id="vue-lottery">
         <lottery-top :lottery-config="lotteryConfig" :lottery-code="lotteryCode" :current-issue="currentIssue" :count-time="countTime" :open-issue="openIssue" :open-code="openCode" :lottery-type="lotteryType"></lottery-top>
-        <lottery-plate :lottery-config="lotteryConfig" :lottery-code="lotteryCode"></lottery-plate>
+        <lottery-plate v-if="!isEmptyObject(lotteryConfig)" :lottery-config="lotteryConfig" :lottery-code="lotteryCode"></lottery-plate>
         <lottery-trend></lottery-trend>
         <lottery-order></lottery-order>
         <lottery-trace></lottery-trace>
         <lottery-history></lottery-history>      
     </div>
-    <script type="x/template" id="lottery-top">
-        <div class="lottery-top-wrap clearfix">
-            <div class="lottery-top-left fl">
-                <img :src="`./images/logo/${lotteryCode}.png`" width="50" height="50" class="lottery-top-logo">
-                <span class="lottery-top-name">{{lotteryConfig[lotteryCode]['cnName']}}</span>
-            </div>
-            <div class="lottery-top-center fl">
-                <div class="lottery-current-issue">
-                    <p class="current-issue-text current-issue-text-up">第<span class="current-issue-num">{{currentIssue}}</span>期</p>
-                    <p class="current-issue-text">投注截止还有</p>
-                </div>
-                <div class="lottery-count-time">
-                    <i class="lottery-count-time-item">{{hours}}</i>
-                    <i class="lottery-count-time-item lottery-count-time-minutes">{{minutes}}</i>
-                    <i class="lottery-count-time-item">{{seconds}}</i>
-                </div>
-            </div>
-            <div class="lottery-top-right fr">
-                <div class="lottery-open-issue">
-                    <p class="open-issue-text open-issue-text-up">第<span class="open-issue-num">{{openIssue}}</span>期</p>
-                    <p class="open-issue-text">开奖号码</p>
-                </div>
-                <div class="lottery-open-code">
-                    <i v-for="(item,index) in openCodeArr" class="open-code-num" :class="openCodeClassObject">{{item}}</i>
-                </div>
-            </div>
-        </div>
-    </script>
-    <script type="x/template" id="lottery-plate">
-        <div class="lottery-plate-wrap">
-            <div class="plate-tab clearfix" v-if="normalTabFlag === 'normal'">
-                <span class="plate-tab-item fl" :key="key" :class="{on: currentTab === key}" v-for="(value,key,index) in lotteryConfig[lotteryCode]['ltNormalTab']" :tab="key" @click="switchTab(key)">
-                    {{value}}
-                </span>
-                <span class="plate-tab-item-more fr" @click="changeNormalTabFlag('rx')">任选玩法<i class="plate-tab-item-more-icon"></i></span>
-            </div>
-            <div class="plate-tab clearfix" v-if="normalTabFlag === 'rx'">
-                <span class="plate-tab-item fl" :key="key" :class="{on: currentTab === key}" v-for="(value,key,index) in lotteryConfig[lotteryCode]['ltRxTab']" :tab="key" @click="switchTab(key)">
-                    {{value}}
-                </span>
-                <span class="plate-tab-item-more fr" @click="changeNormalTabFlag('normal')">常规玩法<i class="plate-tab-item-more-icon"></i></span>
-            </div>
-            <div class="plate-sub-tab">
-                <div class="sub-tab-wrap" v-for="(subTabObj,tabCode) in lotteryConfig[lotteryCode]['ltMethod'][currentTab]">
-                    <span class="sub-tab-title" :class="{'sub-tab-dxds-title': currentTab === 'dxds'}">{{subTabObj.title}}:</span>
-                    <span class="sub-tab-item" :class="{on: currentSubTab === key,'sub-tab-dxds-item': currentTab === 'dxds'}" :sub-tab="key" v-for="(obj,key) in subTabObj['method']" @click="switchSubTab(key)">{{obj.desc}}</span>
-                </div>
-            </div>
-            <div class="plate-number">
-                <div class="plate-number-top clearfix">
-                    <span class="plate-method-hint fl">五星直选复式<i class="question-mark-icon" title="在万位、千位、百位上分别选择一个或多个号码，组合成一注或多注。所选号码与开奖号码一致且顺序相同，即为中奖。"></i></span>
-                    <span class="hot-miss-tab fl">
-                        <span class="miss-tab on">遗漏</span>
-                        <span class="hot-tab">冷热</span>
-                        <i class="question-mark-icon" title="遗漏：表示该号码从上次开出至今，有多少期未出现；冷热：表示在最近100期开奖中，该号码在对应的位置上出现的次数"></i>
-                    </span>
-                </div>
-                <div class="plate-number-list">
-                    <div class="plate-number-item clearfix" v-for="(plateNumObj,index) in plateNumArr">
-                        <span class="plate-number-position fl">{{plateNumObj.position}}</span>
-                        <span class="plate-number-each fl" v-for="(num,numIndex) in plateNumObj.num">{{num}}</span>
-                        <span class="plate-filter-button fr" v-if="plateNumObj.filter === 'all'">
-                            <i class="filter-button" v-for="value in ['全','大','小','奇','偶','清']">{{value}}</i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </script>
     <script src="./js/vue.min.js"></script>
     <script src="./js/axios.min.js"></script>
+    <script src="./js/utils.js"></script>
     <script src="./js/components/top.js"></script>
     <script src="./js/components/plate.js"></script>
     <script src="./js/components/trend.js"></script>

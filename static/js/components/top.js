@@ -1,5 +1,32 @@
 Vue.component('lottery-top', {
-    template: '#lottery-top',
+    template: `
+        <div class="lottery-top-wrap clearfix">
+            <div class="lottery-top-left fl">
+                <img :src="'./images/logo/' + lotteryCode + '.png'" width="50" height="50" class="lottery-top-logo">
+                <span class="lottery-top-name">{{lotteryConfig['cnName']}}</span>
+            </div>
+            <div class="lottery-top-center fl">
+                <div class="lottery-current-issue">
+                    <p class="current-issue-text current-issue-text-up">第<span class="current-issue-num">{{currentIssue}}</span>期</p>
+                    <p class="current-issue-text">投注截止还有</p>
+                </div>
+                <div class="lottery-count-time">
+                    <i class="lottery-count-time-item">{{hours}}</i>
+                    <i class="lottery-count-time-item lottery-count-time-minutes">{{minutes}}</i>
+                    <i class="lottery-count-time-item">{{seconds}}</i>
+                </div>
+            </div>
+            <div class="lottery-top-right fr">
+                <div class="lottery-open-issue">
+                    <p class="open-issue-text open-issue-text-up">第<span class="open-issue-num">{{openIssue}}</span>期</p>
+                    <p class="open-issue-text">开奖号码</p>
+                </div>
+                <div class="lottery-open-code">
+                    <i v-for="(item,index) in openCodeArr" class="open-code-num" :class="openCodeClassObject">{{item}}</i>
+                </div>
+            </div>
+        </div>
+    `,
     props: ['lottery-config', 'lottery-type', 'lottery-code', 'current-issue', 'count-time', 'open-issue', 'open-code'],
     data() {
         return {
@@ -28,7 +55,7 @@ Vue.component('lottery-top', {
         },
         minutes() {
             let minutes = Math.floor(this['countTime'] / 60);
-            minutes = minutes < 10 ? `0{minutes}` : minutes;
+            minutes = minutes < 10 ? `0${minutes}` : minutes;
             return minutes;
         },
         seconds() {
