@@ -29,12 +29,33 @@ Vue.component('lottery-plate', {
                     </span>
                 </div>
                 <div class="plate-number-list">
-                    <div class="plate-number-item clearfix" v-for="(plateNumObj,index) in plateNumArr">
+                    <div v-if="plateType === 'number'" class="plate-number-item clearfix" v-for="(plateNumObj,index) in plateNumArr">
                         <span class="plate-number-position fl">{{plateNumObj.position}}</span>
                         <span class="plate-number-each fl" v-for="(num,numIndex) in plateNumObj.num">{{num}}</span>
                         <span class="plate-filter-button fr" v-if="plateNumObj.filter === 'all'">
                             <i class="filter-button" v-for="value in ['全','大','小','奇','偶','清']">{{value}}</i>
                         </span>
+                        <span class="plate-filter-button fr" v-if="plateNumObj.filter === 'two'">
+                            <i class="filter-button" v-for="value in ['全','清']">{{value}}</i>
+                        </span>
+                    </div>
+                    <div v-if="plateType === 'input'">
+                        <div v-if="normalTabFlag === 'rx'" class="input-pos">
+                            <span>选择位置</span>
+                            <label v-for="(pos, index) in inputPosObj" :class="{on: pos.status}" @click="toggleInputPosStatus(index)">{{[pos.text]}}</label>
+                            <span class="pos-tip">注意：此处默认选择所有位置，请您自行调整。</span>
+                        </div>
+                        <div class="ds-input-area">
+                            <ul>
+                                <li class="ds-input-item" v-for="(value,index) in dsInputNums">
+                                    {{value}}
+                                    <i class="ds-input-delete" @click="dsDelete(index)"></i>
+                                </li>
+                            </ul>
+                            <input type="number" v-model="dsInputValue" @change="pushDsValue(dsInputValue)"/>
+                        </div>
+                        <span class="input-upload-btn">上传文件</span>
+                        <span class="input-clear-btn">清空</span>
                     </div>
                 </div>
             </div>
@@ -46,6 +67,30 @@ Vue.component('lottery-plate', {
             normalTabFlag: localStorage.getItem(`${this.lotteryCode}-normalTabFlag`) || 'normal',
             currentTab: '',
             currentSubTab: '',
+            plateType: '', //input 单式，number 选号盘
+            inputPosObj: { //任选单式的位置0,1,2,3,4 =》万千百十个 true表示默认选中
+                0: {
+                    text: '万',
+                    status: true
+                },
+                1: {
+                    text: '千',
+                    status: true
+                },
+                2: {
+                    text: '百',
+                    status: true
+                },
+                3: {
+                    text: '十',
+                    status: true
+                },
+                4: {
+                    text: '个',
+                    status: true
+                }
+            },
+            dsInputNums: [], //单式输入的数字数组
         };
     },
     beforeCreate() {},
@@ -76,6 +121,10 @@ Vue.component('lottery-plate', {
                 const lastCode = this.currentSubTab.split('_')[1];
                 const obj = this.lotteryConfig['ltMethod'][this.currentTab][middleCode]['method'][lastCode];
                 const numArr = obj.num.split('|'); //"千位,百位,十位,个位|0-9|all" => ["千位,百位,十位,个位","0-9","all"]
+                if (numArr[0] === 'input') {
+                    this.plateType = 'input';
+                    return
+                }
                 const positionArr = numArr[0].split(',');
                 const selectNumArr = numArr[1].split('-'); //"0-9" => ['0','9']
                 const selectNumRangeArr = this.$range(selectNumArr[0], selectNumArr[1]); //['0','9'] => [0,1,2,3,4,5,6,7,8,9]
@@ -87,7 +136,7 @@ Vue.component('lottery-plate', {
                         num: selectNumRangeArr
                     });
                 });
-            } 
+            }
             return resultArr;
         }
     },
@@ -113,6 +162,17 @@ Vue.component('lottery-plate', {
         },
         switchSubTab(subTab) {
             this.currentSubTab = subTab;
+        },
+        toggleInputPosStatus(index) {
+            this.inputPosObj[index].status = !this.inputPosObj[index].status;
+        },
+        dsDelete(index) { //单式删除选号
+            this.dsInputNums.splice(index, 1);
+        },
+        pushDsValue(dsInputValue) { //单式输号
+            debounce(() => {
+                this.dsInputNums.push(dsInputValue);
+            })();
         }
     }
 });
