@@ -52,7 +52,7 @@ Vue.component('lottery-plate', {
                                     <i class="ds-input-delete" @click="dsDelete(index)"></i>
                                 </li>
                             </ul>
-                            <input type="number" v-model="dsInputValue" @change="pushDsValue(dsInputValue)"/>
+                            <input type="number" v-model="dsInputValue" @change="pushDsValue"/>
                         </div>
                         <span class="input-upload-btn">上传文件</span>
                         <span class="input-clear-btn">清空</span>
@@ -61,7 +61,7 @@ Vue.component('lottery-plate', {
             </div>
         </div>
     `,
-    props: ['lottery-config', 'lottery-code'],
+    props: ['lottery-config', 'lottery-type', 'lottery-code'],
     data() {
         return {
             normalTabFlag: localStorage.getItem(`${this.lotteryCode}-normalTabFlag`) || 'normal',
@@ -91,6 +91,7 @@ Vue.component('lottery-plate', {
                 }
             },
             dsInputNums: [], //单式输入的数字数组
+            dsInputValue: '',
         };
     },
     beforeCreate() {},
@@ -113,6 +114,9 @@ Vue.component('lottery-plate', {
             const firstMiddleCode = Object.keys(this.lotteryConfig['ltMethod'][this.currentTab])[0]; //获取'wx_zx_fs'中的zx值
             const firstLastCode = Object.keys(this.lotteryConfig['ltMethod'][this.currentTab][firstMiddleCode]['method'])[0]; //获取fs
             return `${firstMiddleCode}_${firstLastCode}`;
+        },
+        method() {
+            return `${this.currentTab}_${this.currentSubTab}`;
         },
         plateNumArr() { //渲染选号盘的数据，包括万千百十个位置和选号
             const resultArr = [];
@@ -169,9 +173,104 @@ Vue.component('lottery-plate', {
         dsDelete(index) { //单式删除选号
             this.dsInputNums.splice(index, 1);
         },
-        pushDsValue(dsInputValue) { //单式输号
-            debounce(() => {
-                this.dsInputNums.push(dsInputValue);
+        pushDsValue() { //单式输号
+            debounce(() => { //校验格式 
+                //号码可重复，如111
+                const regExpObj = {
+                    'ssc': /^\d+$/g,
+                    'match-ssc': /\d/g,
+                    '3d': /^\d+$/g,
+                    'match-3d': /\d/g,
+                    'ky481': /^[1-8]+$/g,
+                    'match-ky481': /[1-8]/g,
+                    'pk10': /^(?:0[1-9]|1[0])+$/g, // 01 - 10                    
+                    'match-pk10': /(0[1-9]|1[0])/g, // 01 - 10                    
+                    '11y': /^(?:0[1-9]|1[0-1])+$/g, // 01 - 11
+                    'match-11y': /(0[1-9]|1[0-1])/g, // 01 - 11
+                    'kl12': /^(?:0[1-9]|1[0-2])+$/g, // 01 - 12
+                    'match-kl12': /(0[1-9]|1[0-2])/g, // 01 - 12                    
+                };
+                //zux_hh组选混合玩法不包含豹子号111 /^(?:0[1-9]|1[0-2])+$/.test("0122")
+                if (['ssc', 'ky481', '3d'].indexOf(this.lotteryType) !== -1) {
+                    if (!regExpObj[this.lotteryType].test(dsInputValue)) {
+                        return;
+                    }
+                    const dsInputValueArr = dsInputValue.match(regExpObj[`match-${this.lotteryType}`]); //123=>[1,2,3]
+                    if (this.currentSubTab === 'zux_hh') {
+                        if ([...new Set[dsInputValueArr]].length === 1) { //说明是豹子号
+                            return;
+                        }
+                    }
+                    switch (this.currentTab) { //根据玩法控制输入数字位数
+                        case 'wx':
+                            if (dsInputValueArr === 5) {
+                                this.dsInputNums.push(dsInputValue);
+                            }
+                            break;
+                        case 'sx':
+                            if (dsInputValueArr === 4) {
+                                this.dsInputNums.push(dsInputValue);
+                            }
+                            break;
+                        case 'sm':
+                        case 'qsm':
+                        case 'zsm':
+                        case 'hsm':
+                            if (dsInputValueArr === 3) {
+                                this.dsInputNums.push(dsInputValue);
+                            }
+                            break;
+                        case 'em':
+                            if (dsInputValueArr === 2) {
+                                this.dsInputNums.push(dsInputValue);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    return;
+                }
+                //11选5等玩法的输入规则是010203,号码不重复 "010203".match(/\d{2}/g);
+                if (['11y', 'kl12', 'pk10'].indexOf(this.lotteryType) !== -1) {
+                    if (!regExpObj[this.lotteryType].test(dsInputValue)) {
+                        return;
+                    }
+                    const dsInputValueArr = dsInputValue.match(regExpObj[`match-${this.lotteryType}`]); //123=>[1,2,3]
+                    if (this.currentSubTab === 'zux_hh') {
+                        if ([...new Set[dsInputValueArr]].length !== dsInputValueArr.length) { //说明有重复号
+                            return;
+                        }
+                    }
+                    switch (this.currentTab) { //根据玩法控制输入数字位数
+                        case 'wx':
+                        case 'cq5':
+                            if (dsInputValueArr === 5) {
+                                this.dsInputNums.push(dsInputValue);
+                            }
+                            break;
+                        case 'sx':
+                        case 'cq4':
+                            if (dsInputValueArr === 4) {
+                                this.dsInputNums.push(dsInputValue);
+                            }
+                            break;
+                        case 'sm':
+                        case 'cq3':
+                            if (dsInputValueArr === 3) {
+                                this.dsInputNums.push(dsInputValue);
+                            }
+                            break;
+                        case 'em':
+                        case 'cq2':
+                            if (dsInputValueArr === 2) {
+                                this.dsInputNums.push(dsInputValue);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    return;
+                }
             })();
         }
     }
