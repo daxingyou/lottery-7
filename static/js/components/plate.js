@@ -39,20 +39,20 @@ Vue.component('lottery-plate', {
                             <i class="filter-button" v-for="value in ['全','清']">{{value}}</i>
                         </span>
                     </div>
-                    <div v-if="plateType === 'input'">
+                    <div class="ds-input-box" v-if="plateType === 'input'">
                         <div v-if="normalTabFlag === 'rx'" class="input-pos">
                             <span>选择位置</span>
                             <label v-for="(pos, index) in inputPosObj" :class="{on: pos.status}" @click="toggleInputPosStatus(index)">{{[pos.text]}}</label>
                             <span class="pos-tip">注意：此处默认选择所有位置，请您自行调整。</span>
                         </div>
                         <div class="ds-input-area">
-                            <ul>
-                                <li class="ds-input-item" v-for="(value,index) in dsInputNums">
+                            <ul class="clearfix">
+                                <li class="fl ds-input-item" v-for="(value,index) in dsInputNums">
                                     {{value}}
-                                    <i class="ds-input-delete" @click="dsDelete(index)"></i>
+                                    <i class="ds-input-delete" @click="dsDelete(index)" title="点击删除选号">x</i>
                                 </li>
                             </ul>
-                            <input type="number" v-model="dsInputValue" @change="pushDsValue"/>
+                            <textarea class="ds-input" v-model="dsInputValue" @input="pushDsValue"></textarea>
                         </div>
                         <span class="input-upload-btn">上传文件</span>
                         <span class="input-clear-btn">清空</span>
@@ -127,7 +127,9 @@ Vue.component('lottery-plate', {
                 const numArr = obj.num.split('|'); //"千位,百位,十位,个位|0-9|all" => ["千位,百位,十位,个位","0-9","all"]
                 if (numArr[0] === 'input') {
                     this.plateType = 'input';
-                    return
+                    return;
+                } else {
+                    this.plateType = 'number';
                 }
                 const positionArr = numArr[0].split(',');
                 const selectNumArr = numArr[1].split('-'); //"0-9" => ['0','9']
@@ -166,6 +168,7 @@ Vue.component('lottery-plate', {
         },
         switchSubTab(subTab) {
             this.currentSubTab = subTab;
+            this.dsInputNums = [];
         },
         toggleInputPosStatus(index) {
             this.inputPosObj[index].status = !this.inputPosObj[index].status;
@@ -190,52 +193,57 @@ Vue.component('lottery-plate', {
                     'kl12': /^(?:0[1-9]|1[0-2])+$/g, // 01 - 12
                     'match-kl12': /(0[1-9]|1[0-2])/g, // 01 - 12                    
                 };
+                this.dsInputValue = this.dsInputValue.replace(/\D/g, '');//只允许输入数字
                 //zux_hh组选混合玩法不包含豹子号111 /^(?:0[1-9]|1[0-2])+$/.test("0122")
                 if (['ssc', 'ky481', '3d'].indexOf(this.lotteryType) !== -1) {
-                    if (!regExpObj[this.lotteryType].test(dsInputValue)) {
+                    if (!regExpObj[this.lotteryType].test(this.dsInputValue)) {
                         return;
                     }
-                    const dsInputValueArr = dsInputValue.match(regExpObj[`match-${this.lotteryType}`]); //123=>[1,2,3]
+                    const dsInputValueArr = this.dsInputValue.match(regExpObj[`match-${this.lotteryType}`]); //123=>[1,2,3]
                     if (this.currentSubTab === 'zux_hh') {
                         if ([...new Set[dsInputValueArr]].length === 1) { //说明是豹子号
                             return;
                         }
-                    }
+                    }console.log(1,dsInputValueArr)
                     switch (this.currentTab) { //根据玩法控制输入数字位数
                         case 'wx':
-                            if (dsInputValueArr === 5) {
-                                this.dsInputNums.push(dsInputValue);
+                            if (dsInputValueArr.length === 5) {
+                                this.dsInputNums.indexOf(this.dsInputValue) === -1 && this.dsInputNums.push(this.dsInputValue);
+                                this.dsInputValue = '';
                             }
                             break;
                         case 'sx':
-                            if (dsInputValueArr === 4) {
-                                this.dsInputNums.push(dsInputValue);
+                            if (dsInputValueArr.length === 4) {
+                                this.dsInputNums.indexOf(this.dsInputValue) === -1 && this.dsInputNums.push(this.dsInputValue);
+                                this.dsInputValue = '';
                             }
                             break;
                         case 'sm':
                         case 'qsm':
                         case 'zsm':
                         case 'hsm':
-                            if (dsInputValueArr === 3) {
-                                this.dsInputNums.push(dsInputValue);
+                            if (dsInputValueArr.length === 3) {
+                                this.dsInputNums.indexOf(this.dsInputValue) === -1 && this.dsInputNums.push(this.dsInputValue);
+                                this.dsInputValue = '';
                             }
                             break;
                         case 'em':
-                            if (dsInputValueArr === 2) {
-                                this.dsInputNums.push(dsInputValue);
+                            if (dsInputValueArr.length === 2) {
+                                this.dsInputNums.indexOf(this.dsInputValue) === -1 && this.dsInputNums.push(this.dsInputValue);
+                                this.dsInputValue = '';
                             }
                             break;
                         default:
                             break;
-                    }
+                    }                
                     return;
                 }
                 //11选5等玩法的输入规则是010203,号码不重复 "010203".match(/\d{2}/g);
                 if (['11y', 'kl12', 'pk10'].indexOf(this.lotteryType) !== -1) {
-                    if (!regExpObj[this.lotteryType].test(dsInputValue)) {
+                    if (!regExpObj[this.lotteryType].test(this.dsInputValue)) {
                         return;
                     }
-                    const dsInputValueArr = dsInputValue.match(regExpObj[`match-${this.lotteryType}`]); //123=>[1,2,3]
+                    const dsInputValueArr = this.dsInputValue.match(regExpObj[`match-${this.lotteryType}`]); //123=>[1,2,3]
                     if (this.currentSubTab === 'zux_hh') {
                         if ([...new Set[dsInputValueArr]].length !== dsInputValueArr.length) { //说明有重复号
                             return;
@@ -244,31 +252,36 @@ Vue.component('lottery-plate', {
                     switch (this.currentTab) { //根据玩法控制输入数字位数
                         case 'wx':
                         case 'cq5':
-                            if (dsInputValueArr === 5) {
-                                this.dsInputNums.push(dsInputValue);
+                            if (dsInputValueArr.length === 5) {
+                                this.dsInputNums.indexOf(this.dsInputValue) === -1 && this.dsInputNums.push(this.dsInputValue);
+                                this.dsInputValue = '';
                             }
                             break;
                         case 'sx':
                         case 'cq4':
-                            if (dsInputValueArr === 4) {
-                                this.dsInputNums.push(dsInputValue);
+                            if (dsInputValueArr.length === 4) {
+                                this.dsInputNums.indexOf(this.dsInputValue) === -1 && this.dsInputNums.push(this.dsInputValue);
+                                this.dsInputValue = '';
                             }
                             break;
                         case 'sm':
                         case 'cq3':
-                            if (dsInputValueArr === 3) {
-                                this.dsInputNums.push(dsInputValue);
+                            if (dsInputValueArr.length === 3) {
+                                this.dsInputNums.indexOf(this.dsInputValue) === -1 && this.dsInputNums.push(this.dsInputValue);
+                                this.dsInputValue = '';
                             }
                             break;
                         case 'em':
                         case 'cq2':
-                            if (dsInputValueArr === 2) {
-                                this.dsInputNums.push(dsInputValue);
+                            if (dsInputValueArr.length === 2) {
+                                this.dsInputNums.indexOf(this.dsInputValue) === -1 && this.dsInputNums.push(this.dsInputValue);
+                                this.dsInputValue = '';
                             }
                             break;
                         default:
                             break;
                     }
+                    this.dsInputValue = '';
                     return;
                 }
             })();
