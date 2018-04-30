@@ -31,7 +31,7 @@ Vue.component('lottery-plate', {
                 <div class="plate-number-list">
                     <div v-if="plateType === 'number'" class="plate-number-item clearfix" v-for="(plateNumObj,index) in plateNumArr">
                         <span class="plate-number-position fl">{{plateNumObj.position}}</span>
-                        <span class="plate-number-each fl" v-for="(num,numIndex) in plateNumObj.num">{{num}}</span>
+                        <span class="plate-number-each fl" :class="{on: plateOrderObj[plateNumObj.position]&&plateOrderObj[plateNumObj.position][num]}" v-for="(num,numIndex) in plateNumObj.num" @click="selectNum(plateNumObj.position,num)">{{num}}</span>
                         <span class="plate-filter-button fr" v-if="plateNumObj.filter === 'all'">
                             <i class="filter-button" v-for="value in ['全','大','小','奇','偶','清']">{{value}}</i>
                         </span>
@@ -92,6 +92,7 @@ Vue.component('lottery-plate', {
             },
             dsInputNums: [], //单式输入的数字数组
             dsInputValue: '',
+            plateOrderObj: {},
         };
     },
     beforeCreate() {},
@@ -285,6 +286,21 @@ Vue.component('lottery-plate', {
                     return;
                 }
             })();
+        },
+        selectNum(pos,num) {
+            this.plateOrderObj[pos] = this.plateOrderObj[pos] || {};
+            this.plateOrderObj[pos].selected = this.plateOrderObj[pos].selected || [];
+            this.plateOrderObj[pos][num] = !this.plateOrderObj[pos][num];
+            if (this.plateOrderObj[pos][num]) {
+                this.plateOrderObj[pos].selected.push(num);
+            } else {
+                const index = this.plateOrderObj[pos].selected.indexOf(num);
+                if (index !== -1) {
+                    this.plateOrderObj[pos].selected.splice(index, 1);
+                }
+            }
+            this.$forceUpdate();
+            console.log(this.plateOrderObj)
         }
     }
 });

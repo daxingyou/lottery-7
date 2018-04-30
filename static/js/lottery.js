@@ -2,6 +2,7 @@ Vue.prototype.$http = axios;
 const vueLottery = new Vue({
     el: '#vue-lottery',
     data: {
+        theme: 'blue',
         lotteryConfig: {},
         openIssue: '2013-999',
         openCode: '1,3,5,4,5',
@@ -15,7 +16,9 @@ const vueLottery = new Vue({
         this.ajaxIssue();
         this.ajaxLotteryConfig();
     },
-    beforeMount() {},
+    beforeMount() {
+        document.body.setAttribute('theme', this.theme);
+    },
     mounted() {},
     computed: {
         lotteryType() { //hash="#ssc-cqssc"设计成这样子
@@ -25,7 +28,11 @@ const vueLottery = new Vue({
             return window.location.hash.slice(1).split('-')[1] || 'CQSSC';
         }
     },
-    watch: {},
+    watch: {
+        theme(newVal, oldVal) {//切换主题
+            document.body.setAttribute('theme', newVal);
+        }
+    },
     methods: {
         ajaxIssue() {
             this.$http.get('/json/issue.json').then((res) => {

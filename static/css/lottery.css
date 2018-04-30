@@ -1,6 +1,10 @@
 body {
     font-family: PingFangSC-Semibold;
-    background: #343843;
+    background-image: linear-gradient(-180deg, #2072A2 0%, #364476 85%);
+}
+
+body[theme=blue] {
+    background-image: linear-gradient(-180deg, #2072A2 0%, #364476 85%);
 }
 
 #vue-lottery {
@@ -70,7 +74,7 @@ body {
     line-height: 50px;
     display: inline-block;
     font-size: 36px;
-    color: #EC2828;
+    color: #237DB1;
     text-align: center;
     vertical-align: middle;
 }
@@ -118,7 +122,7 @@ body {
 .open-code-num {
     font-size: 34px;
     color: #FFFFFF;
-    background: #E9272A;
+    background: #1FA0DC;
     border: 2px solid #FFFFFF;
     width: 50px;
     height: 50px;
@@ -227,7 +231,7 @@ body {
 }
 
 .sub-tab-item.on {
-    background: #E9272A;
+    background: #1FA0DC;
     color: #FFFFFF;
 }
 
@@ -302,8 +306,12 @@ body {
 
 .miss-tab.on,
 .hot-tab.on {
-    background: #E9272A;
+    background: #1FA0DC;
     color: #FFFFFF;
+}
+
+.plate-number-item {
+    margin-bottom: 10px;
 }
 
 .plate-number-position {
@@ -311,21 +319,30 @@ body {
     color: #475669;
     letter-spacing: 0;
     text-align: left;
+    width: 55px;
+    height: 28px;
+    line-height: 28px;
 }
 
 .plate-number-each {
     width: 28px;
     height: 28px;
+    line-height: 28px;
     font-size: 20px;
     color: #000000;
     letter-spacing: 0;
     text-align: center;
+    border-radius: 50%;
+    background: #FFFFFF;
+    border: 1px solid #E0E6ED;
+    font-family: PingFangSC-Regular;
+    margin-right: 14px;
+    cursor: pointer;
 }
 
 .plate-number-each.on {
     color: #FFFFFF;
-    background: #E9272A;
-    margin-left: 14px;
+    background:  #1FA1DD;
 }
 
 .plate-filter-button {
@@ -335,13 +352,23 @@ body {
     height: 26px;
     line-height: 26px;
     text-align: center;
+    margin-right: 12px;
 }
 
 .filter-button {
     font-size: 14px;
     color: #475669;
     letter-spacing: 0;
-    margin: 0 9px;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    display: inline-block;
+}
+
+body[theme="blue"] .filter-button:active {
+    color: #FFFFFF;
+    background:  #1FA1DD;
 }
 
 .ds-input-item {
