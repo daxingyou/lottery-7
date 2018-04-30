@@ -21,7 +21,7 @@ Vue.component('lottery-plate', {
             </div>
             <div class="plate-number">
                 <div class="plate-number-top clearfix">
-                    <span class="plate-method-hint fl">五星直选复式<i class="question-mark-icon" title="在万位、千位、百位上分别选择一个或多个号码，组合成一注或多注。所选号码与开奖号码一致且顺序相同，即为中奖。"></i></span>
+                    <span class="plate-method-hint fl">{{methodCnName}}<i class="question-mark-icon" :title="methodHint"></i></span>
                     <span class="hot-miss-tab fl">
                         <span class="miss-tab on">遗漏</span>
                         <span class="hot-tab">冷热</span>
@@ -30,7 +30,7 @@ Vue.component('lottery-plate', {
                 </div>
                 <div class="plate-number-list">
                     <div v-if="plateType === 'number'" class="plate-number-item clearfix" v-for="(plateNumObj,index) in plateNumArr">
-                        <span class="plate-number-position fl">{{plateNumObj.position}}</span>
+                        <span class="plate-number-position fl" :class="{'plate-number-position-all': plateNumObj.position === '所有位置'}">{{plateNumObj.position}}</span>
                         <span class="plate-number-each fl" :class="{on: plateOrderObj[plateNumObj.position]&&plateOrderObj[plateNumObj.position][num]}" v-for="(num,numIndex) in plateNumObj.num" @click="selectNum(plateNumObj.position,num)">{{num}}</span>
                         <span class="plate-filter-button fr" v-if="plateNumObj.filter === 'all'">
                             <i class="filter-button" v-for="value in ['全','大','小','奇','偶','清']">{{value}}</i>
@@ -93,11 +93,14 @@ Vue.component('lottery-plate', {
             dsInputNums: [], //单式输入的数字数组
             dsInputValue: '',
             plateOrderObj: {},
+            lotteryTip: {}
         };
     },
     beforeCreate() {},
     created() {
+        this.ajaxLotteryTip();
         this.getCurrentTab();
+        this.getCurrentSubTab();
     },
     beforeMount() {},
     mounted() {
@@ -118,6 +121,13 @@ Vue.component('lottery-plate', {
         },
         method() {
             return `${this.currentTab}_${this.currentSubTab}`;
+        },
+        methodHint() {
+            return this.lotteryTip[this.method] && this.lotteryTip[this.method].paraphrase;
+        },
+        methodCnName() {
+            const methodArr = this.method.split('_');
+            return this.lotteryConfig.ltMethod[methodArr[0]][methodArr[1]].method[methodArr[2]].name;
         },
         plateNumArr() { //渲染选号盘的数据，包括万千百十个位置和选号
             const resultArr = [];
@@ -149,6 +159,11 @@ Vue.component('lottery-plate', {
     },
     watch: {},
     methods: {
+        ajaxLotteryTip() {
+            this.$http.get(`/json/${this.lotteryType}-tip.json`).then(res => {
+                this.lotteryTip = res.data;
+            });
+        },
         getCurrentTab() {
             this.currentTab = localStorage.getItem(`${this.lotteryCode}-${this.normalTabFlag}-currentTab`) || this.firstTab;
         },
@@ -170,6 +185,7 @@ Vue.component('lottery-plate', {
         switchSubTab(subTab) {
             this.currentSubTab = subTab;
             this.dsInputNums = [];
+            this.plateOrderObj = {};
         },
         toggleInputPosStatus(index) {
             this.inputPosObj[index].status = !this.inputPosObj[index].status;
@@ -194,7 +210,7 @@ Vue.component('lottery-plate', {
                     'kl12': /^(?:0[1-9]|1[0-2])+$/g, // 01 - 12
                     'match-kl12': /(0[1-9]|1[0-2])/g, // 01 - 12                    
                 };
-                this.dsInputValue = this.dsInputValue.replace(/\D/g, '');//只允许输入数字
+                this.dsInputValue = this.dsInputValue.replace(/\D/g, ''); //只允许输入数字
                 //zux_hh组选混合玩法不包含豹子号111 /^(?:0[1-9]|1[0-2])+$/.test("0122")
                 if (['ssc', 'ky481', '3d'].indexOf(this.lotteryType) !== -1) {
                     if (!regExpObj[this.lotteryType].test(this.dsInputValue)) {
@@ -205,7 +221,7 @@ Vue.component('lottery-plate', {
                         if ([...new Set[dsInputValueArr]].length === 1) { //说明是豹子号
                             return;
                         }
-                    }console.log(1,dsInputValueArr)
+                    }
                     switch (this.currentTab) { //根据玩法控制输入数字位数
                         case 'wx':
                             if (dsInputValueArr.length === 5) {
@@ -236,7 +252,7 @@ Vue.component('lottery-plate', {
                             break;
                         default:
                             break;
-                    }                
+                    }
                     return;
                 }
                 //11选5等玩法的输入规则是010203,号码不重复 "010203".match(/\d{2}/g);
@@ -287,7 +303,28 @@ Vue.component('lottery-plate', {
                 }
             })();
         },
-        selectNum(pos,num) {
+        selectNum(pos, num) {
+            if (pos === '所有位置') {
+                //所有位置逻辑
+                this.plateOrderObj[pos] = this.plateOrderObj[pos] || {};
+                this.plateOrderObj[pos][num] = !this.plateOrderObj[pos][num];
+                for (let i = 0; i < this.plateNumArr.length - 1; i++) {//this.plateNumArr.length - 1 减1是因为最后1位是 所有位置 自身，不用遍历
+                    const _pos = this.plateNumArr[i].position;
+                    this.plateOrderObj[_pos] = this.plateOrderObj[_pos] || {};
+                    this.plateOrderObj[_pos].selected = this.plateOrderObj[_pos].selected || [];
+                    this.plateOrderObj[_pos][num] = this.plateOrderObj[pos][num];
+                    if (this.plateOrderObj[_pos][num]) {
+                        this.plateOrderObj[_pos].selected.push(num);
+                    } else {
+                        const index = this.plateOrderObj[_pos].selected.indexOf(num);
+                        if (index !== -1) {
+                            this.plateOrderObj[_pos].selected.splice(index, 1);
+                        }
+                    }
+                }
+                this.$forceUpdate();
+                return;
+            }
             this.plateOrderObj[pos] = this.plateOrderObj[pos] || {};
             this.plateOrderObj[pos].selected = this.plateOrderObj[pos].selected || [];
             this.plateOrderObj[pos][num] = !this.plateOrderObj[pos][num];
@@ -300,7 +337,6 @@ Vue.component('lottery-plate', {
                 }
             }
             this.$forceUpdate();
-            console.log(this.plateOrderObj)
         }
     }
 });

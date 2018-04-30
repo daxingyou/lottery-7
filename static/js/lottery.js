@@ -45,7 +45,7 @@ const vueLottery = new Vue({
         },
         ajaxLotteryConfig() {
             this.$http.get(`/json/${this.lotteryCode.toLowerCase()}.json`).then((res) => {
-                this.lotteryConfig = res.data[this.lotteryCode];
+                this.lotteryConfig = res.data;
             });
         }
     }
