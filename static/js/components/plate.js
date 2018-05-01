@@ -32,11 +32,8 @@ Vue.component('lottery-plate', {
                     <div v-if="plateType === 'number'" class="plate-number-item clearfix" v-for="(plateNumObj,index) in plateNumArr">
                         <span class="plate-number-position fl" :class="{'plate-number-position-all': plateNumObj.position === '所有位置'}">{{plateNumObj.position}}</span>
                         <span class="plate-number-each fl" :class="{on: plateOrderObj[plateNumObj.position]&&plateOrderObj[plateNumObj.position][num]}" v-for="(num,numIndex) in plateNumObj.num" @click="selectNum(plateNumObj.position,num)">{{num}}</span>
-                        <span class="plate-filter-button fr" v-if="plateNumObj.filter === 'all'">
-                            <i class="filter-button" v-for="value in ['全','大','小','奇','偶','清']">{{value}}</i>
-                        </span>
-                        <span class="plate-filter-button fr" v-if="plateNumObj.filter === 'two'">
-                            <i class="filter-button" v-for="value in ['全','清']">{{value}}</i>
+                        <span class="plate-filter-button fr">
+                            <i class="filter-button" v-for="value in plateNumObj.filterArr">{{value}}</i>
                         </span>
                     </div>
                     <div class="ds-input-box" v-if="plateType === 'input'">
@@ -144,17 +141,29 @@ Vue.component('lottery-plate', {
                 }
                 const positionArr = numArr[0].split(',');
                 let selectNumRangeArr;
-                if (/^\d+-\d+$/.test(numArr[1])) {//配置表中位是 0-9这种
+                if (/^\d+-\d+$/.test(numArr[1])) { //配置表中位是 0-9这种
                     const selectNumArr = numArr[1].split('-'); //"0-9" => ['0','9']
                     selectNumRangeArr = this.$range(selectNumArr[0], selectNumArr[1]); //['0','9'] => [0,1,2,3,4,5,6,7,8,9]
-                } else if (/^(?:[\u4e00-\u9fa5a-zA-Z0-9]+,)*(?:[\u4e00-\u9fa5a-zA-Z0-9]+)$/g.test(numArr[1])) {//配置表中位是 “大，小，单，双” 这种
+                } else if (/^(?:[\u4e00-\u9fa5a-zA-Z0-9]+,)*(?:[\u4e00-\u9fa5a-zA-Z0-9]+)$/g.test(numArr[1])) { //配置表中位是 “大，小，单，双” 这种
                     selectNumRangeArr = numArr[1].split(',');
                 }
                 const filter = numArr[2];
+                let filterArr;
+                switch (filter) {
+                    case 'all':
+                        filterArr = ['全', '大', '小', '奇', '偶', '清'];
+                        break;
+                    case 'two':
+                        filterArr = ['全', '清'];
+                        break;
+                    default:
+                        filterArr = [];
+                        break;
+                }
                 positionArr.forEach(position => {
                     resultArr.push({
                         position,
-                        filter,
+                        filterArr,
                         num: selectNumRangeArr
                     });
                 });
@@ -313,7 +322,7 @@ Vue.component('lottery-plate', {
                 //所有位置逻辑
                 this.plateOrderObj[pos] = this.plateOrderObj[pos] || {};
                 this.plateOrderObj[pos][num] = !this.plateOrderObj[pos][num];
-                for (let i = 0; i < this.plateNumArr.length - 1; i++) {//this.plateNumArr.length - 1 减1是因为最后1位是 所有位置 自身，不用遍历
+                for (let i = 0; i < this.plateNumArr.length - 1; i++) { //this.plateNumArr.length - 1 减1是因为最后1位是 所有位置 自身，不用遍历
                     const _pos = this.plateNumArr[i].position;
                     this.plateOrderObj[_pos] = this.plateOrderObj[_pos] || {};
                     this.plateOrderObj[_pos].selected = this.plateOrderObj[_pos].selected || [];
