@@ -147,10 +147,9 @@ Vue.component('lottery-plate', {
                 if (/^\d+-\d+$/.test(numArr[1])) {//配置表中位是 0-9这种
                     const selectNumArr = numArr[1].split('-'); //"0-9" => ['0','9']
                     selectNumRangeArr = this.$range(selectNumArr[0], selectNumArr[1]); //['0','9'] => [0,1,2,3,4,5,6,7,8,9]
-                } else if (/^([\u4e00-\u9fa5]+,*)$/.test(numArr[1])) {//配置表中位是 “大，小，单，双” 这种
+                } else if (/^(?:[\u4e00-\u9fa5a-zA-Z0-9]+,)*(?:[\u4e00-\u9fa5a-zA-Z0-9]+)$/g.test(numArr[1])) {//配置表中位是 “大，小，单，双” 这种
                     selectNumRangeArr = numArr[1].split(',');
                 }
-                
                 const filter = numArr[2];
                 positionArr.forEach(position => {
                     resultArr.push({
