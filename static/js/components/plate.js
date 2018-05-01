@@ -19,7 +19,7 @@ Vue.component('lottery-plate', {
                     <span class="sub-tab-item" :class="{on: currentSubTab === middleCode + '_' + key,'sub-tab-dxds-item': currentTab === 'dxds'}" :sub-tab="key" v-for="(obj,key) in subTabObj['method']" @click="switchSubTab(middleCode + '_' + key)">{{obj.desc}}</span>
                 </div>
             </div>
-            <div class="plate-number">
+            <div class="plate-number" :tab="currentTab">
                 <div class="plate-number-top clearfix">
                     <span class="plate-method-hint fl">{{methodCnName}}<i class="question-mark-icon" :title="methodHint"></i></span>
                     <span class="hot-miss-tab fl">
@@ -143,8 +143,14 @@ Vue.component('lottery-plate', {
                     this.plateType = 'number';
                 }
                 const positionArr = numArr[0].split(',');
-                const selectNumArr = numArr[1].split('-'); //"0-9" => ['0','9']
-                const selectNumRangeArr = this.$range(selectNumArr[0], selectNumArr[1]); //['0','9'] => [0,1,2,3,4,5,6,7,8,9]
+                let selectNumRangeArr;
+                if (/^\d+-\d+$/.test(numArr[1])) {//配置表中位是 0-9这种
+                    const selectNumArr = numArr[1].split('-'); //"0-9" => ['0','9']
+                    selectNumRangeArr = this.$range(selectNumArr[0], selectNumArr[1]); //['0','9'] => [0,1,2,3,4,5,6,7,8,9]
+                } else if (/^([\u4e00-\u9fa5]+,*)$/.test(numArr[1])) {//配置表中位是 “大，小，单，双” 这种
+                    selectNumRangeArr = numArr[1].split(',');
+                }
+                
                 const filter = numArr[2];
                 positionArr.forEach(position => {
                     resultArr.push({

@@ -324,6 +324,10 @@ body[theme=blue] {
     line-height: 28px;
 }
 
+.plate-number[tab=bdd] .plate-number-position {
+    width: 73px;
+}
+
 .plate-number-position.plate-number-position-all {
     font-size: 12px;
 }
