@@ -19,7 +19,7 @@ Vue.component('lottery-plate', {
                     <span class="sub-tab-item" :class="{on: currentSubTab === middleCode + '_' + key,'sub-tab-dxds-item': currentTab === 'dxds'}" :sub-tab="key" v-for="(obj,key) in subTabObj['method']" @click="switchSubTab(middleCode + '_' + key)">{{obj.desc}}</span>
                 </div>
             </div>
-            <div class="plate-number" :tab="currentTab">
+            <div class="plate-number" :tab="currentTab" :sub-tab="currentSubTab">
                 <div class="plate-number-top clearfix">
                     <span class="plate-method-hint fl">{{methodCnName}}<i class="question-mark-icon" :title="methodHint"></i></span>
                     <span class="hot-miss-tab fl">
@@ -31,8 +31,10 @@ Vue.component('lottery-plate', {
                 <div class="plate-number-list">
                     <div v-if="plateType === 'number'" class="plate-number-item clearfix" v-for="(plateNumObj,index) in plateNumArr">
                         <span class="plate-number-position fl" :class="{'plate-number-position-all': plateNumObj.position === '所有位置'}">{{plateNumObj.position}}</span>
-                        <span class="plate-number-each fl" :class="{on: plateOrderObj[plateNumObj.position]&&plateOrderObj[plateNumObj.position][num]}" v-for="(num,numIndex) in plateNumObj.num" @click="selectNum(plateNumObj.position,num)">{{num}}</span>
-                        <span class="plate-filter-button fr">
+                        <div class="clearfix fl select-number-wrap">
+                            <span class="plate-number-each fl" :class="{on: plateOrderObj[plateNumObj.position]&&plateOrderObj[plateNumObj.position][num]}" v-for="(num,numIndex) in plateNumObj.num" @click="selectNum(plateNumObj.position,num)">{{num}}</span>
+                        </div>
+                        <span class="plate-filter-button fr" v-if="plateNumObj.filterArr.length > 0">
                             <i class="filter-button" v-for="value in plateNumObj.filterArr">{{value}}</i>
                         </span>
                     </div>
@@ -49,7 +51,7 @@ Vue.component('lottery-plate', {
                                     <i class="ds-input-delete" @click="dsDelete(index)" title="点击删除选号">x</i>
                                 </li>
                             </ul>
-                            <textarea class="ds-input" v-model="dsInputValue" @input="pushDsValue"></textarea>
+                            <textarea class="ds-input" v-model="dsInputValue" :placeholder="methodHint" @input="pushDsValue"></textarea>
                         </div>
                         <span class="input-upload-btn">上传文件</span>
                         <span class="input-clear-btn">清空</span>

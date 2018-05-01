@@ -310,9 +310,9 @@ body[theme=blue] {
     color: #FFFFFF;
 }
 
-.plate-number-item {
+/* .plate-number-item {
     margin-bottom: 10px;
-}
+} */
 
 .plate-number-position {
     font-size: 18px;
@@ -322,14 +322,72 @@ body[theme=blue] {
     width: 55px;
     height: 28px;
     line-height: 28px;
+    margin-bottom: 10px;
 }
 
 .plate-number[tab=bdd] .plate-number-position {
     width: 73px;
 }
 
+.plate-number[sub-tab=zux_z120] .plate-number-position {
+    width: 82px;
+}
+.plate-number[sub-tab=zux_z60] .plate-number-position,
+.plate-number[sub-tab=zux_z30] .plate-number-position,
+.plate-number[sub-tab=zux_z20] .plate-number-position,
+.plate-number[sub-tab=zux_z10] .plate-number-position,
+.plate-number[sub-tab=zux_z5] .plate-number-position,
+.plate-number[sub-tab=zux_z12] .plate-number-position,
+.plate-number[tab=sx][sub-tab=zux_z6] .plate-number-position,
+.plate-number[sub-tab=zux_z4] .plate-number-position,
+.plate-number[sub-tab=hzdxds_5xhz] .plate-number-position,
+.plate-number[sub-tab=hzdxds_q3hz] .plate-number-position,
+.plate-number[sub-tab=hzdxds_z3hz] .plate-number-position,
+.plate-number[sub-tab=hzdxds_h3hz] .plate-number-position {
+    width: 73px;
+}
+
+.plate-number[sub-tab=zx_hz] .select-number-wrap,
+.plate-number[sub-tab=zux_hz] .select-number-wrap {
+    width: 580px;
+}
+
+.plate-number[sub-tab=zx_hz] .plate-number-position,
+.plate-number[sub-tab=zux_hz] .plate-number-position {
+    width: 91px;
+}
+
+
+.plate-number[sub-tab=zx_hz] .plate-number-each,
+.plate-number[sub-tab=zux_hz] .plate-number-each {
+    margin-bottom: 10px;
+}
+
 .plate-number-position.plate-number-position-all {
     font-size: 12px;
+}
+
+.plate-number[sub-tab=dxgs_wx] .plate-number-position,
+.plate-number[sub-tab=dxgs_sx] .plate-number-position,
+.plate-number[sub-tab=dxgs_q3] .plate-number-position,
+.plate-number[sub-tab=dxgs_z3] .plate-number-position,
+.plate-number[sub-tab=dxgs_h3] .plate-number-position,
+.plate-number[sub-tab=dsgs_wx] .plate-number-position,
+.plate-number[sub-tab=dsgs_sx] .plate-number-position,
+.plate-number[sub-tab=dsgs_q3] .plate-number-position,
+.plate-number[sub-tab=dsgs_z3] .plate-number-position,
+.plate-number[sub-tab=dsgs_h3] .plate-number-position,
+.plate-number[sub-tab=dxgs_wx] .filter-button,
+.plate-number[sub-tab=dxgs_sx] .filter-button,
+.plate-number[sub-tab=dxgs_q3] .filter-button,
+.plate-number[sub-tab=dxgs_z3] .filter-button,
+.plate-number[sub-tab=dxgs_h3] .filter-button,
+.plate-number[sub-tab=dsgs_wx] .filter-button,
+.plate-number[sub-tab=dsgs_sx] .filter-button,
+.plate-number[sub-tab=dsgs_q3] .filter-button,
+.plate-number[sub-tab=dsgs_z3] .filter-button,
+.plate-number[sub-tab=dsgs_h3] .filter-button  {
+    margin-top: 3px;
 }
 
 .plate-number-each {
@@ -337,6 +395,7 @@ body[theme=blue] {
     height: 28px;
     line-height: 28px;
     font-size: 20px;
+    margin-bottom: 10px;
     color: #000000;
     letter-spacing: 0;
     text-align: center;
@@ -346,6 +405,36 @@ body[theme=blue] {
     font-family: PingFangSC-Regular;
     margin-right: 14px;
     cursor: pointer;
+}
+
+.plate-number[sub-tab=dxds_h2] .plate-number-each,
+.plate-number[sub-tab=dxds_q2] .plate-number-each,
+.plate-number[sub-tab=dxds_h3] .plate-number-each,
+.plate-number[sub-tab=dxds_q3] .plate-number-each,
+.plate-number[sub-tab=hzdxds_5xhz] .plate-number-each,
+.plate-number[sub-tab=hzdxds_q3hz] .plate-number-each,
+.plate-number[sub-tab=hzdxds_z3hz] .plate-number-each,
+.plate-number[sub-tab=hzdxds_h3hz] .plate-number-each {
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 16px;
+}
+
+.plate-number[sub-tab=dxgs_wx] .plate-number-each,
+.plate-number[sub-tab=dxgs_sx] .plate-number-each,
+.plate-number[sub-tab=dxgs_q3] .plate-number-each,
+.plate-number[sub-tab=dxgs_z3] .plate-number-each,
+.plate-number[sub-tab=dxgs_h3] .plate-number-each,
+.plate-number[sub-tab=dsgs_wx] .plate-number-each,
+.plate-number[sub-tab=dsgs_sx] .plate-number-each,
+.plate-number[sub-tab=dsgs_q3] .plate-number-each,
+.plate-number[sub-tab=dsgs_z3] .plate-number-each,
+.plate-number[sub-tab=dsgs_h3] .plate-number-each {
+    width: 72px;
+    height: 34px;
+    line-height: 34px;
+    border-radius: 4px;
 }
 
 .plate-number-each.on {
@@ -396,8 +485,8 @@ body[theme="blue"] .filter-button:active {
     outline: none;
     resize: none;
     width: 100%;
-    height: 24px;
-    padding-left: 14px;
+    /* height: 24px; */
+    text-indent: 14px;
     background: transparent;
 }
 
