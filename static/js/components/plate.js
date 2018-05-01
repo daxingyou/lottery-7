@@ -57,6 +57,9 @@ Vue.component('lottery-plate', {
                         <span class="input-clear-btn">清空</span>
                     </div>
                 </div>
+                <div className="plate-number-bottom">
+                    
+                </div>
             </div>
         </div>
     `,
