@@ -18,3 +18,7 @@ function debounce(fn, delay = 300) {
         }, delay);
     };
 }
+
+function isChinese(text) {
+    return /[\u4E00-\u9FA5]+/g.test(text);
+}

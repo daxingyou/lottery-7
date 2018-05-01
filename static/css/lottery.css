@@ -148,6 +148,10 @@ body[theme=blue] {
     padding-right: 13px;
 }
 
+body[theme="blue"] .plate-tab{
+    background: #235E88;
+}
+
 .plate-tab-item {
     font-size: 14px;
     color: #FFFFFF;
@@ -176,6 +180,10 @@ body[theme=blue] {
     text-align: center;
     cursor: pointer;
     margin-top: 6px;
+}
+
+body[theme="blue"] .plate-tab-item-more {
+    background: #0B5174;
 }
 
 .plate-tab-item-more-icon {
@@ -332,6 +340,7 @@ body[theme=blue] {
 .plate-number[sub-tab=zux_z120] .plate-number-position {
     width: 82px;
 }
+
 .plate-number[sub-tab=zux_z60] .plate-number-position,
 .plate-number[sub-tab=zux_z30] .plate-number-position,
 .plate-number[sub-tab=zux_z20] .plate-number-position,
@@ -348,6 +357,7 @@ body[theme=blue] {
 }
 
 .plate-number[sub-tab=zx_hz] .select-number-wrap,
+.plate-number[sub-tab=nn_nn] .select-number-wrap,
 .plate-number[sub-tab=zux_hz] .select-number-wrap {
     width: 580px;
 }
@@ -357,6 +367,20 @@ body[theme=blue] {
     width: 91px;
 }
 
+.plate-number[sub-tab=hzdxds_5xhz] .plate-number-position,
+.plate-number[sub-tab=hzdxds_q3hz] .plate-number-position,
+.plate-number[sub-tab=hzdxds_z3hz] .plate-number-position,
+.plate-number[sub-tab=hzdxds_h3hz] .plate-number-position {
+    width: 91px;
+}
+
+.plate-number[mid-method="bjl"] .plate-number-position {
+    width: 73px;
+}
+
+.plate-number[mid-method="ts"] .plate-number-position {
+    width: 91px;
+}
 
 .plate-number[sub-tab=zx_hz] .plate-number-each,
 .plate-number[sub-tab=zux_hz] .plate-number-each {
@@ -376,18 +400,51 @@ body[theme=blue] {
 .plate-number[sub-tab=dsgs_sx] .plate-number-position,
 .plate-number[sub-tab=dsgs_q3] .plate-number-position,
 .plate-number[sub-tab=dsgs_z3] .plate-number-position,
-.plate-number[sub-tab=dsgs_h3] .plate-number-position,
-.plate-number[sub-tab=dxgs_wx] .filter-button,
-.plate-number[sub-tab=dxgs_sx] .filter-button,
-.plate-number[sub-tab=dxgs_q3] .filter-button,
-.plate-number[sub-tab=dxgs_z3] .filter-button,
-.plate-number[sub-tab=dxgs_h3] .filter-button,
-.plate-number[sub-tab=dsgs_wx] .filter-button,
-.plate-number[sub-tab=dsgs_sx] .filter-button,
-.plate-number[sub-tab=dsgs_q3] .filter-button,
-.plate-number[sub-tab=dsgs_z3] .filter-button,
-.plate-number[sub-tab=dsgs_h3] .filter-button  {
+.plate-number[sub-tab=dsgs_h3] .plate-number-position {
     margin-top: 3px;
+}
+
+.plate-number[sub-tab=dxgs_wx] .plate-filter-button,
+.plate-number[sub-tab=dxgs_sx] .plate-filter-button,
+.plate-number[sub-tab=dxgs_q3] .plate-filter-button,
+.plate-number[sub-tab=dxgs_z3] .plate-filter-button,
+.plate-number[sub-tab=dxgs_h3] .plate-filter-button,
+.plate-number[sub-tab=dsgs_wx] .plate-filter-button,
+.plate-number[sub-tab=dsgs_sx] .plate-filter-button,
+.plate-number[sub-tab=dsgs_q3] .plate-filter-button,
+.plate-number[sub-tab=dsgs_z3] .plate-filter-button,
+.plate-number[sub-tab=dsgs_h3] .plate-filter-button {
+    margin-top: 3px;
+}
+
+.plate-number[mid-method="lhh"] .plate-number-position,
+.plate-number[mid-method="xt"] .plate-number-position,
+.plate-number[mid-method="bjl"] .plate-number-position,
+.plate-number[sub-tab=nn_nn] .plate-number-position,
+.plate-number[sub-tab=dxds_h2] .plate-number-position,
+.plate-number[sub-tab=dxds_q2] .plate-number-position,
+.plate-number[sub-tab=dxds_h3] .plate-number-position,
+.plate-number[sub-tab=dxds_q3] .plate-number-position,
+.plate-number[sub-tab=hzdxds_5xhz] .plate-number-position,
+.plate-number[sub-tab=hzdxds_q3hz] .plate-number-position,
+.plate-number[sub-tab=hzdxds_z3hz] .plate-number-position,
+.plate-number[sub-tab=hzdxds_h3hz] .plate-number-position {
+    margin-top: 2px;
+}
+
+.plate-number[mid-method="lhh"] .plate-number-button,
+.plate-number[mid-method="xt"] .plate-number-button,
+.plate-number[mid-method="bjl"] .plate-number-button,
+.plate-number[sub-tab=nn_nn] .plate-filter-button,
+.plate-number[sub-tab=dxds_h2] .plate-filter-button,
+.plate-number[sub-tab=dxds_q2] .plate-filter-button,
+.plate-number[sub-tab=dxds_h3] .plate-filter-button,
+.plate-number[sub-tab=dxds_q3] .plate-filter-button,
+.plate-number[sub-tab=hzdxds_5xhz] .plate-filter-button,
+.plate-number[sub-tab=hzdxds_q3hz] .plate-filter-button,
+.plate-number[sub-tab=hzdxds_z3hz] .plate-filter-button,
+.plate-number[sub-tab=hzdxds_h3hz] .plate-filter-button {
+    margin-top: 2px;
 }
 
 .plate-number-each {
@@ -405,10 +462,29 @@ body[theme=blue] {
     font-family: PingFangSC-Regular;
     margin-right: 14px;
     cursor: pointer;
+    transition: all .1s ease;
 }
 
-.plate-number[sub-tab=dxds_h2] .plate-number-each,
+.plate-number-each:hover {
+    background-image: linear-gradient(-180deg, #2072A2 0%, #364476 85%);
+    color: #fff;
+}
+
+body[theme="blue"] .plate-number-each:hover {
+    background-image: linear-gradient(-180deg, #2072A2 0%, #364476 85%);
+    color: #fff;
+}
+
+.plate-number-each.two-chinese {
+    font-size: 12px !important;
+}
+
+.plate-number[mid-method="lhh"] .plate-number-each,
+.plate-number[mid-method="xt"] .plate-number-each,
+.plate-number[mid-method="bjl"] .plate-number-each,
+.plate-number[sub-tab=nn_nn] .plate-number-each,
 .plate-number[sub-tab=dxds_q2] .plate-number-each,
+.plate-number[sub-tab=dxds_h2] .plate-number-each,
 .plate-number[sub-tab=dxds_h3] .plate-number-each,
 .plate-number[sub-tab=dxds_q3] .plate-number-each,
 .plate-number[sub-tab=hzdxds_5xhz] .plate-number-each,
@@ -439,15 +515,20 @@ body[theme=blue] {
 
 .plate-number-each.on {
     color: #FFFFFF;
-    background:  #1FA1DD;
+    background: #1FA1DD;
+}
+
+body[theme="blue"] .plate-number-each.on {
+    color: #FFFFFF;
+    background: #1FA1DD;
 }
 
 .plate-filter-button {
     background: #FFFFFF;
     border: 1px solid #E0E6ED;
     border-radius: 8px;
-    height: 26px;
-    line-height: 26px;
+    height: 28px;
+    line-height: 28px;
     text-align: center;
     margin-right: 12px;
 }
@@ -465,7 +546,7 @@ body[theme=blue] {
 
 body[theme="blue"] .filter-button:active {
     color: #FFFFFF;
-    background:  #1FA1DD;
+    background: #1FA1DD;
 }
 
 .ds-input-item {

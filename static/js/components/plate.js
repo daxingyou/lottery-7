@@ -16,10 +16,10 @@ Vue.component('lottery-plate', {
             <div class="plate-sub-tab">
                 <div class="sub-tab-wrap" v-for="(subTabObj,middleCode) in lotteryConfig['ltMethod'][currentTab]">
                     <span class="sub-tab-title" :class="{'sub-tab-dxds-title': currentTab === 'dxds'}">{{subTabObj.title}}:</span>
-                    <span class="sub-tab-item" :class="{on: currentSubTab === middleCode + '_' + key,'sub-tab-dxds-item': currentTab === 'dxds'}" :sub-tab="key" v-for="(obj,key) in subTabObj['method']" @click="switchSubTab(middleCode + '_' + key)">{{obj.desc}}</span>
+                    <span class="sub-tab-item" :class="{on: currentSubTab === middleCode + '_' + key,'sub-tab-dxds-item': currentTab === 'dxds'}" v-for="(obj,key) in subTabObj['method']" @click="switchSubTab(middleCode + '_' + key)">{{obj.desc}}</span>
                 </div>
             </div>
-            <div class="plate-number" :tab="currentTab" :sub-tab="currentSubTab">
+            <div class="plate-number" :tab="currentTab" :sub-tab="currentSubTab" :mid-method="methodArr[1]">
                 <div class="plate-number-top clearfix">
                     <span class="plate-method-hint fl">{{methodCnName}}<i class="question-mark-icon" :title="methodHint"></i></span>
                     <span class="hot-miss-tab fl">
@@ -32,7 +32,7 @@ Vue.component('lottery-plate', {
                     <div v-if="plateType === 'number'" class="plate-number-item clearfix" v-for="(plateNumObj,index) in plateNumArr">
                         <span class="plate-number-position fl" :class="{'plate-number-position-all': plateNumObj.position === '所有位置'}">{{plateNumObj.position}}</span>
                         <div class="clearfix fl select-number-wrap">
-                            <span class="plate-number-each fl" :class="{on: plateOrderObj[plateNumObj.position]&&plateOrderObj[plateNumObj.position][num]}" v-for="(num,numIndex) in plateNumObj.num" @click="selectNum(plateNumObj.position,num)">{{num}}</span>
+                            <span class="plate-number-each fl" :class="{on: plateOrderObj[plateNumObj.position]&&plateOrderObj[plateNumObj.position][num], 'two-chinese': isChinese(num) && num.length === 2}" v-for="(num,numIndex) in plateNumObj.num" @click="selectNum(plateNumObj.position,num)">{{num}}</span>
                         </div>
                         <span class="plate-filter-button fr" v-if="plateNumObj.filterArr.length > 0">
                             <i class="filter-button" v-for="value in plateNumObj.filterArr">{{value}}</i>
@@ -120,6 +120,9 @@ Vue.component('lottery-plate', {
         },
         method() {
             return `${this.currentTab}_${this.currentSubTab}`;
+        },
+        methodArr() {
+            return this.method.split('_');
         },
         methodHint() {
             return this.lotteryTip[this.method] && this.lotteryTip[this.method].paraphrase;

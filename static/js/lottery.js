@@ -60,3 +60,4 @@ Vue.prototype.$range = (start, end, step = 1) => {
     }
     return resultArr;
 };
+
