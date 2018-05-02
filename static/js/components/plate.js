@@ -68,7 +68,7 @@ Vue.component('lottery-plate', {
                         <div class="fl clearfix number-odd-wrap">
                             <i class="fl number-odd-text">奖金</i>
                             <select class="fl number-odd-select" v-model="selectedOdd">
-                                <option v-for=""></option>
+                                <option :odd="odd" :point="point">{{odd + '~' + point * 100 + '%'}}</option>
                             </select>
                         </div>s
                     </div>
@@ -143,7 +143,8 @@ Vue.component('lottery-plate', {
                 }
             ],
             selectedOdd: '',
-            numberTimes: 1
+            numberTimes: 1,
+            oddsObj: {},
         };
     },
     beforeCreate() {},
@@ -151,6 +152,7 @@ Vue.component('lottery-plate', {
         this.ajaxLotteryTip();
         this.getCurrentTab();
         this.getCurrentSubTab();
+        this.ajaxOdds();
     },
     beforeMount() {},
     mounted() {
@@ -225,12 +227,30 @@ Vue.component('lottery-plate', {
                 });
             }
             return resultArr;
+        },
+        odd() {
+            return this.oddsObj && this.oddsObj[this.method] && this.oddsObj[this.method].odds;
+        },
+        'odd-x'() {
+            return this.oddsObj && this.oddsObj[this.method] && this.oddsObj[this.method].x;
+        },
+        'odd-y'() {
+            return this.oddsObj && this.oddsObj[this.method] && this.oddsObj[this.method].y;
+        },
+        point() {
+            return this.oddsObj && this.oddsObj[this.method] && this.oddsObj[this.method].point;
         }
     },
     watch: {},
     methods: {
         receiveTimes(msg) {//倍数
             this.numberTimes = msg;
+        },
+        ajaxOdds() {
+            this.$http.get(`/json/${this.lotteryCode.toLocaleLowerCase()}-odds.json`).then(res => {
+                this.oddsObj = res.data.result[this.lotteryCode];
+                this.selectedOdd = `${this.oddsObj[this.method].odds}~${this.oddsObj[this.method].point*100}%`;
+            });
         },
         ajaxLotteryTip() {
             this.$http.get(`/json/${this.lotteryType}-tip.json`).then(res => {
