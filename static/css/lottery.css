@@ -148,7 +148,7 @@ body[theme=blue] {
     padding-right: 13px;
 }
 
-body[theme="blue"] .plate-tab{
+body[theme="blue"] .plate-tab {
     background: #235E88;
 }
 
@@ -601,4 +601,119 @@ body[theme="blue"] .filter-button:active {
 
 .ds-input-delete:hover {
     opacity: 1;
+}
+
+.model-item {
+    text-align: center;
+    width: 34px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 12px;
+    color: #475669;
+    border-right: 1px solid #E0E6ED;
+    border-top: 1px solid #E0E6ED;
+    border-bottom: 1px solid #E0E6ED;
+    cursor: pointer;
+    font-family: PingFangSC-Regular;
+}
+
+.model-item.on {
+    background: #1FA1DD;
+    color: #FFFFFF;
+}
+
+.model-item:first-child {
+    border: 1px solid #E0E6ED;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+.model-item:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.number-times,
+.number-odd-text {
+    height: 24px;
+    line-height: 24px;
+    margin-left: 16px;
+    margin-right: 7px;
+}
+
+
+
+.number-minus,
+.number-plus {
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 20px;
+    text-align: center;
+    color:  #99A9BF;
+    border: 1px solid #E0E6ED;
+    box-sizing: border-box;
+    cursor: pointer;
+    background: #fff;
+}
+
+.number-minus {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.number-plus {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    margin-left: -3px;
+}
+
+.number-minus-plus-wrap {
+    font-family: PingFangSC-Regular;
+    font-size: 12px;
+    color: #475669;
+    letter-spacing: 0;
+}
+
+input.number-minus-plus {
+    width: 64px;
+    height: 24px;
+    border-top: 1px solid #E0E6ED;
+    border-bottom: 1px solid #E0E6ED;
+    border-left: 1px solid transparent;
+    font-family: PingFangSC-Regular;
+    font-size: 12px;
+    color: #000000;
+    box-sizing: border-box;
+    outline: none;
+    text-align: center;
+}
+
+input.number-minus-plus::-webkit-outer-spin-button,
+input.number-minus-plus::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+}
+
+input.number-minus-plus[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.number-odd-wrap {
+    font-family: PingFangSC-Regular;
+    font-size: 12px;
+    color: #475669;
+    letter-spacing: 0;
+}
+
+.number-odd-select {
+    background: #FFFFFF;
+    border: 1px solid #E0E6ED;
+    border-radius: 4px;
+    font-family: PingFangSC-Regular;
+    font-size: 12px;
+    color: #000000;
+    letter-spacing: 0;
+    width: 139px;
+    height: 24px;
+    text-align: center;
+    outline: none;
 }

@@ -58,7 +58,27 @@ Vue.component('lottery-plate', {
                     </div>
                 </div>
                 <div className="plate-number-bottom">
-                    
+                    <div class="clearfix plate-number-bottom-top">
+                        <div class="clearfix fl">
+                            <span class="fl model-item" v-for="model in modelArr">{{model.text}}</span>
+                        </div>
+                        <div class="fl clearfix number-minus-plus-wrap">
+                            <i class="fl number-times">倍数</i><i class="fl number-minus">-</i><input class="fl number-minus-plus" type="number"/><i class="fl number-plus">+</i>
+                        </div>
+                        <div class="fl clearfix number-odd-wrap">
+                            <i class="fl number-odd-text">奖金</i>
+                            <select class="fl number-odd-select" v-model="selectedOdd">
+                                <option v-for=""></option>
+                            </select>
+                        </div>s
+                    </div>
+                    <div class="clearfix plate-numbet-bottom-bottom">
+                        <span class="fr">
+                            已选<i>100</i>注，共<i>999</i>倍，共计<i>19990</i>元
+                        </span>
+                        <span class="fr">快速投注</span>
+                        <span class="fr">添加选号</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -95,7 +115,34 @@ Vue.component('lottery-plate', {
             dsInputNums: [], //单式输入的数字数组
             dsInputValue: '',
             plateOrderObj: {},
-            lotteryTip: {}
+            lotteryTip: {},
+            modelArr: [
+                {
+                    text: '2元',
+                    value: 2
+                },
+                {
+                    text: '1元',
+                    value: 1
+                },
+                {
+                    text: '2角',
+                    value: 0.2
+                },
+                {
+                    text: '1角',
+                    value: 0.1
+                },
+                {
+                    text: '2分',
+                    value: 0.02
+                },
+                {
+                    text: '2厘',
+                    value: 0.002
+                }
+            ],
+            selectedOdd: ''
         };
     },
     beforeCreate() {},
