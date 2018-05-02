@@ -62,8 +62,8 @@ Vue.component('lottery-plate', {
                         <div class="clearfix fl">
                             <span class="fl model-item" v-for="model in modelArr">{{model.text}}</span>
                         </div>
-                        <div class="fl clearfix number-minus-plus-wrap">
-                            <i class="fl number-times">倍数</i><i class="fl number-minus">-</i><input class="fl number-minus-plus" type="number"/><i class="fl number-plus">+</i>
+                        <div class="fl">
+                            <number-minus-plus @receive-times="receiveTimes"></number-minus-plus>
                         </div>
                         <div class="fl clearfix number-odd-wrap">
                             <i class="fl number-odd-text">奖金</i>
@@ -142,7 +142,8 @@ Vue.component('lottery-plate', {
                     value: 0.002
                 }
             ],
-            selectedOdd: ''
+            selectedOdd: '',
+            numberTimes: 1
         };
     },
     beforeCreate() {},
@@ -228,6 +229,9 @@ Vue.component('lottery-plate', {
     },
     watch: {},
     methods: {
+        receiveTimes(msg) {//倍数
+            this.numberTimes = msg;
+        },
         ajaxLotteryTip() {
             this.$http.get(`/json/${this.lotteryType}-tip.json`).then(res => {
                 this.lotteryTip = res.data;
