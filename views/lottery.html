@@ -12,9 +12,9 @@
 <body>
     <div id="vue-lottery" :theme="theme">
         <lottery-top :lottery-config="lotteryConfig" :lottery-code="lotteryCode" :current-issue="currentIssue" :count-time="countTime" :open-issue="openIssue" :open-code="openCode" :lottery-type="lotteryType"></lottery-top>
-        <lottery-plate v-if="!isEmptyObject(lotteryConfig)" :lottery-config="lotteryConfig" :lottery-type="lotteryType" :lottery-code="lotteryCode"></lottery-plate>
+        <lottery-plate v-if="!isEmptyObject(lotteryConfig)" :lottery-config="lotteryConfig" :lottery-type="lotteryType" :lottery-code="lotteryCode" :model-arr="modelArr"></lottery-plate>
         <lottery-trend></lottery-trend>
-        <lottery-order></lottery-order>
+        <lottery-order :order-arr="orderArr" :model-arr="modelArr"></lottery-order>
         <lottery-trace></lottery-trace>
         <lottery-history></lottery-history>      
     </div>
@@ -22,6 +22,7 @@
     <script src="./js/axios.min.js"></script>
     <script src="./js/utils.js"></script>
     <script src="./js/global-components/number-minus-plus.js"></script>
+    <script src="./js/global-components/select-model.js"></script>    
     <script src="./js/components/top.js"></script>
     <script src="./js/components/plate.js"></script>
     <script src="./js/components/trend.js"></script>

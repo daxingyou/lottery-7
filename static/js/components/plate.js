@@ -63,8 +63,8 @@ Vue.component('lottery-plate', {
                     <div class="clearfix fl">
                         <span :class="{on: modelValue === model.value}" class="fl model-item" v-for="model in modelArr" @click="switchModel(model)">{{model.text}}</span>
                     </div>
-                    <div class="fl">
-                        <number-minus-plus @receive-times="receiveTimes"></number-minus-plus>
+                    <div class="fl number-minus-plus-outter">
+                        <number-minus-plus :default-times="1" @receive-times="receiveTimes"></number-minus-plus>
                     </div>
                     <div class="fl clearfix number-odd-wrap">
                         <i class="fl number-odd-text">奖金</i>
@@ -83,7 +83,7 @@ Vue.component('lottery-plate', {
             </div>
         </div>
     `,
-    props: ['lottery-config', 'lottery-type', 'lottery-code'],
+    props: ['lottery-config', 'lottery-type', 'lottery-code', 'model-arr'],
     data() {
         return {
             normalTabFlag: localStorage.getItem(`${this.lotteryCode}-normalTabFlag`) || 'normal',
@@ -116,32 +116,6 @@ Vue.component('lottery-plate', {
             dsInputValue: '',
             plateOrderObj: {},
             lotteryTip: {},
-            modelArr: [
-                {
-                    text: '2元',
-                    value: 2
-                },
-                {
-                    text: '1元',
-                    value: 1
-                },
-                {
-                    text: '2角',
-                    value: 0.2
-                },
-                {
-                    text: '1角',
-                    value: 0.1
-                },
-                {
-                    text: '2分',
-                    value: 0.02
-                },
-                {
-                    text: '2厘',
-                    value: 0.002
-                }
-            ],
             selectedOdd: '',
             numberTimes: 1,
             oddsObj: {},

@@ -8,7 +8,7 @@ body[theme=blue] {
 }
 
 #vue-lottery {
-    width: 1200px;
+    width: 1000px;
     margin: 0 auto;
 }
 
@@ -617,7 +617,7 @@ body[theme="blue"] .filter-button:active {
     font-family: PingFangSC-Regular;
 }
 
-.model-item.on {
+body[theme="blue"] .model-item.on {
     background: #1FA1DD;
     color: #FFFFFF;
 }
@@ -627,6 +627,7 @@ body[theme="blue"] .filter-button:active {
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
 }
+
 .model-item:last-child {
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
@@ -636,11 +637,20 @@ body[theme="blue"] .filter-button:active {
 .number-odd-text {
     height: 24px;
     line-height: 24px;
-    margin-left: 16px;
     margin-right: 7px;
 }
 
+.number-odd-text {
+    margin-left: 16px;
+}
 
+.number-minus-plus-outter {
+    margin-left: 16px;
+}
+
+.order-times .number-minus-plus-wrap {
+    margin-top: 3px;
+}
 
 .number-minus,
 .number-plus {
@@ -649,7 +659,7 @@ body[theme="blue"] .filter-button:active {
     line-height: 24px;
     font-size: 20px;
     text-align: center;
-    color:  #99A9BF;
+    color: #99A9BF;
     border: 1px solid #E0E6ED;
     box-sizing: border-box;
     cursor: pointer;
@@ -717,20 +727,23 @@ input.number-minus-plus[type="number"] {
     text-align: center;
     outline: none;
 }
+
 .plate-number-bottom-top {
     padding-bottom: 15px;
     padding-top: 12px;
 }
+
 .plate-numbet-bottom-bottom {
     font-family: PingFangSC-Regular;
     font-size: 16px;
     color: #475669;
     letter-spacing: 0;
+    padding-bottom: 10px;
 }
 
-.plate-numbet-bottom-bottom .total-bet,
-.plate-numbet-bottom-bottom .total-times,
-.plate-numbet-bottom-bottom .total-money {
+body[theme="blue"] .plate-numbet-bottom-bottom .total-bet,
+body[theme="blue"] .plate-numbet-bottom-bottom .total-times,
+body[theme="blue"] .plate-numbet-bottom-bottom .total-money {
     font-family: PingFangSC-Semibold;
     font-size: 16px;
     color: #F89B22;
@@ -764,32 +777,32 @@ input.number-minus-plus[type="number"] {
     cursor: pointer;
 }
 
-.quick-bet {
+body[theme="blue"] .quick-bet {
     background: rgb(248, 155, 34);
     color: #FFFFFF;
     border: none;
     margin-right: 12px;
 }
 
-.quick-bet:hover {
+body[theme="blue"] .quick-bet:hover {
     background: rgb(248, 155, 34, .9);
 }
 
-.add-number {
+body[theme="blue"] .add-number {
     border: 1px solid #1FA1DD;
     color: rgb(31, 161, 221);
 }
 
-.add-number:hover {
+body[theme="blue"] .add-number:hover {
     background: rgb(31, 161, 221, .9);
 }
 
 .add-number.disabled,
 .quick-bet.disabled {
-    background: #F4F4F4;
-    color: #C0CCDA;
-    border: 1px solid #E0E6ED;
-    cursor: not-allowed;
+    background: #F4F4F4!important;
+    color: #C0CCDA!important;
+    border: 1px solid #E0E6ED!important;
+    cursor: not-allowed!important;
 }
 
 .plate-bottom {
@@ -797,4 +810,93 @@ input.number-minus-plus[type="number"] {
     box-shadow: 0 1px 0 0 #E0E6ED;
     padding-left: 20px;
     padding-right: 13px;
+}
+
+.lottery-order-item {
+    height: 30px;
+    line-height: 30px;
+    box-sizing: border-box;
+    font-family: PingFangSC-Regular;
+    font-size: 12px;
+    color: #8998AC;
+    letter-spacing: 0;
+}
+
+body[theme="blue"] .lottery-order-item-head {
+    background: #EFFAFF;
+    box-shadow: inset 0 -1px 0 0 #E0E6ED;
+}
+
+.order-method-cn {
+    width: 116px;
+    box-sizing: border-box;
+    padding-left: 12px;
+}
+
+.order-bet-content {
+    width: 262px;
+    box-sizing: border-box;
+    padding-left: 12px;
+}
+
+.order-model {
+    width: 116px;
+    box-sizing: border-box;
+    padding-left: 12px;    
+}
+
+.order-times {
+    width: 160px;
+    box-sizing: border-box;
+    padding-left: 12px;    
+}
+
+.order-bet-nums {
+    width: 116px;
+    box-sizing: border-box;
+    padding-left: 12px;    
+}
+
+.order-bet-amount {
+    width: 116px;
+    box-sizing: border-box;
+    padding-left: 12px;    
+}
+body[theme="blue"] .lottery-order-item-head .order-delete {
+   
+    font-family: MicrosoftYaHei;
+    color: #FF4949;
+}
+
+.order-delete {
+    width: 80px;
+    box-sizing: border-box;
+    padding-left: 12px;    
+}
+
+.order-delete-icon {
+    display: inline-block;
+    vertical-align: middle;
+    background: #C2C2C2;
+    color: #fff;
+    width: 14px;
+    height: 14px;
+    line-height: 14px;
+    text-align: center;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.order-delete-icon:hover {
+    color: #FF4949;
+}
+
+.lottery-order-list {
+    border: 1px solid #E0E6ED;
+}
+
+.lottery-order-wrap {
+    padding: 12px 16px;
+    background: #FFFFFF;
+    border-top: 1px solid #E0E6ED; 
 }

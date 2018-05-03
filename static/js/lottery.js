@@ -9,7 +9,41 @@ const vueLottery = new Vue({
         currentIssue: '',
         countTime: 0,
         nextApp: [],
-        issueCount: 0
+        issueCount: 0,
+        orderArr: [{
+            methodCn: '五星直选复式',
+            betContent: '12345',
+            model: 2,
+            times: 1,
+            betNums: 2,
+            betAmount: 4
+        }],
+        modelArr: [
+            {
+                text: '2元',
+                value: 2
+            },
+            {
+                text: '1元',
+                value: 1
+            },
+            {
+                text: '2角',
+                value: 0.2
+            },
+            {
+                text: '1角',
+                value: 0.1
+            },
+            {
+                text: '2分',
+                value: 0.02
+            },
+            {
+                text: '2厘',
+                value: 0.002
+            }
+        ],
     },
     beforeCreate() {},
     created() {

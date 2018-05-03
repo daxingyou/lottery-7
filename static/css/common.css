@@ -5,3 +5,31 @@
 .fs0 {
     font-size: 0;
 }
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.select-model {
+    background: #FFFFFF;
+    border: 1px solid #E0E6ED;
+    border-radius: 4px;
+    font-family: PingFangSC-Regular;
+    font-size: 12px;
+    color: #475669;
+    letter-spacing: 0;
+}
+
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}

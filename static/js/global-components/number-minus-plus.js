@@ -12,6 +12,10 @@ Vue.component('number-minus-plus', {
             times: 1
         };
     },
+    props: ['default-times'],
+    created() {
+        this.times = this.defaultTimes || 2;
+    },
     methods: {
         plus() {
             this.times = Number(this.times);
