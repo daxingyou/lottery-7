@@ -3,7 +3,7 @@ Vue.component('number-minus-plus', {
         <div class="fl clearfix number-minus-plus-wrap">
             <i class="fl number-times">倍数</i>
             <i class="fl number-minus" @click="minus">-</i>
-            <input class="fl number-minus-plus" type="number" v-model="times"/>
+            <input class="fl number-minus-plus" type="number" v-model="times" @input="modify"/>
             <i class="fl number-plus" @click="plus">+</i>
         </div>
     `,
@@ -22,6 +22,10 @@ Vue.component('number-minus-plus', {
             this.times = Number(this.times);
             if (this.times === 1) return;
             this.times -= 1;
+            this.$emit('receive-times', this.times);
+        },
+        modify() {
+            this.times = Number(this.times);
             this.$emit('receive-times', this.times);
         }
     },
