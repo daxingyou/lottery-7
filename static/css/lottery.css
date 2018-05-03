@@ -253,6 +253,7 @@ body[theme="blue"] .plate-tab-item-more {
     font-size: 0;
     box-sizing: border-box;
     padding-left: 20px;
+    padding-right: 13px;
     background: #FBFBFB;
     border-top: 1px dashed #E0E6ED;
     border-bottom: 1px dashed #E0E6ED;
@@ -530,7 +531,6 @@ body[theme="blue"] .plate-number-each.on {
     height: 28px;
     line-height: 28px;
     text-align: center;
-    margin-right: 12px;
 }
 
 .filter-button {
@@ -716,4 +716,85 @@ input.number-minus-plus[type="number"] {
     height: 24px;
     text-align: center;
     outline: none;
+}
+.plate-number-bottom-top {
+    padding-bottom: 15px;
+    padding-top: 12px;
+}
+.plate-numbet-bottom-bottom {
+    font-family: PingFangSC-Regular;
+    font-size: 16px;
+    color: #475669;
+    letter-spacing: 0;
+}
+
+.plate-numbet-bottom-bottom .total-bet,
+.plate-numbet-bottom-bottom .total-times,
+.plate-numbet-bottom-bottom .total-money {
+    font-family: PingFangSC-Semibold;
+    font-size: 16px;
+    color: #F89B22;
+    letter-spacing: 0;
+}
+
+.totals-wrap {
+    height: 34px;
+    line-height: 34px;
+    font-size: 0;
+    margin-right: 25px;
+}
+
+.total-money-wrap,
+.total-times-wrap,
+.total-bet-wrap {
+    font-size: 16px;
+}
+
+.add-number,
+.quick-bet {
+    width: 90px;
+    height: 34px;
+    line-height: 34px;
+    box-sizing: border-box;
+    text-align: center;
+    border-radius: 4px;
+    font-family: PingFangSC-Regular;
+    font-size: 16px;
+    letter-spacing: 0;
+    cursor: pointer;
+}
+
+.quick-bet {
+    background: rgb(248, 155, 34);
+    color: #FFFFFF;
+    border: none;
+    margin-right: 12px;
+}
+
+.quick-bet:hover {
+    background: rgb(248, 155, 34, .9);
+}
+
+.add-number {
+    border: 1px solid #1FA1DD;
+    color: rgb(31, 161, 221);
+}
+
+.add-number:hover {
+    background: rgb(31, 161, 221, .9);
+}
+
+.add-number.disabled,
+.quick-bet.disabled {
+    background: #F4F4F4;
+    color: #C0CCDA;
+    border: 1px solid #E0E6ED;
+    cursor: not-allowed;
+}
+
+.plate-bottom {
+    background: #FFFFFF;
+    box-shadow: 0 1px 0 0 #E0E6ED;
+    padding-left: 20px;
+    padding-right: 13px;
 }

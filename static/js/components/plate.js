@@ -57,28 +57,28 @@ Vue.component('lottery-plate', {
                         <span class="input-clear-btn">清空</span>
                     </div>
                 </div>
-                <div className="plate-number-bottom">
-                    <div class="clearfix plate-number-bottom-top">
-                        <div class="clearfix fl">
-                            <span class="fl model-item" v-for="model in modelArr">{{model.text}}</span>
-                        </div>
-                        <div class="fl">
-                            <number-minus-plus @receive-times="receiveTimes"></number-minus-plus>
-                        </div>
-                        <div class="fl clearfix number-odd-wrap">
-                            <i class="fl number-odd-text">奖金</i>
-                            <select class="fl number-odd-select" v-model="selectedOdd">
-                                <option :odd="odd" :point="point">{{odd + '~' + point * 100 + '%'}}</option>
-                            </select>
-                        </div>s
+            </div>
+            <div class="plate-bottom">
+                <div class="clearfix plate-number-bottom-top">
+                    <div class="clearfix fl">
+                        <span :class="{on: modelValue === model.value}" class="fl model-item" v-for="model in modelArr" @click="switchModel(model)">{{model.text}}</span>
                     </div>
-                    <div class="clearfix plate-numbet-bottom-bottom">
-                        <span class="fr">
-                            已选<i>100</i>注，共<i>999</i>倍，共计<i>19990</i>元
-                        </span>
-                        <span class="fr">快速投注</span>
-                        <span class="fr">添加选号</span>
+                    <div class="fl">
+                        <number-minus-plus @receive-times="receiveTimes"></number-minus-plus>
                     </div>
+                    <div class="fl clearfix number-odd-wrap">
+                        <i class="fl number-odd-text">奖金</i>
+                        <select class="fl number-odd-select" v-model="selectedOdd">
+                            <option :odd="odd" :point="point">{{odd + '~' + point * 100 + '%'}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="clearfix plate-numbet-bottom-bottom">
+                    <span :class="{disabled: addNumberDisabled}" class="fr add-number">添加选号</span>
+                    <span :class="{disabled: quickBetDisabled}" class="fr quick-bet">快速投注</span>
+                    <span class="fr totals-wrap">
+                        <span class="total-bet-wrap">已选<i class="total-bet margin-0-2">{{totalBet}}</i>注，</span><span class="total-times-wrap">共<i class="total-times margin-0-2">{{totalTimes}}</i>倍，</span><span class="total-money-wrap">共计<i class="total-money margin-0-2">{{totalMoney}}</i>元</span>
+                    </span>
                 </div>
             </div>
         </div>
@@ -145,6 +145,11 @@ Vue.component('lottery-plate', {
             selectedOdd: '',
             numberTimes: 1,
             oddsObj: {},
+            modelValue: 2,//倍数
+            totalBet: 0,//总注数
+            totalMoney: 0,//总金额
+            quickBetDisabled: true,
+            addNumberDisabled: true
         };
     },
     beforeCreate() {},
@@ -159,6 +164,9 @@ Vue.component('lottery-plate', {
         this.switchTab(this.currentTab);
     },
     computed: {
+        totalTimes() {//总倍数
+            return this.numberTimes;
+        },
         firstTab() {
             if (this.normalTabFlag === 'normal') {
                 return Object.keys(this.lotteryConfig['ltNormalTab'])[0];
@@ -244,7 +252,7 @@ Vue.component('lottery-plate', {
     watch: {},
     methods: {
         receiveTimes(msg) {//倍数
-            this.numberTimes = msg;
+            this.numberTimes = msg;console.log(msg)
         },
         ajaxOdds() {
             this.$http.get(`/json/${this.lotteryCode.toLocaleLowerCase()}-odds.json`).then(res => {
@@ -430,6 +438,9 @@ Vue.component('lottery-plate', {
                 }
             }
             this.$forceUpdate();
+        },
+        switchModel(model) {
+            this.modelValue = model.value;
         }
     }
 });
