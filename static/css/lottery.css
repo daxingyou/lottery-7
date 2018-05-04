@@ -544,7 +544,8 @@ body[theme="blue"] .plate-number-each.on {
     display: inline-block;
 }
 
-body[theme="blue"] .filter-button:active {
+body[theme="blue"] .filter-button:active,
+body[theme="blue"] .filter-button:hover {
     color: #FFFFFF;
     background: #1FA1DD;
 }

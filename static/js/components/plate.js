@@ -35,7 +35,7 @@ Vue.component('lottery-plate', {
                             <span class="plate-number-each fl" :class="{on: plateOrderObj[plateNumObj.position]&&plateOrderObj[plateNumObj.position][num], 'two-chinese': isChinese(num) && num.length === 2}" v-for="(num,numIndex) in plateNumObj.num" @click="selectNum(plateNumObj.position,num)">{{num}}</span>
                         </div>
                         <span class="plate-filter-button fr" v-if="plateNumObj.filterArr.length > 0">
-                            <i class="filter-button" v-for="value in plateNumObj.filterArr">{{value}}</i>
+                            <i class="filter-button" v-for="value in plateNumObj.filterArr" @click="filterNum(plateNumObj, value)">{{value}}</i>
                         </span>
                     </div>
                     <div class="ds-input-box" v-if="plateType === 'input'">
@@ -119,9 +119,9 @@ Vue.component('lottery-plate', {
             selectedOdd: '',
             numberTimes: 1,
             oddsObj: {},
-            modelValue: 2,//倍数
-            totalBet: 0,//总注数
-            totalMoney: 0,//总金额
+            modelValue: 2, //倍数
+            totalBet: 0, //总注数
+            totalMoney: 0, //总金额
             quickBetDisabled: true,
             addNumberDisabled: true
         };
@@ -138,7 +138,7 @@ Vue.component('lottery-plate', {
         this.switchTab(this.currentTab);
     },
     computed: {
-        totalTimes() {//总倍数
+        totalTimes() { //总倍数
             return this.numberTimes;
         },
         firstTab() {
@@ -213,10 +213,10 @@ Vue.component('lottery-plate', {
         odd() {
             return this.oddsObj && this.oddsObj[this.method] && this.oddsObj[this.method].odds;
         },
-        'odd-x'() {
+        'odd-x' () {
             return this.oddsObj && this.oddsObj[this.method] && this.oddsObj[this.method].x;
         },
-        'odd-y'() {
+        'odd-y' () {
             return this.oddsObj && this.oddsObj[this.method] && this.oddsObj[this.method].y;
         },
         point() {
@@ -225,8 +225,9 @@ Vue.component('lottery-plate', {
     },
     watch: {},
     methods: {
-        receiveTimes(msg) {//倍数
-            this.numberTimes = msg;console.log(msg)
+        receiveTimes(msg) { //倍数
+            this.numberTimes = msg;
+            console.log(msg)
         },
         ajaxOdds() {
             this.$http.get(`/json/${this.lotteryCode.toLocaleLowerCase()}-odds.json`).then(res => {
@@ -415,6 +416,60 @@ Vue.component('lottery-plate', {
         },
         switchModel(model) {
             this.modelValue = model.value;
+        },
+        filterNum(plateNumObj, value) { //过滤 全大小奇偶清
+            this.plateOrderObj[plateNumObj.position] = this.plateOrderObj[plateNumObj.position] || {};
+            switch (value) {
+                case '全':
+                    plateNumObj.num.forEach(num => {
+                        this.plateOrderObj[plateNumObj.position][num] = true;
+                    });
+                    break;
+                case '大':
+                    plateNumObj.num.forEach((num, index, arr) => {
+                        if (num < arr.length / 2) {
+                            this.plateOrderObj[plateNumObj.position][num] = false;
+                        } else {
+                            this.plateOrderObj[plateNumObj.position][num] = true;
+                        }
+                    });
+                    break;
+                case '小':
+                    plateNumObj.num.forEach((num, index, arr) => {
+                        if (num < arr.length / 2) {
+                            this.plateOrderObj[plateNumObj.position][num] = true;
+                        } else {
+                            this.plateOrderObj[plateNumObj.position][num] = false;
+                        }
+                    });
+                    break;
+                case '奇':
+                    plateNumObj.num.forEach((num, index, arr) => {
+                        if (num % 2 === 0) {
+                            this.plateOrderObj[plateNumObj.position][num] = false;
+                        } else {
+                            this.plateOrderObj[plateNumObj.position][num] = true;
+                        }
+                    });
+                    break;
+                case '偶':
+                    plateNumObj.num.forEach((num, index, arr) => {
+                        if (num % 2 === 0) {
+                            this.plateOrderObj[plateNumObj.position][num] = true;
+                        } else {
+                            this.plateOrderObj[plateNumObj.position][num] = false;
+                        }
+                    });
+                    break;
+                case '清':
+                    plateNumObj.num.forEach(num => {
+                        this.plateOrderObj[plateNumObj.position][num] = false;
+                    });
+                    break;
+                default:
+                    break;
+            }
+            this.$forceUpdate();
         }
     }
 });
