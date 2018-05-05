@@ -141,6 +141,24 @@ Vue.component('lottery-plate', {
         totalTimes() { //总倍数
             return this.numberTimes;
         },
+        totalBet() {//总注数
+            let count;
+            const vm = this;
+            const CountObj = {//各玩法技术初始值
+                'zx_fs': {
+                    initValue: 1,
+                    Calculate() {
+                        count = this.initValue;
+                        for (let pos in vm.plateOrderObj) {
+                            count = count * vm.plateOrderObj[pos].selected.length;
+                        }
+                        return count;
+                    }
+                }
+            };
+           
+            return count;
+        },
         firstTab() {
             if (this.normalTabFlag === 'normal') {
                 return Object.keys(this.lotteryConfig['ltNormalTab'])[0];
