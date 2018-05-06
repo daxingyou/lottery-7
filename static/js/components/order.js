@@ -42,7 +42,7 @@ Vue.component('lottery-order', {
     watch: {},
     methods: {
         receiveTimes(item, msg) {
-            console.log(msg,item);
+            // console.log(msg,item);
         }
     }
 });
