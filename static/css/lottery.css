@@ -461,7 +461,7 @@ body[theme="blue"] .plate-tab-item-more {
     background: #FFFFFF;
     border: 1px solid #E0E6ED;
     font-family: PingFangSC-Regular;
-    margin-right: 14px;
+    margin-right: 12px;
     cursor: pointer;
     transition: all .1s ease;
 }

@@ -38,7 +38,7 @@ Vue.component('lottery-plate', {
                             <i class="filter-button" v-for="value in plateNumObj.filterArr" @click="filterNum(plateNumObj, value)">{{value}}</i>
                         </span>
                     </div>
-                    <div class="ds-input-box" v-if="plateType === 'input'">
+                    <div v-if="plateType === 'input'" class="ds-input-box">
                         <div v-if="normalTabFlag === 'rx'" class="input-pos">
                             <span>选择位置</span>
                             <label v-for="(pos, index) in inputPosObj" :class="{on: pos.status}" @click="toggleInputPosStatus(index)">{{[pos.text]}}</label>
@@ -232,20 +232,52 @@ Vue.component('lottery-plate', {
         }
     },
     watch: {
-        plateOrderObj: {
+        plateOrderObj: {//非单式株数
             handler(newVal, oldVal) {
+                let initValue;
+                let posArr = Object.keys(this.plateOrderObj);
                 switch (this.currentSubTab) {
                     case 'zx_fs':
-                        let initValue = 1;
-                        const posArr = Object.keys(this.plateOrderObj);
-                        console.log(this.positionArr.length , posArr.length / 2)
+                        initValue = 1;
+                        if (this.positionArr.length === posArr.length / 2) {//每个位置都有选号才计算, /2 是因为加了个valueChange属性
+                            for (pos in this.plateOrderObj) {
+                                if (pos.indexOf('valueChange') !== -1) continue;//加了个valueChange触发监听，这边要过滤掉
+                                initValue = initValue * this.plateOrderObj[pos].selected.length;
+                            }
+                            if (initValue >= 1) {
+                                this.totalBet = initValue;
+                            } else {
+                                this.totalBet = 0;
+                            }
+                        } else {
+                            this.totalBet = 0;
+                        }
+                        break;
+                    case 'zx_zh':
+                        initValue = 1;
                         if (this.positionArr.length === posArr.length / 2) {//每个位置都有选号才计算, /2 是因为加了个valueChange属性
                             for (let pos in this.plateOrderObj) {
                                 if (pos.indexOf('valueChange') !== -1) continue;//加了个valueChange触发监听，这边要过滤掉
                                 initValue = initValue * this.plateOrderObj[pos].selected.length;
                             }
-                        }console.log(this.plateOrderObj)
-                        if (initValue > 1) {
+                            initValue = initValue * this.positionArr.length;
+                            if (initValue > 1) {
+                                this.totalBet = initValue;
+                            } else {
+                                this.totalBet = 0;
+                            }
+                        } else {
+                            this.totalBet = 0;
+                        }
+                        break;
+                    case 'zux_z120':
+                        if (this.positionArr.length === posArr.length / 2) {//每个位置都有选号才计算, /2 是因为加了个valueChange属性
+                            for (let pos in this.plateOrderObj) {
+                                if (pos.indexOf('valueChange') !== -1) continue;//加了个valueChange触发监听，这边要过滤掉
+                                initValue = combination(this.plateOrderObj[pos].selected.length, 5);//一行号码里面取5个Cm5
+                            }
+                        }
+                        if (initValue >= 1) {
                             this.totalBet = initValue;
                         } else {
                             this.totalBet = 0;
@@ -256,6 +288,18 @@ Vue.component('lottery-plate', {
                 }
             },
             deep: true,
+        },
+        dsInputNums: {//单式株数
+            handler(newVal, oldVal) {
+                switch (this.currentSubTab) {
+                    case 'zx_ds':
+                        this.totalBet = this.dsInputNums.length;
+                        break;
+                    default:
+                        break;
+                }
+            },
+            deep: true
         }
     },
     methods: {
@@ -431,6 +475,7 @@ Vue.component('lottery-plate', {
                             this.plateOrderObj[_pos].selected.splice(index, 1);
                         }
                     }
+                    this.$set(this.plateOrderObj, `valueChange-${_pos}`, Math.random()); //触发监听，vue不能监听增加删除属性，用这个方法才能触发                            
                 }
                 this.$forceUpdate();
                 return;
@@ -446,6 +491,7 @@ Vue.component('lottery-plate', {
                     this.plateOrderObj[pos].selected.splice(index, 1);
                 }
             }
+            this.$set(this.plateOrderObj, `valueChange-${pos}`, Math.random()); //触发监听，vue不能监听增加删除属性，用这个方法才能触发                        
             this.$forceUpdate();
         },
         switchModel(model) {

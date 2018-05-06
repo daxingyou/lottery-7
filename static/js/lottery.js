@@ -89,8 +89,8 @@ Vue.prototype.$range = (start, end, step = 1) => {
     start = Number(start);
     end = Number(end);
     const resultArr = [];
-    for (let i = start; i < end; i += step) {
-        i <= end && resultArr.push(i);
+    for (let i = start; i <= end; i += step) {
+        resultArr.push(i);
     }
     return resultArr;
 };
