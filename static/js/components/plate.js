@@ -90,6 +90,7 @@ Vue.component('lottery-plate', {
             currentTab: '',
             currentSubTab: '',
             plateType: '', //input 单式，number 选号盘
+            positionArr: [],//万千宝石个
             inputPosObj: { //任选单式的位置0,1,2,3,4 =》万千百十个 true表示默认选中
                 0: {
                     text: '万',
@@ -141,24 +142,6 @@ Vue.component('lottery-plate', {
         totalTimes() { //总倍数
             return this.numberTimes;
         },
-        totalBet() {//总注数
-            let count;
-            const vm = this;
-            const CountObj = {//各玩法技术初始值
-                'zx_fs': {
-                    initValue: 1,
-                    Calculate() {
-                        count = this.initValue;
-                        for (let pos in vm.plateOrderObj) {
-                            count = count * vm.plateOrderObj[pos].selected.length;
-                        }
-                        return count;
-                    }
-                }
-            };
-           
-            return count;
-        },
         firstTab() {
             if (this.normalTabFlag === 'normal') {
                 return Object.keys(this.lotteryConfig['ltNormalTab'])[0];
@@ -198,6 +181,7 @@ Vue.component('lottery-plate', {
                     this.plateType = 'number';
                 }
                 const positionArr = numArr[0].split(',');
+                this.positionArr = positionArr;
                 let selectNumRangeArr;
                 if (/^\d+-\d+$/.test(numArr[1])) { //配置表中位是 0-9这种
                     const selectNumArr = numArr[1].split('-'); //"0-9" => ['0','9']
@@ -241,7 +225,32 @@ Vue.component('lottery-plate', {
             return this.oddsObj && this.oddsObj[this.method] && this.oddsObj[this.method].point;
         }
     },
-    watch: {},
+    watch: {
+        plateOrderObj: {
+            handler(newVal, oldVal) {
+                switch (this.currentSubTab) {
+                    case 'zx_fs':
+                        let initValue = 1;
+                        const posArr = Object.keys(this.plateOrderObj);
+                        if (this.positionArr.length === posArr.length / 2) {//每个位置都有选号才计算, /2 是因为加了个valueChange属性
+                            for (let pos in this.plateOrderObj) {
+                                if (pos.indexOf('valueChange') !== -1) continue;//加了个valueChange触发监听，这边要过滤掉
+                                initValue = initValue * this.plateOrderObj[pos].selected.length;
+                            }
+                        }
+                        if (initValue > 1) {
+                            this.totalBet = initValue;
+                        } else {
+                            this.totalBet = 0;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            },
+            deep: true,
+        }
+    },
     methods: {
         receiveTimes(msg) { //倍数
             this.numberTimes = msg;
@@ -437,18 +446,23 @@ Vue.component('lottery-plate', {
         },
         filterNum(plateNumObj, value) { //过滤 全大小奇偶清
             this.plateOrderObj[plateNumObj.position] = this.plateOrderObj[plateNumObj.position] || {};
+            this.plateOrderObj[plateNumObj.position].selected = this.plateOrderObj[plateNumObj.position].selected || [];
             switch (value) {
                 case '全':
                     plateNumObj.num.forEach(num => {
                         this.plateOrderObj[plateNumObj.position][num] = true;
+                        !this.plateOrderObj[plateNumObj.position].selected.includes(num) && this.plateOrderObj[plateNumObj.position].selected.push(num);
                     });
                     break;
                 case '大':
                     plateNumObj.num.forEach((num, index, arr) => {
                         if (num < arr.length / 2) {
                             this.plateOrderObj[plateNumObj.position][num] = false;
+                            const index = this.plateOrderObj[plateNumObj.position].selected.indexOf(num);
+                            this.plateOrderObj[plateNumObj.position].selected.splice(index, 1);
                         } else {
                             this.plateOrderObj[plateNumObj.position][num] = true;
+                            !this.plateOrderObj[plateNumObj.position].selected.includes(num) && this.plateOrderObj[plateNumObj.position].selected.push(num);
                         }
                     });
                     break;
@@ -456,8 +470,11 @@ Vue.component('lottery-plate', {
                     plateNumObj.num.forEach((num, index, arr) => {
                         if (num < arr.length / 2) {
                             this.plateOrderObj[plateNumObj.position][num] = true;
+                            !this.plateOrderObj[plateNumObj.position].selected.includes(num) && this.plateOrderObj[plateNumObj.position].selected.push(num);
                         } else {
                             this.plateOrderObj[plateNumObj.position][num] = false;
+                            const index = this.plateOrderObj[plateNumObj.position].selected.indexOf(num);
+                            this.plateOrderObj[plateNumObj.position].selected.splice(index, 1);
                         }
                     });
                     break;
@@ -465,8 +482,11 @@ Vue.component('lottery-plate', {
                     plateNumObj.num.forEach((num, index, arr) => {
                         if (num % 2 === 0) {
                             this.plateOrderObj[plateNumObj.position][num] = false;
+                            const index = this.plateOrderObj[plateNumObj.position].selected.indexOf(num);
+                            this.plateOrderObj[plateNumObj.position].selected.splice(index, 1);
                         } else {
                             this.plateOrderObj[plateNumObj.position][num] = true;
+                            !this.plateOrderObj[plateNumObj.position].selected.includes(num) && this.plateOrderObj[plateNumObj.position].selected.push(num);
                         }
                     });
                     break;
@@ -474,19 +494,25 @@ Vue.component('lottery-plate', {
                     plateNumObj.num.forEach((num, index, arr) => {
                         if (num % 2 === 0) {
                             this.plateOrderObj[plateNumObj.position][num] = true;
+                            !this.plateOrderObj[plateNumObj.position].selected.includes(num) && this.plateOrderObj[plateNumObj.position].selected.push(num);
                         } else {
                             this.plateOrderObj[plateNumObj.position][num] = false;
+                            const index = this.plateOrderObj[plateNumObj.position].selected.indexOf(num);
+                            this.plateOrderObj[plateNumObj.position].selected.splice(index, 1);
                         }
                     });
                     break;
                 case '清':
                     plateNumObj.num.forEach(num => {
                         this.plateOrderObj[plateNumObj.position][num] = false;
+                        const index = this.plateOrderObj[plateNumObj.position].selected.indexOf(num);
+                        this.plateOrderObj[plateNumObj.position].selected.splice(index, 1);
                     });
                     break;
                 default:
                     break;
             }
+            this.$set(this.plateOrderObj, `valueChange-${plateNumObj.position}`, Math.random()); //触发监听，vue不能监听增加删除属性，用这个方法才能触发            
             this.$forceUpdate();
         }
     }
