@@ -236,8 +236,8 @@ Vue.component('lottery-plate', {
             handler(newVal, oldVal) {
                 let initValue;
                 let posArr = Object.keys(this.plateOrderObj);
-                switch (this.currentSubTab) {
-                    case 'zx_fs':
+                switch (this.method) {
+                    case 'wx_zx_fs':
                         initValue = 1;
                         if (this.positionArr.length === posArr.length / 2) {//每个位置都有选号才计算, /2 是因为加了个valueChange属性
                             for (pos in this.plateOrderObj) {
@@ -253,7 +253,7 @@ Vue.component('lottery-plate', {
                             this.totalBet = 0;
                         }
                         break;
-                    case 'zx_zh':
+                    case 'wx_zx_zh':
                         initValue = 1;
                         if (this.positionArr.length === posArr.length / 2) {//每个位置都有选号才计算, /2 是因为加了个valueChange属性
                             for (let pos in this.plateOrderObj) {
@@ -270,12 +270,147 @@ Vue.component('lottery-plate', {
                             this.totalBet = 0;
                         }
                         break;
-                    case 'zux_z120':
+                    case 'wx_zux_z120':
+                        initValue = 0;
                         if (this.positionArr.length === posArr.length / 2) {//每个位置都有选号才计算, /2 是因为加了个valueChange属性
-                            for (let pos in this.plateOrderObj) {
-                                if (pos.indexOf('valueChange') !== -1) continue;//加了个valueChange触发监听，这边要过滤掉
-                                initValue = combination(this.plateOrderObj[pos].selected.length, 5);//一行号码里面取5个Cm5
-                            }
+                            const arr = this.plateOrderObj['组选120'].selected;
+                            initValue = combination(arr.length, 5);//一行号码里面取5个Cm5
+                        }
+                        if (initValue >= 1) {
+                            this.totalBet = initValue;
+                        } else {
+                            this.totalBet = 0;
+                        }
+                        break;
+                    case 'sx_zux_z24':
+                        initValue = 0;
+                        if (this.positionArr.length === posArr.length / 2) {//每个位置都有选号才计算, /2 是因为加了个valueChange属性
+                            const arr = this.plateOrderObj['组24'].selected;
+                            initValue = combination(arr.length, 4);//一行号码里面取4个Cm5
+                        }
+                        if (initValue >= 1) {
+                            this.totalBet = initValue;
+                        } else {
+                            this.totalBet = 0;
+                        }
+                        break;
+                    case 'sx_zux_z6':
+                        initValue = 0;
+                        if (this.positionArr.length === posArr.length / 2) {//每个位置都有选号才计算, /2 是因为加了个valueChange属性
+                            const arr = this.plateOrderObj['二重号'].selected;
+                            initValue = combination(arr.length, 2);//2个二重号
+                        }
+                        if (initValue >= 1) {
+                            this.totalBet = initValue;
+                        } else {
+                            this.totalBet = 0;
+                        }
+                        break;
+                    case 'wx_zux_z60':
+                        initValue = 0;
+                        if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
+                            const arr1 = this.plateOrderObj['二重号'].selected;
+                            const arr2 = this.plateOrderObj['单号'].selected;
+                            arr1.forEach(v => {
+                                const diffArr = difference([v], arr2);
+                                initValue += combination(diffArr.length, 3);//1个二重号，3个单号
+                            });
+                        }
+                        if (initValue >= 1) {
+                            this.totalBet = initValue;
+                        } else {
+                            this.totalBet = 0;
+                        }
+                        break;
+                    case 'sx_zux_z12':
+                        initValue = 0;
+                        if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
+                            const arr1 = this.plateOrderObj['二重号'].selected;
+                            const arr2 = this.plateOrderObj['单号'].selected;
+                            arr1.forEach(v => {
+                                const diffArr = difference([v], arr2);
+                                initValue += combination(diffArr.length, 2);//1个二重号，2个单号
+                            });
+                        }
+                        if (initValue >= 1) {
+                            this.totalBet = initValue;
+                        } else {
+                            this.totalBet = 0;
+                        }
+                        break;
+                    case 'wx_zux_z30':
+                        initValue = 0;
+                        if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
+                            const arr1 = this.plateOrderObj['二重号'].selected;
+                            const arr2 = this.plateOrderObj['单号'].selected;
+                            arr2.forEach(v => {
+                                const diffArr = difference([v], arr1);
+                                initValue += combination(diffArr.length, 2);//2个二重号，1个单号
+                            });
+                        }
+                        if (initValue >= 1) {
+                            this.totalBet = initValue;
+                        } else {
+                            this.totalBet = 0;
+                        }
+                        break;
+                    case 'wx_zux_z20':
+                        initValue = 0;
+                        if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
+                            const arr1 = this.plateOrderObj['三重号'].selected;
+                            const arr2 = this.plateOrderObj['单号'].selected;
+                            arr1.forEach(v => {
+                                const diffArr = difference([v], arr2);
+                                initValue += combination(diffArr.length, 2);//1个3重号，2个单号
+                            });
+                        }
+                        if (initValue >= 1) {
+                            this.totalBet = initValue;
+                        } else {
+                            this.totalBet = 0;
+                        }
+                        break;
+                    case 'wx_zux_z10':
+                        initValue = 0;
+                        if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
+                            const arr1 = this.plateOrderObj['三重号'].selected;
+                            const arr2 = this.plateOrderObj['二重号'].selected;
+                            arr1.forEach(v => {
+                                const diffArr = difference([v], arr2);
+                                initValue += combination(diffArr.length, 1);//1个3重号，1个二重号
+                            });
+                        }
+                        if (initValue >= 1) {
+                            this.totalBet = initValue;
+                        } else {
+                            this.totalBet = 0;
+                        }
+                        break;
+                    case 'wx_zux_z5':
+                        initValue = 0;
+                        if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
+                            const arr1 = this.plateOrderObj['四重号'].selected;
+                            const arr2 = this.plateOrderObj['单号'].selected;
+                            arr1.forEach(v => {
+                                const diffArr = difference([v], arr2);
+                                initValue += combination(diffArr.length, 1);//1个4重号，1个单号
+                            });
+                        }
+                        if (initValue >= 1) {
+                            this.totalBet = initValue;
+                        } else {
+                            this.totalBet = 0;
+                        }
+                        break;
+                    case 'sx_zux_z4':
+                        initValue = 0;
+                        if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
+                            const arr1 = this.plateOrderObj['三重号'].selected;
+                            const arr2 = this.plateOrderObj['单号'].selected;
+                            arr1.forEach(v => {
+                                const diffArr = difference([v], arr2);
+                                initValue += combination(diffArr.length, 1);//1个3重号，1个单号
+                            });
                         }
                         if (initValue >= 1) {
                             this.totalBet = initValue;
