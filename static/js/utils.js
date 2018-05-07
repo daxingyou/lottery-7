@@ -63,3 +63,31 @@ function nzn11y(s, n) {
     }
     return result;
 }
+
+/**
+ * 从一组数字中找出相加等于指定值的合集 3个相加的数字不能都一样
+ * 
+ * @param {Array} arr 如[0,1,2,3,4,5,6,7,8,9]
+ * @param {Number} plusCount 要求相加的数字个数，如1+1+1 则相加的数字是3个 这里3星是3
+ * @param {Number} hz 和值 如1+0+2=3,则3为和值
+ * 
+ */
+function choose3mZuxHzCombination(arr, hz) {
+    const result1 = []; //有两个号重复
+    const result2 = []; //3个号不重复
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length; j++) {
+            for (let k = 0; k < arr.length; k++) {
+                if (arr[i] + arr[j] + arr[k] === hz) {
+                    //!((arr[i] === arr[j]) && (arr[j] === arr[k])) 3个相加的数字不能都一样
+                    if ([...new Set([arr[i], arr[j], arr[k]])].length === 2) {
+                        result1.push([arr[i], arr[j], arr[k]]);
+                    } else if ([...new Set([arr[i], arr[j], arr[k]])].length === 3) {
+                        result2.push([arr[i], arr[j], arr[k]]);
+                    }
+                }
+            }
+        }
+    }
+    return result1.length / 3 + result2.length / 6;//factorial(3,3)=>6
+}
