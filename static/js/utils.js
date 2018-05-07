@@ -41,3 +41,25 @@ function factorial(m, n) {
 function combination(m, n) {
     return factorial(m, n) / factorial(n, n); //就是Cmn(上面是n，下面是m) = Amn(上面是n，下面是m)/Ann(上下都是n)  
 }
+
+//求两个数组的交集
+function intersection(a, b) {
+    return a.filter(v => b.indexOf(v) !== -1);
+}
+//求两个数组的无重复并集
+function mathUnion(a, b) {
+    return [...new Set([...a, ...b])];
+}
+
+//求a数组相对于b数组的补集 [1,2,3], [3,4,5] => [1,2]
+function difference(a, b) {
+    return a.filter(v => b.indexOf(v) === -1);
+}
+//11选5 n中n 
+function nzn11y(s, n) {
+    let result = 1;
+    for (let i = 0; i < n; i++) {
+        result *= (s - i) / (i + 1);
+    }
+    return result;
+}
