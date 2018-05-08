@@ -89,5 +89,60 @@ function choose3mZuxHzCombination(arr, hz) {
             }
         }
     }
-    return result1.length / 3 + result2.length / 6;//factorial(3,3)=>6
+    return result1.length / 3 + result2.length / 6; //factorial(3,3)=>6
+}
+
+function choose3mZxHzCombination(arr, hz) {
+    const result = [];
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length; j++) {
+            for (let k = 0; k < arr.length; k++) {
+                if (arr[i] + arr[j] + arr[k] === hz) {
+                    result.push([arr[i], arr[j], arr[k]]);
+                }
+            }
+        }
+    }
+    return result.length; //factorial(3,3)=>6
+}
+
+/**
+ * 计算二星跨度株数  arr为选号[0,1,2,3,4,5,6,7,8,9] , num为跨度值
+ * 选择一个数值，若所选数值等于开奖号码的前两位数字之差，即为中奖。
+ * @param {Array} arr 
+ * @param {Number} num 
+ */
+function calc2mKd(arr, num) {
+    const result = [];
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length; j++) {
+            if (arr[i] - arr[j] === num) {
+                result.push([arr[i], arr[j]]);
+            }
+        }
+    }
+    if (num === 0) {
+        return result.length;
+    }
+    return result.length * 2;
+}
+
+function calc3mKd(arr, num) {
+    const result = [];
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length; j++) {
+            if (arr[i] - arr[j] === num) {
+                result.push([arr[i], arr[j]]);
+            }
+        }
+    }
+    if (num === 0) {
+        return result.length;
+    }
+    let count = 0;
+    result.forEach(item=>{
+        const restArr = arr.filter(v => v > item[1] && v < item[0]);//最大值的最小值之间可以插入的值
+        count += restArr.length * 6;
+    });
+    return count + result.length * 6;//后面加的是 有两个相同号的情况 如220 133
 }

@@ -462,6 +462,22 @@ Vue.component('lottery-plate', {
                             this.totalBet = 0;
                         }
                         break;
+                    case 'qsm_zx_hz':
+                    case 'zsm_zx_hz':
+                    case 'hsm_zx_hz':
+                        initValue = 0;
+                        if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
+                            const arr = this.plateOrderObj['直选和值'].selected;
+                            arr.forEach(v => {
+                                initValue += choose3mZxHzCombination([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], v);
+                            });
+                        }
+                        if (initValue >= 1) {
+                            this.totalBet = initValue;
+                        } else {
+                            this.totalBet = 0;
+                        }
+                        break;
                     default:
                         break;
                 }
