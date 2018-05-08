@@ -238,6 +238,10 @@ Vue.component('lottery-plate', {
                 let posArr = Object.keys(this.plateOrderObj);
                 switch (this.method) {
                     case 'wx_zx_fs':
+                    case 'dxds_dxds_h2':
+                    case 'dxds_dxds_q2':
+                    case 'dxds_dxds_h3':
+                    case 'dxds_dxds_q3':                    
                         initValue = 1;
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
                             for (pos in this.plateOrderObj) {
@@ -463,7 +467,8 @@ Vue.component('lottery-plate', {
                     case 'hsm_zux_hz':
                         initValue = 0;
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
-                            const arr = this.plateOrderObj['组选和值'].selected;
+                            const _pos = this.positionArr[0];//这几个玩法只有一个位置                                                        
+                            const arr = this.plateOrderObj[_pos].selected;
                             arr.forEach(v => {
                                 initValue += choose3mZuxHzCombination([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], v);
                             });
@@ -479,7 +484,8 @@ Vue.component('lottery-plate', {
                     case 'hsm_zx_hz':
                         initValue = 0;
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
-                            const arr = this.plateOrderObj['直选和值'].selected;
+                            const _pos = this.positionArr[0];//这几个玩法只有一个位置                            
+                            const arr = this.plateOrderObj[_pos].selected;
                             arr.forEach(v => {
                                 initValue += choose3mZxHzCombination([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], v);
                             });
@@ -495,7 +501,8 @@ Vue.component('lottery-plate', {
                     case 'hsm_zx_kd':
                         initValue = 0;
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
-                            const arr = this.plateOrderObj['跨度'].selected;
+                            const _pos = this.positionArr[0];//这几个玩法只有一个位置
+                            const arr = this.plateOrderObj[_pos].selected;
                             arr.forEach(v => {
                                 initValue += calc3mKd([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], v);
                             });
@@ -511,7 +518,8 @@ Vue.component('lottery-plate', {
                     case 'hsm_zx_bd':
                         initValue = 0;
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
-                            const arr = this.plateOrderObj['包胆'].selected;
+                            const _pos = this.positionArr[0];//这几个玩法只有一个位置
+                            const arr = this.plateOrderObj[_pos].selected;
                             arr.forEach(v => {
                                 initValue += calc3xBaodan([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], v);
                             });
@@ -535,9 +543,55 @@ Vue.component('lottery-plate', {
                     case 'bdd_bdd5_wx2':                        
                     case 'bdd_bdd5_wx3':
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
-                            const n = Number(this.method.splice(-1));
-                            const arr = this.plateOrderObj['不定胆'].selected;
+                            const _pos = this.positionArr[0];//这几个玩法只有一个位置
+                            const n = Number(this.method.slice(-1));
+                            const arr = this.plateOrderObj[_pos].selected;
                             initValue = combination(arr.length, n);
+                        }
+                        if (initValue >= 1) {
+                            this.totalBet = initValue;
+                        } else {
+                            this.totalBet = 0;
+                        }
+                        break;
+                    case 'dxds_hzdxds_wxhz':
+                    case 'dxds_hzdxds_h3hz':
+                    case 'dxds_hzdxds_q3hz':
+                    case 'dxds_hzdxds_z3hz':
+                    case 'dxds_dsgs_wx':
+                    case 'dxds_dsgs_sx':
+                    case 'dxds_dsgs_q3':
+                    case 'dxds_dsgs_z3':
+                    case 'dxds_dsgs_h3':
+                    case 'dxds_dxgs_wx':
+                    case 'dxds_dxgs_sx':
+                    case 'dxds_dxgs_q3':
+                    case 'dxds_dxgs_z3':
+                    case 'dxds_dxgs_h3':
+                    case 'qw_lhh_wq':
+                    case 'qw_lhh_wb':
+                    case 'qw_lhh_ws':
+                    case 'qw_lhh_wg':
+                    case 'qw_lhh_qb':
+                    case 'qw_lhh_qs':
+                    case 'qw_lhh_qg':
+                    case 'qw_lhh_bs':
+                    case 'qw_lhh_bg':
+                    case 'qw_lhh_sg':
+                    case 'qw_xt_wx':
+                    case 'qw_xt_q3':
+                    case 'qw_xt_h3':
+                    case 'qw_xt_z3':
+                    case 'qw_ts_yffs':
+                    case 'qw_ts_hscs':
+                    case 'qw_ts_sxbx':
+                    case 'qw_ts_sjfc':
+                    case 'qw_bjl_bjl':
+                    case 'nn_nn_nn':                    
+                        if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
+                            const _pos = this.positionArr[0];//这几个玩法只有一个位置
+                            const arr = this.plateOrderObj[_pos].selected;
+                            initValue = arr.length;
                         }
                         if (initValue >= 1) {
                             this.totalBet = initValue;
