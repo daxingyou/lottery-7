@@ -126,7 +126,7 @@ function calc2mKd(arr, num) {
     }
     return result.length * 2;
 }
-
+//3星跨度
 function calc3mKd(arr, num) {
     const result = [];
     for (let i = 0; i < arr.length; i++) {
@@ -145,4 +145,14 @@ function calc3mKd(arr, num) {
         count += restArr.length * 6;
     });
     return count + result.length * 6;//后面加的是 有两个相同号的情况 如220 133
+}
+//3星包胆
+function calc3xBaodan(arr, num) {
+    const arrLength = arr.length;
+    return combination(arrLength - 1, 2) +　9 * 2;//9是有两个号码相同的情况
+}
+//2星包胆
+function calc2xBaodan(arr, num) {
+    const arrLength = arr.length;
+    return combination(arrLength - 1, 1) +　9;//9是有两个号码相同的情况
 }

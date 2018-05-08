@@ -478,6 +478,38 @@ Vue.component('lottery-plate', {
                             this.totalBet = 0;
                         }
                         break;
+                    case 'qsm_zx_kd':
+                    case 'zsm_zx_kd':
+                    case 'hsm_zx_kd':
+                        initValue = 0;
+                        if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
+                            const arr = this.plateOrderObj['跨度'].selected;
+                            arr.forEach(v => {
+                                initValue += calc3mKd([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], v);
+                            });
+                        }
+                        if (initValue >= 1) {
+                            this.totalBet = initValue;
+                        } else {
+                            this.totalBet = 0;
+                        }
+                        break;
+                    case 'qsm_zx_bd':
+                    case 'zsm_zx_bd':
+                    case 'hsm_zx_bd':
+                        initValue = 0;
+                        if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
+                            const arr = this.plateOrderObj['包胆'].selected;
+                            arr.forEach(v => {
+                                initValue += calc3xBaodan([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], v);
+                            });
+                        }
+                        if (initValue >= 1) {
+                            this.totalBet = initValue;
+                        } else {
+                            this.totalBet = 0;
+                        }
+                        break;
                     default:
                         break;
                 }
