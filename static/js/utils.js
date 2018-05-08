@@ -91,7 +91,7 @@ function choose3mZuxHzCombination(arr, hz) {
     }
     return result1.length / 3 + result2.length / 6; //factorial(3,3)=>6
 }
-
+//3星直选和值
 function choose3mZxHzCombination(arr, hz) {
     const result = [];
     for (let i = 0; i < arr.length; i++) {
@@ -104,6 +104,30 @@ function choose3mZxHzCombination(arr, hz) {
         }
     }
     return result.length; //factorial(3,3)=>6
+}
+//2星组选和值
+function choose2mZuxHzCombination(arr, hz) {
+    const result = []; 
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length; j++) {
+            if (arr[i] + arr[j] === hz) {
+                arr[i] !== arr[j] && result.push([arr[i],arr[j]]);
+            }
+        }
+    }
+    return result.length / 2; //factorial(2,2)=>2，不考虑顺序要处于这个
+}
+//2星值选和值
+function choose2mZxHzCombination(arr, hz) {
+    const result = []; 
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length; j++) {
+            if (arr[i] + arr[j] === hz) {
+                result.push([arr[i],arr[j]]);
+            }
+        }
+    }
+    return result.length; 
 }
 
 /**
@@ -156,3 +180,32 @@ function calc2xBaodan(arr, num) {
     const arrLength = arr.length;
     return combination(arrLength - 1, 1) +　9;//9是有两个号码相同的情况
 }
+//求数组组合的所有组合方式[1,2,3]->[1,2],[1,3],[2,3]
+function choose(arr, size) {
+    var allResult = [];
+    function _choose(arr, size, result) {
+      var arrLen = arr.length;
+      if (size > arrLen) {
+        return;
+      }
+      if (size == arrLen) {
+        allResult.push([].concat(result, arr))
+      } else {
+        for (var i = 0; i < arrLen; i++) {
+          var newResult = [].concat(result);
+          newResult.push(arr[i]);
+  
+          if (size == 1) {
+            allResult.push(newResult);
+          } else {
+            var newArr = [].concat(arr);
+            newArr.splice(0, i + 　1);
+            _choose(newArr, size - 1, newResult);
+          }
+        }
+      }
+    }
+    _choose(arr, size, []);
+  
+    return allResult;
+  }

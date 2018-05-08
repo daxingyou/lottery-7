@@ -238,6 +238,12 @@ Vue.component('lottery-plate', {
                 let posArr = Object.keys(this.plateOrderObj);
                 switch (this.method) {
                     case 'wx_zx_fs':
+                    case 'sx_zx_fs':
+                    case 'qsm_zx_fs':
+                    case 'zsm_zx_fs':
+                    case 'hsm_zx_fs':
+                    case 'qem_zx_fs':
+                    case 'hem_zx_fs':
                     case 'dxds_dxds_h2':
                     case 'dxds_dxds_q2':
                     case 'dxds_dxds_h3':
@@ -270,6 +276,7 @@ Vue.component('lottery-plate', {
                         }
                         break;
                     case 'wx_zx_zh':
+                    case 'sx_zx_zh':                    
                         initValue = 1;
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
                             for (let pos in this.plateOrderObj) {
@@ -479,9 +486,43 @@ Vue.component('lottery-plate', {
                             this.totalBet = 0;
                         }
                         break;
+                    case 'qem_zux_hz':
+                    case 'zem_zux_hz':
+                    case 'hem_zux_hz':
+                        initValue = 0;
+                        if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
+                            const _pos = this.positionArr[0];//这几个玩法只有一个位置                                                        
+                            const arr = this.plateOrderObj[_pos].selected;
+                            arr.forEach(v => {
+                                initValue += choose2mZuxHzCombination([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], v);
+                            });
+                        }
+                        if (initValue >= 1) {
+                            this.totalBet = initValue;
+                        } else {
+                            this.totalBet = 0;
+                        }
+                        break;
                     case 'qsm_zx_hz':
                     case 'zsm_zx_hz':
                     case 'hsm_zx_hz':
+                        initValue = 0;
+                        if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
+                            const _pos = this.positionArr[0];//这几个玩法只有一个位置                            
+                            const arr = this.plateOrderObj[_pos].selected;
+                            arr.forEach(v => {
+                                initValue += choose3mZxHzCombination([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], v);
+                            });
+                        }
+                        if (initValue >= 1) {
+                            this.totalBet = initValue;
+                        } else {
+                            this.totalBet = 0;
+                        }
+                        break;
+                    case 'qem_zx_hz':
+                    case 'zem_zx_hz':
+                    case 'hem_zx_hz':
                         initValue = 0;
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
                             const _pos = this.positionArr[0];//这几个玩法只有一个位置                            
@@ -513,6 +554,23 @@ Vue.component('lottery-plate', {
                             this.totalBet = 0;
                         }
                         break;
+                    case 'qem_zx_kd':
+                    case 'zem_zx_kd':
+                    case 'hem_zx_kd':
+                        initValue = 0;
+                        if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
+                            const _pos = this.positionArr[0];//这几个玩法只有一个位置
+                            const arr = this.plateOrderObj[_pos].selected;
+                            arr.forEach(v => {
+                                initValue += calc2mKd([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], v);
+                            });
+                        }
+                        if (initValue >= 1) {
+                            this.totalBet = initValue;
+                        } else {
+                            this.totalBet = 0;
+                        }
+                        break;
                     case 'qsm_zx_bd':
                     case 'zsm_zx_bd':
                     case 'hsm_zx_bd':
@@ -522,6 +580,23 @@ Vue.component('lottery-plate', {
                             const arr = this.plateOrderObj[_pos].selected;
                             arr.forEach(v => {
                                 initValue += calc3xBaodan([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], v);
+                            });
+                        }
+                        if (initValue >= 1) {
+                            this.totalBet = initValue;
+                        } else {
+                            this.totalBet = 0;
+                        }
+                        break;
+                    case 'qem_zx_bd':
+                    case 'zem_zx_bd':
+                    case 'hem_zx_bd':
+                        initValue = 0;
+                        if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
+                            const _pos = this.positionArr[0];//这几个玩法只有一个位置
+                            const arr = this.plateOrderObj[_pos].selected;
+                            arr.forEach(v => {
+                                initValue += calc2xBaodan([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], v);
                             });
                         }
                         if (initValue >= 1) {
@@ -599,6 +674,47 @@ Vue.component('lottery-plate', {
                             this.totalBet = 0;
                         }
                         break;
+                    case 'rx2_zx_fs':
+                        initValue = 0;
+                        const _arr = []; //记录每个位置选中号码个数的合集
+                        this.positionArr.forEach(_pos => {
+                            this.plateOrderObj[_pos].selected = this.plateOrderObj[_pos].selected || [];
+                            _arr.push(this.plateOrderObj[_pos].selected.length);
+                        });
+                        //任选2即 选出两个位置 两两相乘
+                        const copyArr = _arr.slice();
+                        _arr.forEach(() => {
+                            const firstItem = copyArr.shift();
+                            copyArr.forEach(v => {
+                                initValue += firstItem * v;
+                            });
+                        });
+                        if (initValue >= 1) {
+                            this.totalBet = initValue;
+                        } else {
+                            this.totalBet = 0;
+                        }
+                        break;
+                    case 'rx3_zx_fs':
+                    case 'rx4_zx_fs':
+                        initValue = 0;
+                        const _arr = []; //记录每个位置选中号码个数的合集
+                        this.positionArr.forEach(_pos => {
+                            this.plateOrderObj[_pos].selected = this.plateOrderObj[_pos].selected || [];
+                            _arr.push(this.plateOrderObj[_pos].selected.length);
+                        });
+                        const size = this.method.match(/rx(\d)_/)[1];
+                        //求数组组合的所有组合方式[1,2,3]->[1,2],[1,3],[2,3]
+                        const chooseArr = choose(_arr, size);
+                        chooseArr.forEach(itemArr => {
+                            initValue += itemArr.reduce((a, b) => a * b);
+                        });
+                        if (initValue >= 1) {
+                            this.totalBet = initValue;
+                        } else {
+                            this.totalBet = 0;
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -609,6 +725,7 @@ Vue.component('lottery-plate', {
             handler(newVal, oldVal) {
                 switch (this.currentSubTab) {
                     case 'zx_ds':
+                    case 'zux_ds':
                     case 'zux_hh':
                         this.totalBet = this.dsInputNums.length;
                         break;
@@ -688,8 +805,19 @@ Vue.component('lottery-plate', {
                         return;
                     }
                     const dsInputValueArr = this.dsInputValue.match(regExpObj[`match-${this.lotteryType}`]); //123=>[1,2,3]
-                    if (this.currentSubTab === 'zux_hh') {
+                    if (this.currentSubTab === 'zux_hh' || this.currentSubTab === 'zux_ds') { //选号不能全部相同，不限顺序
                         if ([...new Set[dsInputValueArr]].length === 1) { //说明是豹子号
+                            return;
+                        }
+                        //不能有两组数字相同的选号
+                        const findSame = this.dsInputNums.find(num => {
+                            const numString = num.match(regExpObj[`match-${this.lotteryType}`]).sort().toString();
+                            const dsInputValueString = dsInputValueArr.sort().toString();
+                            if (numString === dsInputValueString) {
+                                return true;
+                            }
+                        });
+                        if (findSame) {
                             return;
                         }
                     }
