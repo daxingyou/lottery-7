@@ -253,6 +253,18 @@ Vue.component('lottery-plate', {
                             this.totalBet = 0;
                         }
                         break;
+                    case 'dwd_dwd_dwd':
+                        initValue = 0;
+                        for (pos in this.plateOrderObj) {
+                            if (pos.indexOf('valueChange') !== -1) continue; //加了个valueChange触发监听，这边要过滤掉
+                            initValue += this.plateOrderObj[pos].selected.length;
+                        }
+                        if (initValue >= 1) {
+                            this.totalBet = initValue;
+                        } else {
+                            this.totalBet = 0;
+                        }
+                        break;
                     case 'wx_zx_zh':
                         initValue = 1;
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
@@ -503,6 +515,29 @@ Vue.component('lottery-plate', {
                             arr.forEach(v => {
                                 initValue += calc3xBaodan([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], v);
                             });
+                        }
+                        if (initValue >= 1) {
+                            this.totalBet = initValue;
+                        } else {
+                            this.totalBet = 0;
+                        }
+                        break;
+                    case 'bdd_bdd3_q31':
+                    case 'bdd_bdd3_q32':
+                    case 'bdd_bdd3_z31':
+                    case 'bdd_bdd3_z32':
+                    case 'bdd_bdd3_h31':
+                    case 'bdd_bdd3_h32':
+                    case 'bdd_bdd4_sx1':
+                    case 'bdd_bdd4_sx2':
+                    case 'bdd_bdd4_sx3':
+                    case 'bdd_bdd5_wx1':
+                    case 'bdd_bdd5_wx2':                        
+                    case 'bdd_bdd5_wx3':
+                        if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
+                            const n = Number(this.method.splice(-1));
+                            const arr = this.plateOrderObj['不定胆'].selected;
+                            initValue = combination(arr.length, n);
                         }
                         if (initValue >= 1) {
                             this.totalBet = initValue;
