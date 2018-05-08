@@ -247,7 +247,7 @@ Vue.component('lottery-plate', {
                     case 'dxds_dxds_h2':
                     case 'dxds_dxds_q2':
                     case 'dxds_dxds_h3':
-                    case 'dxds_dxds_q3':                    
+                    case 'dxds_dxds_q3':
                         initValue = 1;
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
                             for (pos in this.plateOrderObj) {
@@ -276,7 +276,7 @@ Vue.component('lottery-plate', {
                         }
                         break;
                     case 'wx_zx_zh':
-                    case 'sx_zx_zh':                    
+                    case 'sx_zx_zh':
                         initValue = 1;
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
                             for (let pos in this.plateOrderObj) {
@@ -306,6 +306,7 @@ Vue.component('lottery-plate', {
                         }
                         break;
                     case 'sx_zux_z24':
+                    case 'rx4_zux_z24':
                         initValue = 0;
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
                             const arr = this.plateOrderObj['组24'].selected;
@@ -316,8 +317,17 @@ Vue.component('lottery-plate', {
                         } else {
                             this.totalBet = 0;
                         }
+                        if (this.normalTabFlag === 'rx') {
+                            const selectedPosArr = this.inputPosObj.filter(item => item.status);
+                            if (selectedPosArr.length >= 4) {
+                                this.totalBet = this.totalBet * combination(selectedPosArr, 4);
+                            } else {
+                                this.totalBet = 0;
+                            }
+                        }
                         break;
                     case 'sx_zux_z6':
+                    case 'rx4_zux_z6':
                         initValue = 0;
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
                             const arr = this.plateOrderObj['二重号'].selected;
@@ -328,10 +338,19 @@ Vue.component('lottery-plate', {
                         } else {
                             this.totalBet = 0;
                         }
+                        if (this.normalTabFlag === 'rx') {
+                            const selectedPosArr = this.inputPosObj.filter(item => item.status);
+                            if (selectedPosArr.length >= 4) {
+                                this.totalBet = this.totalBet * combination(selectedPosArr, 4);
+                            } else {
+                                this.totalBet = 0;
+                            }
+                        }
                         break;
                     case 'qsm_zux_z6':
                     case 'zsm_zux_z6':
                     case 'hsm_zux_z6':
+                    case 'rx3_zux_z6':
                         initValue = 0;
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
                             const arr = this.plateOrderObj['组六'].selected;
@@ -342,10 +361,19 @@ Vue.component('lottery-plate', {
                         } else {
                             this.totalBet = 0;
                         }
+                        if (this.normalTabFlag === 'rx') {
+                            const selectedPosArr = this.inputPosObj.filter(item => item.status);
+                            if (selectedPosArr.length >= 3) {
+                                this.totalBet = this.totalBet * combination(selectedPosArr, 3);
+                            } else {
+                                this.totalBet = 0;
+                            }
+                        }
                         break;
                     case 'qsm_zux_z3':
                     case 'zsm_zux_z3':
                     case 'hsm_zux_z3':
+                    case 'rx3_zux_z3':
                         initValue = 0;
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
                             const arr = this.plateOrderObj['组三'].selected;
@@ -355,6 +383,14 @@ Vue.component('lottery-plate', {
                             this.totalBet = initValue;
                         } else {
                             this.totalBet = 0;
+                        }
+                        if (this.normalTabFlag === 'rx') {
+                            const selectedPosArr = this.inputPosObj.filter(item => item.status);
+                            if (selectedPosArr.length >= 3) {
+                                this.totalBet = this.totalBet * combination(selectedPosArr, 3);
+                            } else {
+                                this.totalBet = 0;
+                            }
                         }
                         break;
                     case 'wx_zux_z60':
@@ -374,6 +410,7 @@ Vue.component('lottery-plate', {
                         }
                         break;
                     case 'sx_zux_z12':
+                    case 'rx4_zux_z12':
                         initValue = 0;
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
                             const arr1 = this.plateOrderObj['二重号'].selected;
@@ -387,6 +424,14 @@ Vue.component('lottery-plate', {
                             this.totalBet = initValue;
                         } else {
                             this.totalBet = 0;
+                        }
+                        if (this.normalTabFlag === 'rx') {
+                            const selectedPosArr = this.inputPosObj.filter(item => item.status);
+                            if (selectedPosArr.length >= 4) {
+                                this.totalBet = this.totalBet * combination(selectedPosArr, 4);
+                            } else {
+                                this.totalBet = 0;
+                            }
                         }
                         break;
                     case 'wx_zux_z30':
@@ -454,6 +499,7 @@ Vue.component('lottery-plate', {
                         }
                         break;
                     case 'sx_zux_z4':
+                    case 'rx4_zux_z4':
                         initValue = 0;
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
                             const arr1 = this.plateOrderObj['三重号'].selected;
@@ -468,13 +514,24 @@ Vue.component('lottery-plate', {
                         } else {
                             this.totalBet = 0;
                         }
+                        if (this.normalTabFlag === 'rx') {
+                            const selectedPosArr = this.inputPosObj.filter(item => item.status);
+                            if (selectedPosArr.length >= 4) {
+                                this.totalBet = this.totalBet * combination(selectedPosArr, 4);
+                            } else {
+                                this.totalBet = 0;
+                            }
+                        }
                         break;
                     case 'qsm_zux_hz':
                     case 'zsm_zux_hz':
                     case 'hsm_zux_hz':
+                    case 'rx3_zux_hz':
+                    case 'rx3_zux_hz':
+                    case 'rx3_zux_hz':
                         initValue = 0;
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
-                            const _pos = this.positionArr[0];//这几个玩法只有一个位置                                                        
+                            const _pos = this.positionArr[0]; //这几个玩法只有一个位置                                                        
                             const arr = this.plateOrderObj[_pos].selected;
                             arr.forEach(v => {
                                 initValue += choose3mZuxHzCombination([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], v);
@@ -485,13 +542,24 @@ Vue.component('lottery-plate', {
                         } else {
                             this.totalBet = 0;
                         }
+                        if (this.normalTabFlag === 'rx') {
+                            const selectedPosArr = this.inputPosObj.filter(item => item.status);
+                            if (selectedPosArr.length >= 3) {
+                                this.totalBet = this.totalBet * combination(selectedPosArr, 3);
+                            } else {
+                                this.totalBet = 0;
+                            }
+                        }
                         break;
                     case 'qem_zux_hz':
                     case 'zem_zux_hz':
                     case 'hem_zux_hz':
+                    case 'rx2_zux_hz':
+                    case 'rx2_zux_hz':
+                    case 'rx2_zux_hz':
                         initValue = 0;
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
-                            const _pos = this.positionArr[0];//这几个玩法只有一个位置                                                        
+                            const _pos = this.positionArr[0]; //这几个玩法只有一个位置                                                        
                             const arr = this.plateOrderObj[_pos].selected;
                             arr.forEach(v => {
                                 initValue += choose2mZuxHzCombination([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], v);
@@ -502,13 +570,20 @@ Vue.component('lottery-plate', {
                         } else {
                             this.totalBet = 0;
                         }
+                        if (this.normalTabFlag === 'rx') {
+                            const selectedPosArr = this.inputPosObj.filter(item => item.status);
+                            this.totalBet = this.totalBet * combination(selectedPosArr, 2);
+                        }
                         break;
                     case 'qsm_zx_hz':
                     case 'zsm_zx_hz':
                     case 'hsm_zx_hz':
+                    case 'rx3_zx_hz':
+                    case 'rx3_zx_hz':
+                    case 'rx3_zx_hz':
                         initValue = 0;
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
-                            const _pos = this.positionArr[0];//这几个玩法只有一个位置                            
+                            const _pos = this.positionArr[0]; //这几个玩法只有一个位置                            
                             const arr = this.plateOrderObj[_pos].selected;
                             arr.forEach(v => {
                                 initValue += choose3mZxHzCombination([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], v);
@@ -518,14 +593,21 @@ Vue.component('lottery-plate', {
                             this.totalBet = initValue;
                         } else {
                             this.totalBet = 0;
+                        }
+                        if (this.normalTabFlag === 'rx') {
+                            const selectedPosArr = this.inputPosObj.filter(item => item.status);
+                            this.totalBet = this.totalBet * combination(selectedPosArr, 3);
                         }
                         break;
                     case 'qem_zx_hz':
                     case 'zem_zx_hz':
                     case 'hem_zx_hz':
+                    case 'rx2_zx_hz':
+                    case 'rx2_zx_hz':
+                    case 'rx2_zx_hz':
                         initValue = 0;
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
-                            const _pos = this.positionArr[0];//这几个玩法只有一个位置                            
+                            const _pos = this.positionArr[0]; //这几个玩法只有一个位置                            
                             const arr = this.plateOrderObj[_pos].selected;
                             arr.forEach(v => {
                                 initValue += choose3mZxHzCombination([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], v);
@@ -535,6 +617,10 @@ Vue.component('lottery-plate', {
                             this.totalBet = initValue;
                         } else {
                             this.totalBet = 0;
+                        }
+                        if (this.normalTabFlag === 'rx') {
+                            const selectedPosArr = this.inputPosObj.filter(item => item.status);
+                            this.totalBet = this.totalBet * combination(selectedPosArr, 2);
                         }
                         break;
                     case 'qsm_zx_kd':
@@ -542,7 +628,7 @@ Vue.component('lottery-plate', {
                     case 'hsm_zx_kd':
                         initValue = 0;
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
-                            const _pos = this.positionArr[0];//这几个玩法只有一个位置
+                            const _pos = this.positionArr[0]; //这几个玩法只有一个位置
                             const arr = this.plateOrderObj[_pos].selected;
                             arr.forEach(v => {
                                 initValue += calc3mKd([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], v);
@@ -559,7 +645,7 @@ Vue.component('lottery-plate', {
                     case 'hem_zx_kd':
                         initValue = 0;
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
-                            const _pos = this.positionArr[0];//这几个玩法只有一个位置
+                            const _pos = this.positionArr[0]; //这几个玩法只有一个位置
                             const arr = this.plateOrderObj[_pos].selected;
                             arr.forEach(v => {
                                 initValue += calc2mKd([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], v);
@@ -576,7 +662,7 @@ Vue.component('lottery-plate', {
                     case 'hsm_zx_bd':
                         initValue = 0;
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
-                            const _pos = this.positionArr[0];//这几个玩法只有一个位置
+                            const _pos = this.positionArr[0]; //这几个玩法只有一个位置
                             const arr = this.plateOrderObj[_pos].selected;
                             arr.forEach(v => {
                                 initValue += calc3xBaodan([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], v);
@@ -593,7 +679,7 @@ Vue.component('lottery-plate', {
                     case 'hem_zx_bd':
                         initValue = 0;
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
-                            const _pos = this.positionArr[0];//这几个玩法只有一个位置
+                            const _pos = this.positionArr[0]; //这几个玩法只有一个位置
                             const arr = this.plateOrderObj[_pos].selected;
                             arr.forEach(v => {
                                 initValue += calc2xBaodan([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], v);
@@ -615,10 +701,10 @@ Vue.component('lottery-plate', {
                     case 'bdd_bdd4_sx2':
                     case 'bdd_bdd4_sx3':
                     case 'bdd_bdd5_wx1':
-                    case 'bdd_bdd5_wx2':                        
+                    case 'bdd_bdd5_wx2':
                     case 'bdd_bdd5_wx3':
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
-                            const _pos = this.positionArr[0];//这几个玩法只有一个位置
+                            const _pos = this.positionArr[0]; //这几个玩法只有一个位置
                             const n = Number(this.method.slice(-1));
                             const arr = this.plateOrderObj[_pos].selected;
                             initValue = combination(arr.length, n);
@@ -662,9 +748,9 @@ Vue.component('lottery-plate', {
                     case 'qw_ts_sxbx':
                     case 'qw_ts_sjfc':
                     case 'qw_bjl_bjl':
-                    case 'nn_nn_nn':                    
+                    case 'nn_nn_nn':
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
-                            const _pos = this.positionArr[0];//这几个玩法只有一个位置
+                            const _pos = this.positionArr[0]; //这几个玩法只有一个位置
                             const arr = this.plateOrderObj[_pos].selected;
                             initValue = arr.length;
                         }
@@ -715,6 +801,28 @@ Vue.component('lottery-plate', {
                             this.totalBet = 0;
                         }
                         break;
+                    case 'qem_zux_fs':
+                    case 'hem_zux_fs':
+                    case 'rx2_zux_fs':
+                        if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
+                            const _pos = this.positionArr[0]; //这几个玩法只有一个位置
+                            const arr = this.plateOrderObj[_pos].selected;
+                            initValue = combination(arr.length, 2);
+                        }
+                        if (initValue >= 1) {
+                            this.totalBet = initValue;
+                        } else {
+                            this.totalBet = 0;
+                        }
+                        if (this.normalTabFlag === 'rx') {
+                            const selectedPosArr = this.inputPosObj.filter(item => item.status);
+                            if (selectedPosArr.length >= 2) {
+                                this.totalBet = this.totalBet * combination(selectedPosArr, 2);
+                            } else {
+                                this.totalBet = 0;
+                            }
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -727,7 +835,17 @@ Vue.component('lottery-plate', {
                     case 'zx_ds':
                     case 'zux_ds':
                     case 'zux_hh':
-                        this.totalBet = this.dsInputNums.length;
+                        if (this.normalTabFlag === 'normal') {
+                            this.totalBet = this.dsInputNums.length;
+                        } else if (this.normalTabFlag === 'rx') {
+                            const selectedPosArr = this.inputPosObj.filter(item => item.status);
+                            const size = this.method.match(/rx(\d)_/)[1];
+                            if (selectedPosArr.length >= size) {
+                                this.totalBet = this.dsInputNums.length * combination(selectedPosArr.length, size);
+                            } else {
+                                this.totalBet = 0;
+                            }
+                        }
                         break;
                     default:
                         break;
