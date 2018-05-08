@@ -762,14 +762,14 @@ Vue.component('lottery-plate', {
                         break;
                     case 'rx2_zx_fs':
                         initValue = 0;
-                        const _arr = []; //记录每个位置选中号码个数的合集
+                        const _arrRx2 = []; //记录每个位置选中号码个数的合集
                         this.positionArr.forEach(_pos => {
                             this.plateOrderObj[_pos].selected = this.plateOrderObj[_pos].selected || [];
-                            _arr.push(this.plateOrderObj[_pos].selected.length);
+                            _arrRx2.push(this.plateOrderObj[_pos].selected.length);
                         });
                         //任选2即 选出两个位置 两两相乘
-                        const copyArr = _arr.slice();
-                        _arr.forEach(() => {
+                        const copyArr = _arrRx2.slice();
+                        _arrRx2.forEach(() => {
                             const firstItem = copyArr.shift();
                             copyArr.forEach(v => {
                                 initValue += firstItem * v;
@@ -784,14 +784,14 @@ Vue.component('lottery-plate', {
                     case 'rx3_zx_fs':
                     case 'rx4_zx_fs':
                         initValue = 0;
-                        const _arr = []; //记录每个位置选中号码个数的合集
+                        const _arrRx = []; //记录每个位置选中号码个数的合集
                         this.positionArr.forEach(_pos => {
                             this.plateOrderObj[_pos].selected = this.plateOrderObj[_pos].selected || [];
-                            _arr.push(this.plateOrderObj[_pos].selected.length);
+                            _arrRx.push(this.plateOrderObj[_pos].selected.length);
                         });
                         const size = this.method.match(/rx(\d)_/)[1];
                         //求数组组合的所有组合方式[1,2,3]->[1,2],[1,3],[2,3]
-                        const chooseArr = choose(_arr, size);
+                        const chooseArr = choose(_arrRx, size);
                         chooseArr.forEach(itemArr => {
                             initValue += itemArr.reduce((a, b) => a * b);
                         });
