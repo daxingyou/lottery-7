@@ -609,6 +609,7 @@ Vue.component('lottery-plate', {
             handler(newVal, oldVal) {
                 switch (this.currentSubTab) {
                     case 'zx_ds':
+                    case 'zux_hh':
                         this.totalBet = this.dsInputNums.length;
                         break;
                     default:
