@@ -74,7 +74,7 @@ Vue.component('lottery-plate', {
                     </div>
                 </div>
                 <div class="clearfix plate-numbet-bottom-bottom">
-                    <span :class="{disabled: addNumberDisabled}" class="fr add-number">添加选号</span>
+                    <span :class="{disabled: addNumberDisabled}" class="fr add-number" @click="addOrder">添加选号</span>
                     <span :class="{disabled: quickBetDisabled}" class="fr quick-bet">快速投注</span>
                     <span class="fr totals-wrap">
                         <span class="total-bet-wrap">已选<i class="total-bet margin-0-2">{{totalBet}}</i>注，</span><span class="total-times-wrap">共<i class="total-times margin-0-2">{{totalTimes}}</i>倍，</span><span class="total-money-wrap">共计<i class="total-money margin-0-2">{{totalMoney}}</i>元</span>
@@ -1130,6 +1130,32 @@ Vue.component('lottery-plate', {
             }
             this.$set(this.plateOrderObj, `valueChange-${plateNumObj.position}`, Math.random()); //触发监听，vue不能监听增加删除属性，用这个方法才能触发            
             this.$forceUpdate();
+        },
+        addOrder() {//添加选号
+            let betContent;
+            if (this.plateType === 'number') {//非单式
+                betContent = this.positionArr.map(pos=>{
+                    plateOrderObj[pos] = plateOrderObj[pos] || {};
+                    return this.plateOrderObj[pos].selected.toString() || '';
+                }).join('|');
+            } else if (this.plateType === 'input') {//单式
+                betContent = this.dsInputNums.join('|');
+            }
+            this.$store.commit('addOrderItem', {
+                methodCn: this.methodCnName,
+                betContent,
+                model: this.modelValue,
+                times: this.totalTimes,
+                betNums: this.totalBet,
+                betAmount: this.totalMoney
+            });
+            this.resetPlate();
+        },
+        resetPlate() {
+            this.plateOrderObj = {};
+            this.dsInputNums = [];
+            this.numberTimes = 1;//totalTimes
+            this.modelValue = 2;
         }
     }
 });

@@ -2,6 +2,7 @@
     "typeAcquisition": {
         "include": [
             "vue",
+            "vuex",            
             "axios"
         ]
     },
