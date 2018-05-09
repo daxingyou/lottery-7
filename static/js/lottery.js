@@ -10,14 +10,14 @@ const vueLottery = new Vue({
         countTime: 0,
         nextApp: [],
         issueCount: 0,
-        orderArr: [{
-            methodCn: '五星直选复式',
-            betContent: '12345',
-            model: 2,
-            times: 1,
-            betNums: 2,
-            betAmount: 4
-        }],
+        // orderArr: [{
+        //     methodCn: '五星直选复式',
+        //     betContent: '12345',
+        //     model: 2,
+        //     times: 1,
+        //     betNums: 2,
+        //     betAmount: 4
+        // }],
         modelArr: [
             {
                 text: '2元',
@@ -60,6 +60,9 @@ const vueLottery = new Vue({
         },
         lotteryCode() {
             return window.location.hash.slice(1).split('-')[1] || 'CQSSC';
+        },
+        orderArr() {
+            return store.state.orderArr;
         }
     },
     watch: {

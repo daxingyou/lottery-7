@@ -1135,13 +1135,13 @@ Vue.component('lottery-plate', {
             let betContent;
             if (this.plateType === 'number') {//非单式
                 betContent = this.positionArr.map(pos=>{
-                    plateOrderObj[pos] = plateOrderObj[pos] || {};
+                    this.plateOrderObj[pos] = this.plateOrderObj[pos] || {};
                     return this.plateOrderObj[pos].selected.toString() || '';
                 }).join('|');
             } else if (this.plateType === 'input') {//单式
                 betContent = this.dsInputNums.join('|');
             }
-            this.$store.commit('addOrderItem', {
+            store.commit('addOrderItem', {
                 methodCn: this.methodCnName,
                 betContent,
                 model: this.modelValue,
