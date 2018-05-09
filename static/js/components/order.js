@@ -11,14 +11,14 @@ Vue.component('lottery-order', {
                     <span class="fl ellipsis order-bet-amount">投注金额</span>
                     <span class="fl ellipsis order-delete">清空</span>
                 </li>
-                <li class="clearfix lottery-order-item text-left" v-for="item in orderArr">
+                <li class="clearfix lottery-order-item text-left" v-for="(item, index) in orderArr">
                     <span class="fl ellipsis order-method-cn">{{item.methodCn}}</span>
-                    <span class="fl ellipsis order-bet-content">{{item.betContent}}</span>
-                    <span class="fl ellipsis order-model"><select-model :model-value="item.model" :model-arr="modelArr"></select-model></span>
-                    <span class="fl ellipsis order-times"><number-minus-plus :default-times="item.times" @receive-times="receiveTimes(item)"></number-minus-plus></span>
+                    <span class="fl ellipsis order-bet-content" :title="item.betContent">{{item.betContent}}</span>
+                    <span class="fl ellipsis order-model"><select-model :index="index" :model-value="item.model" :model-arr="modelArr" @receive-model="receiveModel"></select-model></span>
+                    <span class="fl ellipsis order-times"><number-minus-plus :index="index" :default-times="item.times" @receive-times="receiveTimes"></number-minus-plus></span>
                     <span class="fl ellipsis order-bet-nums">{{item.betNums}}</span>
-                    <span class="fl ellipsis order-bet-amount">{{item.betAmount}}</span>
-                    <span class="fl ellipsis order-delete"><i class="order-delete-icon">x</i></span>
+                    <span class="fl ellipsis order-bet-amount">{{calcBetMoney(item.model, item.times, item.betNums)}}</span>
+                    <span class="fl ellipsis order-delete"><i class="order-delete-icon" @click="deleteOrderItem(index)">x</i></span>
                 </li>
             </ul>
         </div>
@@ -41,8 +41,18 @@ Vue.component('lottery-order', {
     },
     watch: {},
     methods: {
-        receiveTimes(item, msg) {
-            // console.log(msg,item);
+        receiveTimes(msg, index) {
+            this.orderArr[index].times = msg;
+        },
+        receiveModel(msg, index) {
+            this.orderArr[index].model = msg;
+        },
+        calcBetMoney(model, times, betNums) {
+            const fixedFlag = String(model).split('.')[1] ? String(model).split('.')[1].length : 0;
+            return (model * times * betNums).toFixed(fixedFlag);
+        },
+        deleteOrderItem(index) {
+            this.orderArr.splice(index, 1);
         }
     }
 });

@@ -12,7 +12,7 @@ Vue.component('number-minus-plus', {
             times: 1
         };
     },
-    props: ['default-times'],
+    props: ['default-times', 'index'],
     created() {
         this.times = this.defaultTimes || 2;
     },
@@ -20,20 +20,20 @@ Vue.component('number-minus-plus', {
         plus() {
             this.times = Number(this.times);
             this.times += 1;
-            this.$emit('receive-times', this.times);
+            this.$emit('receive-times', this.times, this.index);
         },
         minus() {
             this.times = Number(this.times);
             if (this.times === 1) return;
             this.times -= 1;
-            this.$emit('receive-times', this.times);
+            this.$emit('receive-times', this.times, this.index);
         },
         modify() {
             this.times = Number(this.times);
-            this.$emit('receive-times', this.times);
+            this.$emit('receive-times', this.times, this.index);
         }
     },
     mounted() {
-        this.$emit('receive-times', this.times);
+        this.$emit('receive-times', this.times, this.index);
     }
 });
