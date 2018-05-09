@@ -161,6 +161,7 @@ Vue.component('lottery-plate', {
             return `${firstMiddleCode}_${firstLastCode}`;
         },
         method() {
+            store.commit('getMethod', `${this.currentTab}_${this.currentSubTab}`);
             return `${this.currentTab}_${this.currentSubTab}`;
         },
         methodArr() {

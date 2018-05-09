@@ -4,20 +4,12 @@ const vueLottery = new Vue({
     data: {
         theme: 'blue',
         lotteryConfig: {},
+        trendData: [],
         openIssue: '2013-999',
-        openCode: '1,3,5,4,5',
         currentIssue: '',
         countTime: 0,
         nextApp: [],
         issueCount: 0,
-        // orderArr: [{
-        //     methodCn: '五星直选复式',
-        //     betContent: '12345',
-        //     model: 2,
-        //     times: 1,
-        //     betNums: 2,
-        //     betAmount: 4
-        // }],
         modelArr: [
             {
                 text: '2元',
@@ -63,6 +55,12 @@ const vueLottery = new Vue({
         },
         orderArr() {
             return store.state.orderArr;
+        },
+        openCode() {
+            return this.trendData[0].code;
+        },
+        openIssue() {
+            return this.trendData[0].issueNo; 
         }
     },
     watch: {
@@ -83,6 +81,11 @@ const vueLottery = new Vue({
         ajaxLotteryConfig() {
             this.$http.get(`/json/${this.lotteryCode.toLowerCase()}.json`).then((res) => {
                 this.lotteryConfig = res.data;
+            });
+        },
+        ajaxTrendData() {
+            this.$http.get(`/json/${this.lotteryCode.toLowerCase()}-trend.json`).then((res) => {
+                this.trendData = res.data.result.issue;
             });
         }
     }
