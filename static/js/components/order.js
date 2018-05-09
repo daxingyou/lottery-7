@@ -25,7 +25,7 @@ Vue.component('lottery-order', {
                 <span class="fr icon-trace" :class="{on: traceFlag}" @click="toggleTraceFlag"></span>
                 <span class="fr trace-text">我要追号</span>
                 <span class="fr right-now-bet" :class="{disabled: betDisabled}">立即投注</span>
-                <span class="fr total-order-money-wrap">总注数<i class="total-order-bet margin-0-2">6</i>注，总金额<i class="total-order-money margin-0-2">6</i>元</span>
+                <span class="fr total-order-money-wrap">总注数<i class="total-order-bet margin-0-2">{{totalOrderBet}}</i>注，总金额<i class="total-order-money margin-0-2">{{totalOrderMoney}}</i>元</span>
             </div>
         </div>
     `,
@@ -44,6 +44,22 @@ Vue.component('lottery-order', {
     computed: {
         betDisabled() {
             return !this.orderArr.length > 0;
+        },
+        totalOrderBet() {
+            if (this.betDisabled) {
+                return 0;
+            }
+            return this.orderArr.reduce((a, b) => {
+                return a + b.betNums;
+            }, 0);
+        },
+        totalOrderMoney() {
+            if (this.betDisabled) {
+                return 0;
+            }
+            return this.orderArr.reduce((a, b) => {
+                return a + b.model * b.times * b.betNums;
+            }, 0);
         }
     },
     watch: {},
@@ -66,6 +82,7 @@ Vue.component('lottery-order', {
                 return;
             }
             this.traceFlag = !this.traceFlag;
-        }
+        },
+
     }
 });
