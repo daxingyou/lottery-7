@@ -21,23 +21,30 @@ Vue.component('lottery-order', {
                     <span class="fl ellipsis order-delete"><i class="order-delete-icon" @click="deleteOrderItem(index)">x</i></span>
                 </li>
             </ul>
+            <div class="lottery-order-bottom clearfix">
+                <span class="fr icon-trace" :class="{on: traceFlag}" @click="toggleTraceFlag"></span>
+                <span class="fr trace-text">我要追号</span>
+                <span class="fr right-now-bet" :class="{disabled: betDisabled}">立即投注</span>
+                <span class="fr total-order-money-wrap">总注数<i class="total-order-bet margin-0-2">6</i>注，总金额<i class="total-order-money margin-0-2">6</i>元</span>
+            </div>
         </div>
     `,
     props: ['order-arr', 'model-arr'],
     data() {
         return {
-            
+            traceFlag: false
         };
     },
     beforeCreate() {},
     created() {
-        
+
     },
     beforeMount() {},
-    mounted() {
-    },
+    mounted() {},
     computed: {
-        
+        betDisabled() {
+            return !this.orderArr.length > 0;
+        }
     },
     watch: {},
     methods: {
@@ -53,6 +60,12 @@ Vue.component('lottery-order', {
         },
         deleteOrderItem(index) {
             this.orderArr.splice(index, 1);
+        },
+        toggleTraceFlag() {
+            if (this.betDisabled) {
+                return;
+            }
+            this.traceFlag = !this.traceFlag;
         }
     }
 });
