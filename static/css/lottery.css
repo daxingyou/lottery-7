@@ -963,3 +963,106 @@ body[theme="blue"] .lottery-order-item-head .order-delete {
     background: #FFFFFF;
     border-top: 1px solid #E0E6ED; 
 }
+
+.lottery-trend-wrap {
+    width: 290px;
+    border-left: 1px solid #E0E6ED; 
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.lottery-trend-head,
+.lottery-trend-body {
+    width: 307px;/* 290 + 17, 17是滚动条宽度 */
+}
+
+.lottery-trend-head {
+    border-bottom: 1px solid #E0E6ED; 
+    font-size: 0;
+    display: table;
+}
+
+.lottery-trend-body {
+    overflow-x: hidden;
+    overflow-y: auto;    
+}
+
+.lottery-trend-item {
+    position: relative;
+    height: 34px;
+    line-height: 34px;
+    font-size: 0;
+    display: table;
+}
+
+.lottery-trend-item::after {
+    position: absolute;
+    content: '';
+    width: 280px;
+    height: 1px;
+    background: #E0E6ED;
+    left: 5px;
+    bottom: 0;
+}
+
+.lottery-trend-title {
+    font-family: PingFangSC-Semibold;
+    font-size: 14px;
+    color: #475669;
+    letter-spacing: 0;
+    margin-right: 16px;
+}
+
+.lottery-trend-link {
+    font-family: PingFangSC-Regular;
+    font-size: 12px;
+    letter-spacing: 0;
+    margin-right: 16px;    
+}
+
+body[theme="blue"] .lottery-trend-link {
+    color: #1FA1DD;
+}
+
+.lottery-trend-icon {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+    width: 12px;
+    height: 12px;
+}
+
+body[theme="blue"] .lottery-trend-icon {
+    background: url(../images/icon-trend-blue.png) center center no-repeat cover;
+}
+
+.lottery-trend-top {
+    height: 36px;
+    line-height: 36px;
+}
+
+.lottery-trend-head {
+    height: 28px;
+    line-height: 28px;
+}
+
+.trend-head-col {
+    font-family: PingFangSC-Regular;
+    font-size: 12px;
+    color: #99A9BF;
+    letter-spacing: 0;
+    text-align: center;
+    display: table-cell;    
+}
+
+.trend-col {
+    text-align: center;
+    display: table-cell;
+}
+
+.trend-col-1 {
+    font-family: PingFangSC-Regular;
+    font-size: 12px;
+    color: #656565;
+    letter-spacing: 0;
+}

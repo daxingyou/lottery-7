@@ -1,6 +1,6 @@
 Vue.component('lottery-plate', {
     template: `
-        <div class="lottery-plate-wrap">
+        <div class="fl lottery-plate-wrap">
             <div class="plate-tab clearfix" v-if="normalTabFlag === 'normal'">
                 <span class="plate-tab-item fl" :key="key" :class="{on: currentTab === key}" v-for="(value,key,index) in lotteryConfig['ltNormalTab']" :tab="key" @click="switchTab(key)">
                     {{value}}

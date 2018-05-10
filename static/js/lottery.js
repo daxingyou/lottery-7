@@ -41,6 +41,7 @@ const vueLottery = new Vue({
     created() {
         this.ajaxIssue();
         this.ajaxLotteryConfig();
+        this.ajaxTrendData();
     },
     beforeMount() {
         document.body.setAttribute('theme', this.theme);
@@ -57,10 +58,10 @@ const vueLottery = new Vue({
             return store.state.orderArr;
         },
         openCode() {
-            return this.trendData[0].code;
+            return this.trendData[0] && this.trendData[0].code;
         },
         openIssue() {
-            return this.trendData[0].issueNo; 
+            return this.trendData[0] && this.trendData[0].issueNo; 
         }
     },
     watch: {

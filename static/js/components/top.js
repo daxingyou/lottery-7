@@ -64,7 +64,7 @@ Vue.component('lottery-top', {
             return seconds;
         },
         openCodeArr() {
-            return this['openCode'].split(',');
+            return this['openCode'] ? this['openCode'].split(',') : [];
         }
     },
     watch: {},

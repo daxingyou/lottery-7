@@ -1,19 +1,23 @@
 Vue.component('lottery-trend', {
     template: `
-        <div class="lottery-trend-wrap">
-            <div class="lottery-trend-top">
-                <span class="lottery-trend-title">近30期开奖结果</span>
-                <span class="lottery-trend-link"><i class="lottery-trend-icon"></i>完整走势图</span>
+        <div class="fr lottery-trend-wrap">
+            <div class="clearfix lottery-trend-top">
+                <span class="fl lottery-trend-title">近30期开奖结果</span>
+                <span class="fr lottery-trend-link">
+                    <i class="lottery-trend-icon"></i>完整走势图
+                </span>
             </div>
             <div class="lottery-trend-head">
-                <span class="trend-col-1">期号</span>
-                <span class="trend-col-2">开奖号码</span>
-                <span class="trend-col-3" v-if="trendXtTitle" v-html="trendXtTitle"></span>
+                <span class="trend-head-col trend-col-1">期号</span>
+                <span class="trend-head-col trend-col-2">开奖号码</span>
+                <span class="trend-head-col trend-col-3" v-if="trendXtTitle" v-html="trendXtTitle"></span>
             </div>
-            <div class="lottery-trend-body" v-for="(item, index) in data">
-                <span class="trend-col-1">{{item.issueNo}}</span>
-                <span class="trend-col-2" v-html="renderCode(item.code)"></span>
-                <span class="trend-col-3" v-html="renderXt(item.code)"></span>
+            <div class="lottery-trend-body">
+                <div class="lottery-trend-item" v-for="(item, index) in trendData">
+                    <span class="trend-col trend-col-1">{{item.issueNo}}</span>
+                    <span class="trend-col trend-col-2" v-html="renderCode(item.code)"></span>
+                    <span class="trend-col trend-col-3" v-if="trendXtTitle" v-html="renderXt(item.code)"></span>
+                </div>
             </div>
         </div>
     `,
@@ -133,10 +137,11 @@ Vue.component('lottery-trend', {
         },
         trendXtTitle() {
             return this.trendXtTitleConfig[this.method];
-        }
+        },
     },
     watch: {},
     methods: {
-        
+        renderCode() {},
+        renderXt() {}
     }
 });
