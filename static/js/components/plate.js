@@ -1,6 +1,6 @@
 Vue.component('lottery-plate', {
     template: `
-        <div class="fl lottery-plate-wrap">
+        <div class="fl lottery-plate-wrap" ref="lotteryPlateWrap">
             <div class="plate-tab clearfix" v-if="normalTabFlag === 'normal'">
                 <span class="plate-tab-item fl" :key="key" :class="{on: currentTab === key}" v-for="(value,key,index) in lotteryConfig['ltNormalTab']" :tab="key" @click="switchTab(key)">
                     {{value}}
@@ -856,6 +856,10 @@ Vue.component('lottery-plate', {
         }
     },
     methods: {
+        getLotteryPlateWrapHeight() {
+            const lotteryPlateWrap = this.$refs.lotteryPlateWrap;
+            store.commit('getPlateHeight', lotteryPlateWrap.offsetHeight + 'px');
+        },
         receiveTimes(msg) { //倍数
             this.numberTimes = msg;
             console.log(msg)
@@ -893,6 +897,9 @@ Vue.component('lottery-plate', {
             this.currentSubTab = subTab;
             this.dsInputNums = [];
             this.plateOrderObj = {};
+            this.$nextTick(() => {
+                this.getLotteryPlateWrapHeight();
+            });
         },
         toggleInputPosStatus(index) {
             this.inputPosObj[index].status = !this.inputPosObj[index].status;

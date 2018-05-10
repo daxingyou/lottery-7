@@ -1,22 +1,22 @@
 Vue.component('lottery-trend', {
     template: `
         <div class="fr lottery-trend-wrap">
-            <div class="clearfix lottery-trend-top">
+            <div class="clearfix lottery-trend-top" ref="lotteryTrendTop">
                 <span class="fl lottery-trend-title">近30期开奖结果</span>
                 <span class="fr lottery-trend-link">
                     <i class="lottery-trend-icon"></i>完整走势图
                 </span>
             </div>
-            <div class="lottery-trend-head">
-                <span class="trend-head-col trend-col-1">期号</span>
-                <span class="trend-head-col trend-col-2">开奖号码</span>
-                <span class="trend-head-col trend-col-3" v-if="trendXtTitle" v-html="trendXtTitle"></span>
+            <div class="lottery-trend-head" ref="lotteryTrendHead">
+                <span :style="{width: trendColWidth}" class="trend-head-col trend-col-1">期号</span>
+                <span :style="{width: trendColWidth}" class="trend-head-col trend-col-2">开奖号码</span>
+                <span :style="{width: trendColWidth}" class="trend-head-col trend-col-3" v-if="trendXtTitle" v-html="trendXtTitle"></span>
             </div>
-            <div class="lottery-trend-body">
+            <div :style="{height: lotteryTrendBodyHeight}" class="lottery-trend-body">
                 <div class="lottery-trend-item" v-for="(item, index) in trendData">
-                    <span class="trend-col trend-col-1">{{item.issueNo}}</span>
-                    <span class="trend-col trend-col-2" v-html="renderCode(item.code)"></span>
-                    <span class="trend-col trend-col-3" v-if="trendXtTitle" v-html="renderXt(item.code)"></span>
+                    <span :style="{width: trendColWidth}" class="trend-col trend-col-1">{{item.issueNo}}</span>
+                    <span :style="{width: trendColWidth}" class="trend-col trend-col-2" v-html="renderCode(item.code)"></span>
+                    <span :style="{width: trendColWidth}" class="trend-col trend-col-3" v-if="trendXtTitle" v-html="renderXt(item.code)"></span>
                 </div>
             </div>
         </div>
@@ -33,14 +33,14 @@ Vue.component('lottery-trend', {
                 'wx_zux_z30': '五星组态',
                 'wx_zux_z20': '五星组态',
                 'wx_zux_z10': '五星组态',
-                'wx_zux_z5': '五星组态',  
+                'wx_zux_z5': '五星组态',
                 'sx_zx_fs': '四星组态',
                 'sx_zx_ds': '四星组态',
-                'sx_zx_zh': '四星组态',       
+                'sx_zx_zh': '四星组态',
                 'sx_zux_z24': '四星组态',
                 'sx_zux_z12': '四星组态',
                 'sx_zux_z6': '四星组态',
-                'sx_zux_z4': '四星组态',       
+                'sx_zux_z4': '四星组态',
                 'qsm_zx_fs': '前三组态',
                 'qsm_zx_ds': '前三组态',
                 'qsm_zx_hz': '直选和值',
@@ -48,7 +48,7 @@ Vue.component('lottery-trend', {
                 'qsm_zux_z3': '前三组态',
                 'qsm_zux_z6': '前三组态',
                 'qsm_zux_hh': '前三组态',
-                'qsm_zux_bd': '前三组态',                
+                'qsm_zux_bd': '前三组态',
                 'qsm_zux_hz': '组选和值',
                 'zsm_zx_fs': '中三组态',
                 'zsm_zx_ds': '中三组态',
@@ -57,7 +57,7 @@ Vue.component('lottery-trend', {
                 'zsm_zux_z3': '中三组态',
                 'zsm_zux_z6': '中三组态',
                 'zsm_zux_hh': '中三组态',
-                'zsm_zux_bd': '中三组态',                
+                'zsm_zux_bd': '中三组态',
                 'zsm_zux_hz': '组选和值',
                 'hsm_zx_fs': '后三组态',
                 'hsm_zx_ds': '后三组态',
@@ -66,7 +66,7 @@ Vue.component('lottery-trend', {
                 'hsm_zux_z3': '后三组态',
                 'hsm_zux_z6': '后三组态',
                 'hsm_zux_hh': '后三组态',
-                'hsm_zux_bd': '后三组态',                
+                'hsm_zux_bd': '后三组态',
                 'hsm_zux_hz': '组选和值',
                 'qem_zx_fs': '直选和值',
                 'qem_zx_ds': '直选和值',
@@ -122,7 +122,9 @@ Vue.component('lottery-trend', {
                 'qw_ts_yffs': '五星形态',
                 'qw_bjl_bjl': '百家乐',
                 'nn_nn_nn': '<i style="width:33.33%;">牛牛</i><i style="width:33.33%;">大小</i><i style="width:33.33%;">单双</i>',
-            }
+            },
+            lotteryTrendTopHeight: 0,
+            lotteryTrendHeadHeight: 0
         };
     },
     beforeCreate() {},
@@ -130,18 +132,37 @@ Vue.component('lottery-trend', {
 
     },
     beforeMount() {},
-    mounted() {},
+    mounted() {
+        this.lotteryTrendTopHeight = this.$refs.lotteryTrendTop.offsetHeight;
+        this.lotteryTrendHeadHeight = this.$refs.lotteryTrendHead.offsetHeight;
+    },
     computed: {
+        lotteryTrendBodyHeight() {
+            return (this.plateHeight - this.lotteryTrendTopHeight - this.lotteryTrendHeadHeight + 2) + 'px';
+        },
+        plateHeight() {
+            return parseFloat(store.state.plateHeight);
+        },
         method() {
             return store.state.method;
         },
         trendXtTitle() {
             return this.trendXtTitleConfig[this.method];
         },
+        trendColWidth() {
+            if (this.trendXtTitle) {
+                return '33.33%';
+            }
+            return '50%';
+        }
     },
     watch: {},
     methods: {
-        renderCode() {},
-        renderXt() {}
+        renderCode(code) {
+            return code.split(',').join(' ');
+        },
+        renderXt() {
+            return '组20';
+        }
     }
 });

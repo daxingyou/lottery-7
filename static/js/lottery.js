@@ -62,6 +62,9 @@ const vueLottery = new Vue({
         },
         openIssue() {
             return this.trendData[0] && this.trendData[0].issueNo; 
+        },
+        plateHeight() {
+            return store.state.plateHeight;
         }
     },
     watch: {

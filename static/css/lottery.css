@@ -13,7 +13,7 @@ body[theme=blue] {
 }
 
 .lottery-top-wrap {
-    width: 1200px;
+    width: 1000px;
     height: 80px;
     font-size: 0;
 }
@@ -29,15 +29,18 @@ body[theme=blue] {
 .lottery-top-center {
     height: 80px;
     line-height: 80px;
-    width: 400px;
     box-sizing: border-box;
     font-size: 0;
+}
+
+.ds-input-box {
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .lottery-top-right {
     height: 80px;
     line-height: 80px;
-    width: 560px;
     box-sizing: border-box;
     font-size: 0;
 }
@@ -965,6 +968,7 @@ body[theme="blue"] .lottery-order-item-head .order-delete {
 }
 
 .lottery-trend-wrap {
+    background: #fff;
     width: 290px;
     border-left: 1px solid #E0E6ED; 
     overflow: hidden;
@@ -982,9 +986,17 @@ body[theme="blue"] .lottery-order-item-head .order-delete {
     display: table;
 }
 
+.plate-number-list {
+    padding-bottom: 10px;
+}
+
 .lottery-trend-body {
     overflow-x: hidden;
     overflow-y: auto;    
+}
+
+.plate-trend-wrap {
+    overflow: hidden;
 }
 
 .lottery-trend-item {
@@ -993,6 +1005,7 @@ body[theme="blue"] .lottery-order-item-head .order-delete {
     line-height: 34px;
     font-size: 0;
     display: table;
+    width: 307px;
 }
 
 .lottery-trend-item::after {
@@ -1008,16 +1021,18 @@ body[theme="blue"] .lottery-order-item-head .order-delete {
 .lottery-trend-title {
     font-family: PingFangSC-Semibold;
     font-size: 14px;
+    font-weight: bold;
     color: #475669;
     letter-spacing: 0;
-    margin-right: 16px;
+    margin-left: 16px;
 }
 
 .lottery-trend-link {
     font-family: PingFangSC-Regular;
     font-size: 12px;
     letter-spacing: 0;
-    margin-right: 16px;    
+    margin-right: 16px;  
+    cursor: pointer;  
 }
 
 body[theme="blue"] .lottery-trend-link {
@@ -1027,13 +1042,14 @@ body[theme="blue"] .lottery-trend-link {
 .lottery-trend-icon {
     display: inline-block;
     vertical-align: middle;
-    margin-right: 10px;
+    margin-right: 6px;
     width: 12px;
     height: 12px;
 }
 
 body[theme="blue"] .lottery-trend-icon {
-    background: url(../images/icon-trend-blue.png) center center no-repeat cover;
+    background: url(../images/icon-trend-blue.png) center center no-repeat;
+    background-size: cover;
 }
 
 .lottery-trend-top {
@@ -1058,6 +1074,7 @@ body[theme="blue"] .lottery-trend-icon {
 .trend-col {
     text-align: center;
     display: table-cell;
+    font-size: 12px;
 }
 
 .trend-col-1 {

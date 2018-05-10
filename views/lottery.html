@@ -12,7 +12,7 @@
 <body>
     <div id="vue-lottery" :theme="theme">
         <lottery-top :lottery-config="lotteryConfig" :lottery-code="lotteryCode" :current-issue="currentIssue" :count-time="countTime" :open-issue="openIssue" :open-code="openCode" :lottery-type="lotteryType"></lottery-top>
-        <div class="clearfix plate-trend-wrap">
+        <div :style="{height: plateHeight}" class="clearfix plate-trend-wrap">
             <lottery-plate v-if="!isEmptyObject(lotteryConfig)" :lottery-config="lotteryConfig" :lottery-type="lotteryType" :lottery-code="lotteryCode" :model-arr="modelArr"></lottery-plate>
             <lottery-trend :trend-data="trendData"></lottery-trend>
         </div>
