@@ -992,7 +992,8 @@ body[theme="blue"] .lottery-order-item-head .order-delete {
 
 .lottery-trend-body {
     overflow-x: hidden;
-    overflow-y: auto;    
+    overflow-y: auto; 
+    height: calc(100% - 63px);  /* 63是头部标题的高度 */ 
 }
 
 .plate-trend-wrap {

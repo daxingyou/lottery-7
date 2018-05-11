@@ -1,6 +1,6 @@
 Vue.component('lottery-trend', {
     template: `
-        <div class="fr lottery-trend-wrap">
+        <div :style="{height: plateHeight}" class="fr lottery-trend-wrap">
             <div class="clearfix lottery-trend-top" ref="lotteryTrendTop">
                 <span class="fl lottery-trend-title">近30期开奖结果</span>
                 <span class="fr lottery-trend-link">
@@ -12,7 +12,7 @@ Vue.component('lottery-trend', {
                 <span :style="{width: trendColWidth}" class="trend-head-col trend-col-2">开奖号码</span>
                 <span :style="{width: trendColWidth}" class="trend-head-col trend-col-3" v-if="trendXtTitle" v-html="trendXtTitle"></span>
             </div>
-            <div :style="{height: lotteryTrendBodyHeight}" class="lottery-trend-body">
+            <div class="lottery-trend-body">
                 <div class="lottery-trend-item" v-for="(item, index) in trendData">
                     <span :style="{width: trendColWidth}" class="trend-col trend-col-1">{{item.issueNo}}</span>
                     <span :style="{width: trendColWidth}" class="trend-col trend-col-2" v-html="renderCode(item.code)"></span>
@@ -123,8 +123,6 @@ Vue.component('lottery-trend', {
                 'qw_bjl_bjl': '百家乐',
                 'nn_nn_nn': '<i style="width:33.33%;">牛牛</i><i style="width:33.33%;">大小</i><i style="width:33.33%;">单双</i>',
             },
-            lotteryTrendTopHeight: 0,
-            lotteryTrendHeadHeight: 0
         };
     },
     beforeCreate() {},
@@ -133,15 +131,11 @@ Vue.component('lottery-trend', {
     },
     beforeMount() {},
     mounted() {
-        this.lotteryTrendTopHeight = this.$refs.lotteryTrendTop.offsetHeight;
-        this.lotteryTrendHeadHeight = this.$refs.lotteryTrendHead.offsetHeight;
+        
     },
     computed: {
-        lotteryTrendBodyHeight() {
-            return (this.plateHeight - this.lotteryTrendTopHeight - this.lotteryTrendHeadHeight + 2) + 'px';
-        },
         plateHeight() {
-            return parseFloat(store.state.plateHeight);
+            return store.state.plateHeight;
         },
         method() {
             return store.state.method;
