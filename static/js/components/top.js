@@ -27,7 +27,7 @@ Vue.component('lottery-top', {
             </div>
         </div>
     `,
-    props: ['lottery-config', 'lottery-type', 'lottery-code', 'current-issue', 'count-time', 'open-issue', 'open-code'],
+    props: ['lottery-config', 'lottery-type', 'lottery-code', 'open-issue', 'open-code'],
     data() {
         return {
             openCodeClassObject: {
@@ -39,13 +39,19 @@ Vue.component('lottery-top', {
                 'open-code-kl12': this.lotteryType === 'kl12',
                 'open-code-ky481': this.lotteryType === 'ky481',
                 'open-code-lhc': this.lotteryType === 'lhc',
-            }
+            },
+            currentIssue: '',
+            countTime: '',
         };
     },
     beforeCreate() {},
-    created() {},
+    created() {
+        this.ajaxIssue();
+    },
     beforeMount() {},
-    mounted() {},
+    mounted() {
+        this.countDown();
+    },
     computed: {
         hours() {
             let hours = Math.floor(this['countTime'] / 60 / 60);
@@ -69,6 +75,24 @@ Vue.component('lottery-top', {
     },
     watch: {},
     methods: {
-
+        ajaxIssue() {
+            this.$http.get('/json/issue.json').then((res) => {
+                const result = res.data.result;
+                this.currentIssue = result.issue;
+                this.countTime = result.second;
+            });
+        },
+        countDown() {
+            const timeout = setTimeout(()=>{
+                if (this['countTime'] <= 0) {
+                    clearInterval(timeout);
+                    this.ajaxIssue();
+                    this.countDown();                    
+                    return;
+                }
+                this['countTime']--;
+                this.countDown();
+            },1000);
+        }
     }
 });

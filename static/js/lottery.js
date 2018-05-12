@@ -8,8 +8,6 @@ const vueLottery = new Vue({
         openIssue: '2013-999',
         currentIssue: '',
         countTime: 0,
-        nextApp: [],
-        issueCount: 0,
         modelArr: [
             {
                 text: '2元',
@@ -39,7 +37,6 @@ const vueLottery = new Vue({
     },
     beforeCreate() {},
     created() {
-        this.ajaxIssue();
         this.ajaxLotteryConfig();
         this.ajaxTrendData();
     },
@@ -73,15 +70,6 @@ const vueLottery = new Vue({
         }
     },
     methods: {
-        ajaxIssue() {
-            this.$http.get('/json/issue.json').then((res) => {
-                const result = res.data.result;
-                this.currentIssue = result.issue;
-                this.countTime = result.second;
-                this.nextApp = result.nextApp;
-                this.issueCount = result.issueCount;
-            });
-        },
         ajaxLotteryConfig() {
             this.$http.get(`/json/${this.lotteryCode.toLowerCase()}.json`).then((res) => {
                 this.lotteryConfig = res.data;
