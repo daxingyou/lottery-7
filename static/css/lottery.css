@@ -716,6 +716,8 @@ input.number-minus-plus[type="number"] {
     font-size: 12px;
     color: #475669;
     letter-spacing: 0;
+    height: 24px;
+    line-height: 24px;
 }
 
 .number-odd-select {
@@ -993,7 +995,7 @@ body[theme="blue"] .lottery-order-item-head .order-delete {
 .lottery-trend-body {
     overflow-x: hidden;
     overflow-y: auto; 
-    height: calc(100% - 63px);  /* 63是头部标题的高度 */ 
+    height: calc(100% - 63px );  /* 63是头部标题的高度 */ 
 }
 
 .plate-trend-wrap {

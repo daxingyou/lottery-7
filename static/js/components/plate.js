@@ -32,7 +32,7 @@ Vue.component('lottery-plate', {
                     <div v-if="plateType === 'number'" class="plate-number-item clearfix" v-for="(plateNumObj,index) in plateNumArr">
                         <span class="plate-number-position fl" :class="{'plate-number-position-all': plateNumObj.position === '所有位置'}">{{plateNumObj.position}}</span>
                         <div class="clearfix fl select-number-wrap">
-                            <span class="plate-number-each fl" :class="{on: plateOrderObj[plateNumObj.position]&&plateOrderObj[plateNumObj.position][num], 'two-chinese': isChinese(num) && num.length === 2}" v-for="(num,numIndex) in plateNumObj.num" @click="selectNum(plateNumObj.position,num)">{{num}}</span>
+                            <span class="plate-number-each fl" :class="{on: plateOrderObj[plateNumObj.position]&&plateOrderObj[plateNumObj.position][num], 'two-chinese': isChinese(num) && num.length >= 2}" v-for="(num,numIndex) in plateNumObj.num" @click="selectNum(plateNumObj.position,num)">{{num}}</span>
                         </div>
                         <span class="plate-filter-button fr" v-if="plateNumObj.filterArr.length > 0">
                             <i class="filter-button" v-for="value in plateNumObj.filterArr" @click="filterNum(plateNumObj, value)">{{value}}</i>
@@ -68,9 +68,10 @@ Vue.component('lottery-plate', {
                     </div>
                     <div class="fl clearfix number-odd-wrap">
                         <i class="fl number-odd-text">奖金</i>
-                        <select class="fl number-odd-select" v-model="selectedOdd">
+                        <select v-if="odd" class="fl number-odd-select" v-model="selectedOdd">
                             <option :odd="odd" :point="point">{{odd + '~' + point * 100 + '%'}}</option>
                         </select>
+                        <span v-if="!odd">0</span>
                     </div>
                 </div>
                 <div class="clearfix plate-numbet-bottom-bottom">
@@ -118,6 +119,35 @@ Vue.component('lottery-plate', {
             plateOrderObj: {},
             lotteryTip: {},
             selectedOdd: '',
+            chaiDanOddMethod: { //拆单的玩法字段
+                'nn_nn_nn': ['nn_nn_nn_n1', 'nn_nn_nn_n2', 'nn_nn_nn_n3', 'nn_nn_nn_n4', 'nn_nn_nn_n5', 'nn_nn_nn_n6', 'nn_nn_nn_n7', 'nn_nn_nn_n8', 'nn_nn_nn_n9', 'nn_nn_nn_nn', 'nn_nn_nn_wn', 'nn_nn_nn_nda', 'nn_nn_nn_ndan', 'nn_nn_nn_nx', 'nn_nn_nn_ns'],
+                'qw_lhh_wb': ['qw_lhh_wb_long', 'qw_lhh_wb_hu', 'qw_lhh_wb_he'],
+                'qw_lhh_wq': ['qw_lhh_wq_long', 'qw_lhh_wq_hu', 'qw_lhh_wq_he'],
+                'qw_lhh_ws': ['qw_lhh_ws_long', 'qw_lhh_ws_hu', 'qw_lhh_ws_he'],
+                'qw_lhh_wg': ['qw_lhh_wg_long', 'qw_lhh_wg_hu', 'qw_lhh_wg_he'],
+                'qw_lhh_qb': ['qw_lhh_qb_long', 'qw_lhh_qb_hu', 'qw_lhh_qb_he'],
+                'qw_lhh_qs': ['qw_lhh_qs_long', 'qw_lhh_qs_hu', 'qw_lhh_qs_he'],
+                'qw_lhh_qg': ['qw_lhh_qg_long', 'qw_lhh_qg_hu', 'qw_lhh_qg_he'],
+                'qw_lhh_bs': ['qw_lhh_bs_long', 'qw_lhh_bs_hu', 'qw_lhh_bs_he'],
+                'qw_lhh_bg': ['qw_lhh_bg_long', 'qw_lhh_bg_hu', 'qw_lhh_bg_he'],
+                'qw_lhh_sg': ['qw_lhh_sg_long', 'qw_lhh_sg_hu', 'qw_lhh_sg_he'],
+                'qw_xt_q3': ['qw_xt_q3_dz', 'qw_xt_q3_zl', 'qw_xt_q3_sz', 'qw_xt_q3_bs', 'qw_xt_q3_bz'],
+                'qw_xt_z3': ['qw_xt_z3_dz', 'qw_xt_z3_zl', 'qw_xt_z3_sz', 'qw_xt_z3_bs', 'qw_xt_z3_bz'],
+                'qw_xt_h3': ['qw_xt_h3_dz', 'qw_xt_h3_zl', 'qw_xt_h3_sz', 'qw_xt_h3_bs', 'qw_xt_h3_bz'],
+                'qw_xt_wx': ['qw_xt_wx_dp', 'qw_xt_wx_santiao', 'qw_xt_wx_yd', 'qw_xt_wx_sitiao', 'qw_xt_wx_hl', 'qw_xt_wx_ld', 'qw_xt_wx_sz'],
+                'qw_bjl_bjl': ['qw_bjl_bjl_xiandui', 'qw_bjl_bjl_zhuang', 'qw_bjl_bjl_zhuangdui', 'qw_bjl_bjl_he', 'qw_bjl_bjl_xian', 'qw_bjl_bjl_super6'],
+                'dxds_hzdxds_5xhz': ['dxds_hzdxds_5xhz', 'dxds_hzdxds_5xhz', 'dxds_hzdxds_5xhz', 'dxds_hzdxds_5xhz', 'dxds_hzdxds_5xhz_zh', 'dxds_hzdxds_5xhz_zh', 'dxds_hzdxds_5xhz_zh', 'dxds_hzdxds_5xhz_zh'],
+                'dxds_dxgs_wx': ['dxds_dxgs_wx_qd_qx', 'dxds_dxgs_wx_41_14', 'dxds_dxgs_wx_32_23', 'dxds_dxgs_wx_32_23', 'dxds_dxgs_wx_41_14', 'dxds_dxgs_wx_qd_qx'],
+                'dxds_dxgs_sx': ['dxds_dxgs_sx_qd_qx', 'dxds_dxgs_sx_2d2x', 'dxds_dxgs_sx_31_13', 'dxds_dxgs_sx_31_13', 'dxds_dxgs_sx_qd_qx'],
+                'dxds_dxgs_q3': ['dxds_dxgs_q3_qd_qx', 'dxds_dxgs_q3_21_12', 'dxds_dxgs_q3_21_12', 'dxds_dxgs_q3_qd_qx'],
+                'dxds_dxgs_z3': ['dxds_dxgs_z3_qd_qx', 'dxds_dxgs_z3_21_12', 'dxds_dxgs_z3_21_12', 'dxds_dxgs_z3_qd_qx'],
+                'dxds_dxgs_h3': ['dxds_dxgs_h3_qd_qx', 'dxds_dxgs_h3_21_12', 'dxds_dxgs_h3_21_12', 'dxds_dxgs_h3_qd_qx'],
+                'dxds_dsgs_wx': ['dxds_dsgs_wx_qd_qx', 'dxds_dsgs_wx_41_14', 'dxds_dsgs_wx_32_23', 'dxds_dsgs_wx_32_23', 'dxds_dsgs_wx_41_14', 'dxds_dsgs_wx_qd_qx'],
+                'dxds_dsgs_sx': ['dxds_dsgs_sx_qd_qx', 'dxds_dsgs_sx_2d2x', 'dxds_dsgs_sx_31_13', 'dxds_dsgs_sx_31_13', 'dxds_dsgs_sx_qd_qx'],
+                'dxds_dsgs_q3': ['dxds_dsgs_q3_qd_qx', 'dxds_dsgs_q3_21_12', 'dxds_dsgs_q3_21_12', 'dxds_dsgs_q3_qd_qx'],
+                'dxds_dsgs_z3': ['dxds_dsgs_z3_qd_qx', 'dxds_dsgs_z3_21_12', 'dxds_dsgs_z3_21_12', 'dxds_dsgs_z3_qd_qx'],
+                'dxds_dsgs_h3': ['dxds_dsgs_h3_qd_qx', 'dxds_dsgs_h3_21_12', 'dxds_dsgs_h3_21_12', 'dxds_dsgs_h3_qd_qx'],
+            },
             numberTimes: 1,
             oddsObj: {},
             modelValue: 2, //倍数
@@ -1139,14 +1169,14 @@ Vue.component('lottery-plate', {
             this.$set(this.plateOrderObj, `valueChange-${plateNumObj.position}`, Math.random()); //触发监听，vue不能监听增加删除属性，用这个方法才能触发            
             this.$forceUpdate();
         },
-        addOrder() {//添加选号
+        addOrder() { //添加选号
             let betContent;
-            if (this.plateType === 'number') {//非单式
-                betContent = this.positionArr.map(pos=>{
+            if (this.plateType === 'number') { //非单式
+                betContent = this.positionArr.map(pos => {
                     this.plateOrderObj[pos] = this.plateOrderObj[pos] || {};
                     return this.plateOrderObj[pos].selected.toString() || '';
                 }).join('|');
-            } else if (this.plateType === 'input') {//单式
+            } else if (this.plateType === 'input') { //单式
                 betContent = this.dsInputNums.join('|');
             }
             store.commit('addOrderItem', {
@@ -1162,7 +1192,7 @@ Vue.component('lottery-plate', {
         resetPlate() {
             this.plateOrderObj = {};
             this.dsInputNums = [];
-            this.numberTimes = 1;//totalTimes
+            this.numberTimes = 1; //totalTimes
             this.modelValue = 2;
         }
     }
