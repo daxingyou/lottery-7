@@ -470,12 +470,12 @@ body[theme="blue"] .plate-tab-item-more {
 }
 
 .plate-number-each:hover {
-    background-image: linear-gradient(-180deg, #2072A2 0%, #364476 85%);
+    background-image: linear-gradient(-180deg, #202 0%, #364476 85%);
     color: #fff;
 }
 
 body[theme="blue"] .plate-number-each:hover {
-    background-image: linear-gradient(-180deg, #2072A2 0%, #364476 85%);
+    background-image: linear-gradient(-180deg, rgb(225, 250, 166) 0%, #a4f7c9 85%);
     color: #fff;
 }
 

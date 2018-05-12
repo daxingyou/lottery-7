@@ -32,7 +32,7 @@ Vue.component('lottery-plate', {
                     <div v-if="plateType === 'number'" class="plate-number-item clearfix" v-for="(plateNumObj,index) in plateNumArr">
                         <span class="plate-number-position fl" :class="{'plate-number-position-all': plateNumObj.position === '所有位置'}">{{plateNumObj.position}}</span>
                         <div class="clearfix fl select-number-wrap">
-                            <span class="plate-number-each fl" :class="{on: plateOrderObj[plateNumObj.position]&&plateOrderObj[plateNumObj.position][num], 'two-chinese': isChinese(num) && num.length >= 2}" v-for="(num,numIndex) in plateNumObj.num" @click="selectNum(plateNumObj.position,num)">{{num}}</span>
+                            <span class="plate-number-each fl" :class="{on: plateOrderObj[plateNumObj.position]&&plateOrderObj[plateNumObj.position][num], 'two-chinese': isChinese(num) && num.length >= 2}" v-for="(num,numIndex) in plateNumObj.num" @click="selectNum(plateNumObj.position,num)" v-text="renderNum(num)"></span>
                         </div>
                         <span class="plate-filter-button fr" v-if="plateNumObj.filterArr.length > 0">
                             <i class="filter-button" v-for="value in plateNumObj.filterArr" @click="filterNum(plateNumObj, value)">{{value}}</i>
@@ -90,6 +90,7 @@ Vue.component('lottery-plate', {
             normalTabFlag: localStorage.getItem(`${this.lotteryCode}-normalTabFlag`) || 'normal',
             currentTab: '',
             currentSubTab: '',
+            method: '',
             plateType: '', //input 单式，number 选号盘
             positionArr: [], //万千宝石个
             inputPosObj: { //任选单式的位置0,1,2,3,4 =》万千百十个 true表示默认选中
@@ -118,8 +119,7 @@ Vue.component('lottery-plate', {
             dsInputValue: '',
             plateOrderObj: {},
             lotteryTip: {},
-            selectedOdd: '',
-            chaiDanOddMethod: { //拆单的玩法字段
+            chaiDanOddMethod: { // 拆单的玩法字段
                 'nn_nn_nn': ['nn_nn_nn_n1', 'nn_nn_nn_n2', 'nn_nn_nn_n3', 'nn_nn_nn_n4', 'nn_nn_nn_n5', 'nn_nn_nn_n6', 'nn_nn_nn_n7', 'nn_nn_nn_n8', 'nn_nn_nn_n9', 'nn_nn_nn_nn', 'nn_nn_nn_wn', 'nn_nn_nn_nda', 'nn_nn_nn_ndan', 'nn_nn_nn_nx', 'nn_nn_nn_ns'],
                 'qw_lhh_wb': ['qw_lhh_wb_long', 'qw_lhh_wb_hu', 'qw_lhh_wb_he'],
                 'qw_lhh_wq': ['qw_lhh_wq_long', 'qw_lhh_wq_hu', 'qw_lhh_wq_he'],
@@ -159,6 +159,7 @@ Vue.component('lottery-plate', {
         this.ajaxLotteryTip();
         this.getCurrentTab();
         this.getCurrentSubTab();
+        this.getMethod();
         this.ajaxOdds();
     },
     beforeMount() {},
@@ -190,12 +191,12 @@ Vue.component('lottery-plate', {
             const firstLastCode = Object.keys(this.lotteryConfig['ltMethod'][this.currentTab][firstMiddleCode]['method'])[0]; //获取fs
             return `${firstMiddleCode}_${firstLastCode}`;
         },
-        method() {
-            store.commit('getMethod', `${this.currentTab}_${this.currentSubTab}`);
-            return `${this.currentTab}_${this.currentSubTab}`;
-        },
+
         methodArr() {
             return this.method.split('_');
+        },
+        isChaidan() {
+            return this.chaiDanOddMethod[this.methodArr.slice(0, 3).join('_')];
         },
         methodHint() {
             return this.lotteryTip[this.method] && this.lotteryTip[this.method].paraphrase;
@@ -223,7 +224,7 @@ Vue.component('lottery-plate', {
                 if (/^\d+-\d+$/.test(numArr[1])) { //配置表中位是 0-9这种
                     const selectNumArr = numArr[1].split('-'); //"0-9" => ['0','9']
                     selectNumRangeArr = this.$range(selectNumArr[0], selectNumArr[1]); //['0','9'] => [0,1,2,3,4,5,6,7,8,9]
-                } else if (/^(?:[\u4e00-\u9fa5a-zA-Z0-9]+,)*(?:[\u4e00-\u9fa5a-zA-Z0-9]+)$/g.test(numArr[1])) { //配置表中位是 “大，小，单，双” 这种
+                } else if (/^(?:[\u4e00-\u9fa5a-zA-Z0-9]+,)*(?:[\u4e00-\u9fa5a-zA-Z0-9]+)/g.test(numArr[1])) { //配置表中位是 “大，小，单，双&shuang” 这种
                     selectNumRangeArr = numArr[1].split(',');
                 }
                 const filter = numArr[2];
@@ -260,6 +261,10 @@ Vue.component('lottery-plate', {
         },
         point() {
             return this.oddsObj && this.oddsObj[this.method] && this.oddsObj[this.method].point;
+        },
+        selectedOdd() {
+            const obj = this.oddsObj[this.method];
+            return obj && `${obj.odds}~${obj.point*100}%`;
         }
     },
     watch: {
@@ -267,7 +272,7 @@ Vue.component('lottery-plate', {
             handler(newVal, oldVal) {
                 let initValue;
                 let posArr = Object.keys(this.plateOrderObj);
-                switch (this.method) {
+                switch (this.methodArr.slice(0, 3).join('_')) { //this.methodArr.slcie(0, 3).join('_') 只取前3 nn_nn_nn,拆弹情况如nn_nn_nn_n1后面的n1要去掉
                     case 'wx_zx_fs':
                     case 'sx_zx_fs':
                     case 'qsm_zx_fs':
@@ -780,6 +785,7 @@ Vue.component('lottery-plate', {
                     case 'qw_ts_sjfc':
                     case 'qw_bjl_bjl':
                     case 'nn_nn_nn':
+                        console.log(this.positionArr.length,posArr.length)
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
                             const _pos = this.positionArr[0]; //这几个玩法只有一个位置
                             const arr = this.plateOrderObj[_pos].selected;
@@ -892,13 +898,15 @@ Vue.component('lottery-plate', {
         },
         receiveTimes(msg) { //倍数
             this.numberTimes = msg;
-            console.log(msg)
         },
         ajaxOdds() {
             this.$http.get(`/json/${this.lotteryCode.toLocaleLowerCase()}-odds.json`).then(res => {
                 this.oddsObj = res.data.result[this.lotteryCode];
-                this.selectedOdd = `${this.oddsObj[this.method].odds}~${this.oddsObj[this.method].point*100}%`;
             });
+        },
+        getMethod() {
+            store.commit('getMethod', `${this.currentTab}_${this.currentSubTab}`);
+            this.method = `${this.currentTab}_${this.currentSubTab}`;
         },
         ajaxLotteryTip() {
             this.$http.get(`/json/${this.lotteryType}-tip.json`).then(res => {
@@ -927,6 +935,7 @@ Vue.component('lottery-plate', {
             this.currentSubTab = subTab;
             this.dsInputNums = [];
             this.plateOrderObj = {};
+            this.getMethod();
             this.$nextTick(() => {
                 this.getLotteryPlateWrapHeight();
             });
@@ -1058,6 +1067,11 @@ Vue.component('lottery-plate', {
                 }
             })();
         },
+        renderNum(num) {
+            //拆弹情况 拆单玩法 配置json里面有&后加字段
+            if (/&/.test(num)) return num.split('&')[0];
+            return num;
+        },
         selectNum(pos, num) {
             if (pos === '所有位置') {
                 //所有位置逻辑
@@ -1080,6 +1094,10 @@ Vue.component('lottery-plate', {
                 }
                 this.$forceUpdate();
                 return;
+            }
+            if (/&/.test(num)) { //例如 全单&qd_qx =>[全单 , qd_qx]
+                const numArr = num.split('&');
+                this.method = this.methodArr.slice(0, 3).join('_') + `_${numArr[1]}`; //拆单 玩法 qw_lhh_wb_long
             }
             this.plateOrderObj[pos] = this.plateOrderObj[pos] || {};
             this.plateOrderObj[pos].selected = this.plateOrderObj[pos].selected || [];
@@ -1172,14 +1190,36 @@ Vue.component('lottery-plate', {
         addOrder() { //添加选号
             let betContent;
             if (this.plateType === 'number') { //非单式
+                if (this.isChaidan) { //拆弹情况
+                    this.positionArr.forEach(pos => {
+                        this.plateOrderObj[pos] = this.plateOrderObj[pos] || {};
+                        this.plateOrderObj[pos].selected = this.plateOrderObj[pos].selected || [];
+                        this.plateOrderObj[pos].selected.forEach(num => {
+                            const numArr = num.split('&');
+                            store.commit('addOrderItem', {
+                                method: this.methodArr.slice(0,3) + `_${numArr[1]}`,
+                                methodCn: this.methodCnName,                                
+                                betContent: numArr[0],
+                                model: this.modelValue,
+                                times: this.totalTimes,
+                                betNums: this.totalBet,
+                                betAmount: this.totalMoney
+                            });
+                        });
+                    });
+                    this.resetPlate();
+                    return;
+                }
                 betContent = this.positionArr.map(pos => {
                     this.plateOrderObj[pos] = this.plateOrderObj[pos] || {};
+                    this.plateOrderObj[pos].selected = this.plateOrderObj[pos].selected || [];
                     return this.plateOrderObj[pos].selected.toString() || '';
                 }).join('|');
             } else if (this.plateType === 'input') { //单式
                 betContent = this.dsInputNums.join('|');
             }
             store.commit('addOrderItem', {
+                method: this.method,
                 methodCn: this.methodCnName,
                 betContent,
                 model: this.modelValue,
