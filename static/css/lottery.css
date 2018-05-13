@@ -1086,3 +1086,14 @@ body[theme="blue"] .lottery-trend-icon {
     color: #656565;
     letter-spacing: 0;
 }
+
+body[theme="blue"] .trend-num.trend-number-on {
+    color: #1FA1DD;
+}
+
+.trend-num {
+    font-family: PingFangSC-Semibold;
+    font-size: 12px;
+    color: #000000;
+    letter-spacing: 0;
+}
