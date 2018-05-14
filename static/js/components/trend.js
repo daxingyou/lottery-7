@@ -287,8 +287,78 @@ Vue.component('lottery-trend', {
                 return `<i class="trend-num">${num}</i>`;
             }).join('');
         },
-        renderXt() {
-            return '组20';
+        renderXt(code) {
+            const trendNumAddColorPos = this.getTrendNumAddColorPos;
+            let codeArr = code.split(',').map(v => Number(v));
+            //过滤出着色的号码 因为走势只根据着色的号码来 
+            codeArr = codeArr.filter((num, index) => trendNumAddColorPos.includes(String(index)));
+            const countItemObj = arrToCountItemObj(codeArr);
+            const countItemObjValues = Object.values(countItemObj);
+            const countItemObjKeys = Object.keys(countItemObj);
+            switch (this.trendXtTitle) {
+                case '五星组态':
+                    if (countItemObjValues.length === 5) { // 1 1 1 1 1
+                        return '组120';
+                    }
+                    if (countItemObjValues.length === 4) { //2 1 1 1 2重号 单号
+                        return '组60';
+                    }
+                    if (countItemObjValues.length === 3) {
+                        if (countItemObjKeys.includes(3)) { //3 1 1 3重号 单号
+                            return '组20';
+                        }
+                        if (countItemObjKeys.includes(2)) { // 2 2 1 2重号 单号
+                            return '组30';
+                        }
+                    }
+                    if (countItemObjValues.length === 2) {
+                        if (countItemObjKeys.includes(4)) { //4 1  4重号 单号
+                            return '组5';
+                        }
+                        if (countItemObjKeys.includes(2)) { // 3 2  3重号 2重号
+                            return '组10';
+                        }
+                    }
+                    break;
+                case '四星组态':
+                    if (countItemObjValues.length === 4) { // 1 1 1 1 
+                        return '组24';
+                    }
+                    if (countItemObjValues.length === 3) { //2 1 1  2重号 单号
+                        return '组12';
+                    }
+                    if (countItemObjValues.length === 2) {
+                        if (countItemObjKeys.includes(3)) { //3 1  3重号 单号
+                            return '组4';
+                        }
+                        if (countItemObjKeys.includes(2)) { // 2 2  2重号 
+                            return '组6';
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 });
+/* 
+    数组转成计算每个值重复的个数 的对象
+    [1,3,4,5,1] => {
+        1:2,
+        3:1,
+        4:1,
+        5:1
+    }
+*/
+function arrToCountItemObj(arr) {
+    const obj = Object.create(null);
+    for (let item of arr) {
+        if (obj.item) {
+            obj.item++;
+        } else {
+            obj.item = 1;
+        }
+    }
+    return obj;
+}
