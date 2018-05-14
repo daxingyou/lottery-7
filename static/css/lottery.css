@@ -863,10 +863,10 @@ body[theme="blue"] .total-order-money {
 .add-number.disabled,
 .quick-bet.disabled,
 .right-now-bet.disabled {
-    background: #F4F4F4!important;
-    color: #C0CCDA!important;
-    border: 1px solid #E0E6ED!important;
-    cursor: not-allowed!important;
+    background: #F4F4F4 !important;
+    color: #C0CCDA !important;
+    border: 1px solid #E0E6ED !important;
+    cursor: not-allowed !important;
 }
 
 .plate-bottom {
@@ -907,28 +907,28 @@ body[theme="blue"] .lottery-order-item-head {
 .order-model {
     width: 116px;
     box-sizing: border-box;
-    padding-left: 12px;    
+    padding-left: 12px;
 }
 
 .order-times {
     width: 160px;
     box-sizing: border-box;
-    padding-left: 12px;    
+    padding-left: 12px;
 }
 
 .order-bet-nums {
     width: 99px;
     box-sizing: border-box;
-    padding-left: 12px;    
+    padding-left: 12px;
 }
 
 .order-bet-amount {
     width: 116px;
     box-sizing: border-box;
-    padding-left: 12px;    
+    padding-left: 12px;
 }
+
 body[theme="blue"] .lottery-order-item-head .order-delete {
-   
     font-family: MicrosoftYaHei;
     color: #FF4949;
 }
@@ -936,7 +936,7 @@ body[theme="blue"] .lottery-order-item-head .order-delete {
 .order-delete {
     width: 80px;
     box-sizing: border-box;
-    padding-left: 12px;    
+    padding-left: 12px;
 }
 
 .order-delete-icon {
@@ -966,24 +966,25 @@ body[theme="blue"] .lottery-order-item-head .order-delete {
 .lottery-order-wrap {
     padding: 12px 16px;
     background: #FFFFFF;
-    border-top: 1px solid #E0E6ED; 
+    border-top: 1px solid #E0E6ED;
 }
 
 .lottery-trend-wrap {
     background: #fff;
     width: 290px;
-    border-left: 1px solid #E0E6ED; 
+    border-left: 1px solid #E0E6ED;
     overflow: hidden;
     box-sizing: border-box;
 }
 
 .lottery-trend-head,
 .lottery-trend-body {
-    width: 307px;/* 290 + 17, 17是滚动条宽度 */
+    width: 307px;
+    /* 290 + 17, 17是滚动条宽度 */
 }
 
 .lottery-trend-head {
-    border-bottom: 1px solid #E0E6ED; 
+    border-bottom: 1px solid #E0E6ED;
     font-size: 0;
     display: table;
 }
@@ -994,8 +995,9 @@ body[theme="blue"] .lottery-order-item-head .order-delete {
 
 .lottery-trend-body {
     overflow-x: hidden;
-    overflow-y: auto; 
-    height: calc(100% - 63px );  /* 63是头部标题的高度 */ 
+    overflow-y: auto;
+    height: calc(100% - 63px);
+    /* 63是头部标题的高度 */
 }
 
 .plate-trend-wrap {
@@ -1034,8 +1036,8 @@ body[theme="blue"] .lottery-order-item-head .order-delete {
     font-family: PingFangSC-Regular;
     font-size: 12px;
     letter-spacing: 0;
-    margin-right: 16px;  
-    cursor: pointer;  
+    margin-right: 16px;
+    cursor: pointer;
 }
 
 body[theme="blue"] .lottery-trend-link {
@@ -1071,7 +1073,7 @@ body[theme="blue"] .lottery-trend-icon {
     color: #99A9BF;
     letter-spacing: 0;
     text-align: center;
-    display: table-cell;    
+    display: table-cell;
 }
 
 .trend-col {
@@ -1087,7 +1089,7 @@ body[theme="blue"] .lottery-trend-icon {
     letter-spacing: 0;
 }
 
-body[theme="blue"] .trend-num.trend-number-on {
+body[theme="blue"] .trend-num.trend-num-on {
     color: #1FA1DD;
 }
 
@@ -1096,4 +1098,5 @@ body[theme="blue"] .trend-num.trend-number-on {
     font-size: 12px;
     color: #000000;
     letter-spacing: 0;
+    margin: 0 4px;
 }

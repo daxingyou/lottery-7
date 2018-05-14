@@ -123,23 +123,6 @@ Vue.component('lottery-trend', {
                 'qw_bjl_bjl': '百家乐',
                 'nn_nn_nn': '<i style="width:33.33%;">牛牛</i><i style="width:33.33%;">大小</i><i style="width:33.33%;">单双</i>',
             },
-            trendNumAddColorConfig: {//中间号码是否加颜色配置
-                '12345': [],
-                '2345': [],
-                '123': [],
-                '234': [],
-                '345': [],
-                '12': [],
-                '45': [],
-                '15': [],
-                '13': [],
-                '14': [],
-                '23': [],
-                '24': [],
-                '25': [],
-                '34': [],
-                '35': [],
-]            }
         };
     },
     beforeCreate() {},
@@ -148,7 +131,7 @@ Vue.component('lottery-trend', {
     },
     beforeMount() {},
     mounted() {
-        
+
     },
     computed: {
         plateHeight() {
@@ -165,12 +148,144 @@ Vue.component('lottery-trend', {
                 return '33.33%';
             }
             return '50%';
+        },
+        getTrendNumAddColorPos() { //中间号码是否加颜色配置 key表示位置 012345对应万千百十个
+            //五星玩法
+            if (/^wx_/.test(this.method)) {
+                return '01234';
+            }
+            //四星玩法
+            if (/^sx_/.test(this.method)) {
+                return '0123';
+            }
+            if (/^qsm_/.test(this.method)) {
+                return '012';
+            }
+            if (/^zsm_/.test(this.method)) {
+                return '123';
+            }
+            if (/^hsm_/.test(this.method)) {
+                return '234';
+            }
+            if (/^qem_/.test(this.method)) {
+                return '01';
+            }
+            if (/^hem_/.test(this.method)) {
+                return '34';
+            }
+            //定位胆
+            if (/^dwd_/.test(this.method)) {
+                return '01234';
+            }
+            //不定胆
+            if (['bdd_bdd3_q31', 'bdd_bdd3_q32'].indexOf(this.method) !== -1) {
+                return '012';
+            }
+            if (['bdd_bdd3_z31', 'bdd_bdd3_z32'].indexOf(this.method) !== -1) {
+                return '123';
+            }
+            if (['bdd_bdd3_h31', 'bdd_bdd3_h32'].indexOf(this.method) !== -1) {
+                return '234';
+            }
+            if (/^bdd_bdd4/.test(this.method)) {
+                return '0123';
+            }
+            if (/^bdd_bdd5/.test(this.method)) {
+                return '01234';
+            }
+            //大小单双
+            if (/^dxds/.test(this.method)) {
+                if (/_q2$/.test(this.method)) {
+                    return '01';
+                }
+                if (/_h2$/.test(this.method)) {
+                    return '34';
+                }
+                if (/_h3$/.test(this.method)) {
+                    return '234';
+                }
+                if (/_q3$/.test(this.method)) {
+                    return '012';
+                }
+                if (/_z3$/.test(this.method)) {
+                    return '123';
+                }
+                if (/_q3hz$/.test(this.method)) {
+                    return '012';
+                }
+                if (/_z3hz$/.test(this.method)) {
+                    return '123';
+                }
+                if (/_h3hz$/.test(this.method)) {
+                    return '234';
+                }
+                if (/_5xhz$/.test(this.method)) {
+                    return '01234';
+                }
+                if (/_wx$/.test(this.method)) {
+                    return '01234';
+                }
+                if (/_sx$/.test(this.method)) {
+                    return '0123';
+                }
+            }
+            //趣味
+            if (/^qw/.test(this.method)) {
+                //龙虎和
+                if (/^qw_lhh/.test(this.method)) {
+                    const lhhConfig = {
+                        'qw_lhh_wq': '01',
+                        'qw_lhh_wb': '02',
+                        'qw_lhh_ws': '03',
+                        'qw_lhh_wg': '04',
+                        'qw_lhh_qb': '12',
+                        'qw_lhh_qs': '13',
+                        'qw_lhh_qg': '14',
+                        'qw_lhh_bs': '23',
+                        'qw_lhh_bg': '24',
+                        'qw_lhh_sg': '34',
+                    };
+                    return lhhConfig[this.method];
+                }
+                //形态
+                if (/^qw_xt/.test(this.method)) {
+                    const xtConfig = {
+                        'qw_xt_wx': '01234',
+                        'qw_xt_q3': '012',
+                        'qw_xt_z3': '123',
+                        'qw_xt_h3': '234'
+                    };
+                    return xtConfig[this.method];
+                }
+                //特殊
+                if (/^qw_ts/.test(this.method)) {
+                    return '01234';
+                }
+                //百家乐
+                if (/^qw_bjl_bjl$/.test(this.method)) {
+                    return '0134';
+                }
+            }
+            //牛牛
+            if (/^nn_nn_nn$/.test(this.method)) {
+                return '01234';
+            }
+            //任选
+            if (/^rx\d*/.test(this.method)) {
+                return '01234';
+            }
         }
     },
     watch: {},
     methods: {
         renderCode(code) {
-            return code.split(',').join(' ');
+            const trendNumAddColorPos = this.getTrendNumAddColorPos;
+            return code.split(',').map((num, index) => {
+                if (trendNumAddColorPos.includes(String(index))) {
+                    return `<i class="trend-num trend-num-on">${num}</i>`;
+                }
+                return `<i class="trend-num">${num}</i>`;
+            }).join('');
         },
         renderXt() {
             return '组20';

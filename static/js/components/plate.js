@@ -908,7 +908,7 @@ Vue.component('lottery-plate', {
             this.plateOrderObj = {};
             this.getMethod();
             this.$nextTick(() => {
-                this.getLotteryPlateWrapHeight();
+                this.getLotteryPlateWrapHeight();console.log(this.method)
             });
         },
         toggleInputPosStatus(index) {
