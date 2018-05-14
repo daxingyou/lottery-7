@@ -139,7 +139,7 @@ Vue.component('lottery-trend', {
                 '25': [],
                 '34': [],
                 '35': [],
-            }
+]            }
         };
     },
     beforeCreate() {},
