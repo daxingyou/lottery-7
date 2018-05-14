@@ -123,7 +123,6 @@ Vue.component('lottery-trend', {
                 'qw_bjl_bjl': '百家乐',
                 'nn_nn_nn': '<i style="width:33.33%;">牛牛</i><i style="width:33.33%;">大小</i><i style="width:33.33%;">单双</i>',
             },
-
         };
     },
     beforeCreate() {},
@@ -157,7 +156,7 @@ Vue.component('lottery-trend', {
             }
             //四星玩法
             if (/^sx_/.test(this.method)) {
-                return '01234';
+                return '0123';
             }
             if (/^qsm_/.test(this.method)) {
                 return '012';
@@ -223,10 +222,10 @@ Vue.component('lottery-trend', {
                 if (/_5xhz$/.test(this.method)) {
                     return '01234';
                 }
-                if (/_5x$/.test(this.method)) {
+                if (/_wx$/.test(this.method)) {
                     return '01234';
                 }
-                if (/_4x$/.test(this.method)) {
+                if (/_sx$/.test(this.method)) {
                     return '0123';
                 }
             }
@@ -266,27 +265,27 @@ Vue.component('lottery-trend', {
                 if (/^qw_bjl_bjl$/.test(this.method)) {
                     return '0134';
                 }
-                //牛牛
-                if (/^nn_nn_nn$/.test(this.method)) {
-                    return '0134';
-                }
-                //任选
-                if (/^rx\d*/.test(this.method)) {
-                    return '01234';
-                }
+            }
+            //牛牛
+            if (/^nn_nn_nn$/.test(this.method)) {
+                return '01234';
+            }
+            //任选
+            if (/^rx\d*/.test(this.method)) {
+                return '01234';
             }
         }
     },
     watch: {},
     methods: {
         renderCode(code) {
-            const trendNumAddColorPos = this.getTrendNumAddColorPos();
+            const trendNumAddColorPos = this.getTrendNumAddColorPos;
             return code.split(',').map((num, index) => {
                 if (trendNumAddColorPos.includes(String(index))) {
                     return `<i class="trend-num trend-num-on">${num}</i>`;
                 }
                 return `<i class="trend-num">${num}</i>`;
-            });
+            }).join('');
         },
         renderXt() {
             return '组20';
