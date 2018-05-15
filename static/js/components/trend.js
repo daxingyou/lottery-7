@@ -1,3 +1,7 @@
+import {
+    throws
+} from "assert";
+
 Vue.component('lottery-trend', {
     template: `
         <div :style="{height: plateHeight}" class="fr lottery-trend-wrap">
@@ -116,10 +120,10 @@ Vue.component('lottery-trend', {
                 'qw_xt_q3': '前三形态',
                 'qw_xt_z3': '中三形态',
                 'qw_xt_h3': '后三形态',
-                'qw_ts_sjfc': '五星形态',
-                'qw_ts_sxbx': '五星形态',
-                'qw_ts_hscs': '五星形态',
-                'qw_ts_yffs': '五星形态',
+                'qw_ts_sjfc': '五星组态',
+                'qw_ts_sxbx': '五星组态',
+                'qw_ts_hscs': '五星组态',
+                'qw_ts_yffs': '五星组态',
                 'qw_bjl_bjl': '百家乐',
                 'nn_nn_nn': '<i style="width:33.33%;">牛牛</i><i style="width:33.33%;">大小</i><i style="width:33.33%;">单双</i>',
             },
@@ -295,6 +299,8 @@ Vue.component('lottery-trend', {
             const countItemObj = arrToCountItemObj(codeArr);
             const countItemObjValues = Object.values(countItemObj);
             const countItemObjKeys = Object.keys(countItemObj);
+            const HZ = codeArr.reduce((a, b) => a + b); //和值
+            const KD = calcKd(codeArr);
             switch (this.trendXtTitle) {
                 case '五星组态':
                     if (countItemObjValues.length === 5) { // 1 1 1 1 1
@@ -336,6 +342,101 @@ Vue.component('lottery-trend', {
                         }
                     }
                     break;
+                case '前三组态':
+                case '中三组态':
+                case '后三组态':
+                    if (countItemObjValues.length === 2) {
+                        return '组三';
+                    }
+                    if (countItemObjValues.length === 1) {
+                        return '组六';
+                    }
+                    break;
+                case '直选和值':
+                case '组选和值':
+                    return HZ;
+                    break;
+                case '直选跨度':
+                    return KD;
+                    break;
+                case '<i style="width:50%;">十位</i><i style="width:50%;">个位</i>':
+                case '<i style="width:50%;">万位</i><i style="width:50%;">千位</i>':
+                    return `<i style="width:50%;">${calcDx(codeArr[0], 4)}${calcDs(codeArr[0])}</i><i style="width:50%;">${calcDx(codeArr[1], 4)}${calcDs(codeArr[1])}</i>`;
+                    break;
+                case '<i style="width:33.33%;">百位</i><i style="width:33.33%;">十位</i><i style="width:33.33%;">个位</i>':
+                case '<i style="width:33.33%;">万位</i><i style="width:33.33%;">千位</i><i style="width:33.33%;">百位</i>':
+                    return `<i style="width:33.33%;">${calcDx(codeArr[0], 4)}${calcDs(codeArr[0])}</i><i style="width:33.33%;">${calcDx(codeArr[1], 4)}${calcDs(codeArr[1])}</i><i style="width:33.33%;">${calcDx(codeArr[2])}${calcDs(codeArr[2])}</i>`;
+                    break;
+                case '<i style="width:33.33%;">和值</i><i style="width:33.33%;">大小</i><i style="width:33.33%;">单双</i>':
+                case '<i style="width:33.33%;">和值</i><i style="width:33.33%;">大小</i><i style="width:33.33%;">单双</i>':
+                case '<i style="width:33.33%;">和值</i><i style="width:33.33%;">大小</i><i style="width:33.33%;">单双</i>':
+                case '<i style="width:33.33%;">和值</i><i style="width:33.33%;">大小</i><i style="width:33.33%;">单双</i>':
+                    return `<i style="width:33.33%;">${HZ}</i><i style="width:33.33%;">${calcDx(HZ, 22)}</i><i style="width:33.33%;">${calcDs(HZ)}</i>`;
+                    break;
+                case '<i style="width:50%;">大</i><i style="width:50%;">小</i>':
+                    return `<i style="width:50%;">${calcDxgs(codeArr, 4).daCount}</i><i style="width:50%;">${calcDxgs(codeArr, 4).xiaoCount}</i>`;
+                    break;
+                case '<i style="width:50%;">单</i><i style="width:50%;">双</i>':
+                    return `<i style="width:50%;">${calcDsgs(codeArr).oddCount}</i><i style="width:50%;">${calcDsgs(codeArr).evenCount}</i>`;
+                    break;
+                case '万千':
+                case '万百':
+                case '万十':
+                case '万个':
+                case '千百':
+                case '千十':
+                case '千个':
+                case '百十':
+                case '百个':
+                case '十个':
+                    return `${calcLhh(codeArr[0], codeArr[1])}`;
+                    break;
+                case '五星形态':
+                    if (countItemObjValues.length === 5) { // 1 1 1 1 1 顺子 单牌
+                        if (calcShunzi(codeArr)) {
+                            return '顺子';
+                        }
+                        return '单牌';
+                    }
+                    if (countItemObjValues.length === 4) { //2 1 1 1 2重号 单号
+                        return '一对';
+                    }
+                    if (countItemObjValues.length === 3) {
+                        if (countItemObjKeys.includes(3)) { //3 1 1 3重号 单号
+                            return '三条';
+                        }
+                        if (countItemObjKeys.includes(2)) { // 2 2 1 2重号 单号
+                            return '两对';
+                        }
+                    }
+                    if (countItemObjValues.length === 2) {
+                        if (countItemObjKeys.includes(4)) { //4 1  4重号 单号
+                            return '四条';
+                        }
+                        if (countItemObjKeys.includes(2)) { // 3 2  3重号 2重号
+                            return '葫芦';
+                        }
+                    }
+                    break;
+                case '前三形态':
+                case '中三形态':
+                case '后三形态':
+                    if (countItemObjValues.length === 3) { //杂六 顺子 半顺
+                        if (calcShunzi(codeArr)) {
+                            return '顺子';
+                        }
+                        if (calcBanshunzi(codeArr)) {
+                            return '半顺';
+                        }
+                        return '杂六';
+                    }
+                    if (countItemObjValues.length === 2) {
+                        return '对子';
+                    }
+                    if (countItemObjValues.length === 1) {
+                        return '豹子';
+                    }
+                    break;
                 default:
                     break;
             }
@@ -361,4 +462,98 @@ function arrToCountItemObj(arr) {
         }
     }
     return obj;
+}
+// 计算跨度
+function calcKd(arr) {
+    const max = Math.max(...arr);
+    const min = Math.min(...min);
+    return max - min;
+}
+/* 
+计算大小单双
+num 选号
+flag 大小的比较值 如4 则大于4为大
+*/
+function calcDx(num, flag) {
+    if (num > flag) {
+        return '大';
+    }
+    return '小';
+}
+
+function calcDs(num) {
+    if (num % 2 === 0) {
+        return '双';
+    }
+    return '单';
+}
+//计算大小的个数
+function calcDxgs(arr, flag) {
+    const arrLength = arr.length;
+    const daCount = arr.filter(num => num > flag).length;
+    const xiaoCount = arrLength - DaCount;
+    return {
+        daCount,
+        xiaoCount
+    };
+}
+//计算单双个数
+function calcDsgs(arr) {
+    const arrLength = arr.length;
+    const evenCount = arr.filter(num => num % 2 === 0).length;
+    const oddCount = arrLength - DaCount;
+    return {
+        evenCount,
+        oddCount
+    };
+}
+/* 
+计算龙湖和
+前位大于后位为龙；后位大于前位为虎；前位等于后位为和。
+*/
+function calcLhh(numLeft, numRight) {
+    if (numLeft > numRight) {
+        return '龙';
+    }
+    if (numLeft < numRight) {
+        return '虎';
+    }
+    return '和';
+}
+//计算顺子 参数，数组范围最小值，范围最大值
+function calcShunzi(arr, min = 0, max = 9) {
+    arr.sort((a, b) => a - b);
+    //如果数组最大值超过设定的最大值max，返回错误提醒
+    if (arr[arr.length - 1] > max) {
+        throw Error("数组元素最大值超过预期，错误");
+        return false;
+    }
+    const flag = arr.every((m, n) => n == 0 ? true : m - arr[n - 1] == 1 ? true : false);
+    if (flag) return true; //如果传进来的数组本身是[2,3,4]这样的连续递增的数据，返回true
+    //走到这里，索命传进来的数据不是连续的，那么可以判断没有的数据是不是连续的
+    //把1-5这几个元素看成一个圆环，取环上一段连续的数据，那么剩下的数据也必然是连续的
+    const arrRest = [];
+    //从[1,2,3,4,5]中检测[1,5,2]少了哪些数据
+    for (let i = min; i < max + 1; i++) {
+        arr.indexOf(i) === -1 && arrRest.push(i);
+    }
+    //arrRest得到[3,4],然后检测arrRest是不是连续的
+    return arrRest.every((t, i) => i == 0 ? true : t - arrRest[i - 1] == 1 ? true : false);
+}
+//计算杂六
+function calcBanshunzi(arr, min = 0, max = 9) {
+    if (calcShunzi(arr, min = 0, max = 9)) {
+        return false;
+    }
+    if (arr.indexOf(0) !== -1 && arr.indexOf(9) !== -1) {
+        return true;
+    }
+    arr.sort((a, b) => a - b);
+    const reduceArr = [];
+    let start = arr[0];
+    for (let i = 1; i < arr.length; i++) {
+        reduceArr.push(arr[i] - start);
+        start = arr[i];
+    }
+    return reduceArr.indexOf(1) !== -1;
 }
