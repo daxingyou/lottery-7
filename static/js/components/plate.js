@@ -93,28 +93,28 @@ Vue.component('lottery-plate', {
             method: '',
             plateType: '', //input 单式，number 选号盘
             positionArr: [], //万千宝石个
-            inputPosObj: { //任选单式的位置0,1,2,3,4 =》万千百十个 true表示默认选中
-                0: {
+            inputPosObj: [ //任选单式的位置0,1,2,3,4 =》万千百十个 true表示默认选中
+                {
                     text: '万',
                     status: true
                 },
-                1: {
+                {
                     text: '千',
                     status: true
                 },
-                2: {
+                {
                     text: '百',
                     status: true
                 },
-                3: {
+                {
                     text: '十',
                     status: true
                 },
-                4: {
+                {
                     text: '个',
                     status: true
                 }
-            },
+            ],
             dsInputNums: [], //单式输入的数字数组
             dsInputValue: '',
             plateOrderObj: {},
@@ -756,7 +756,7 @@ Vue.component('lottery-plate', {
                     case 'qw_ts_sjfc':
                     case 'qw_bjl_bjl':
                     case 'nn_nn_nn':
-                        console.log(this.positionArr.length,posArr.length)
+                        console.log(this.positionArr.length, posArr.length)
                         if (this.positionArr.length === posArr.length / 2) { //每个位置都有选号才计算, /2 是因为加了个valueChange属性
                             const _pos = this.positionArr[0]; //这几个玩法只有一个位置
                             const arr = this.plateOrderObj[_pos].selected;
@@ -772,6 +772,7 @@ Vue.component('lottery-plate', {
                         initValue = 0;
                         const _arrRx2 = []; //记录每个位置选中号码个数的合集
                         this.positionArr.forEach(_pos => {
+                            this.plateOrderObj[_pos] = this.plateOrderObj[_pos] || {};
                             this.plateOrderObj[_pos].selected = this.plateOrderObj[_pos].selected || [];
                             _arrRx2.push(this.plateOrderObj[_pos].selected.length);
                         });
@@ -794,6 +795,7 @@ Vue.component('lottery-plate', {
                         initValue = 0;
                         const _arrRx = []; //记录每个位置选中号码个数的合集
                         this.positionArr.forEach(_pos => {
+                            this.plateOrderObj[_pos] = this.plateOrderObj[_pos] || {};
                             this.plateOrderObj[_pos].selected = this.plateOrderObj[_pos].selected || [];
                             _arrRx.push(this.plateOrderObj[_pos].selected.length);
                         });
@@ -908,7 +910,7 @@ Vue.component('lottery-plate', {
             this.plateOrderObj = {};
             this.getMethod();
             this.$nextTick(() => {
-                this.getLotteryPlateWrapHeight();console.log(this.method)
+                this.getLotteryPlateWrapHeight();
             });
         },
         toggleInputPosStatus(index) {
@@ -1168,8 +1170,8 @@ Vue.component('lottery-plate', {
                         this.plateOrderObj[pos].selected.forEach(num => {
                             const numArr = num.split('&');
                             store.commit('addOrderItem', {
-                                method: this.methodArr.slice(0,3) + `_${numArr[1]}`,
-                                methodCn: this.methodCnName,                                
+                                method: this.methodArr.slice(0, 3) + `_${numArr[1]}`,
+                                methodCn: this.methodCnName,
                                 betContent: numArr[0],
                                 model: this.modelValue,
                                 times: this.totalTimes,
