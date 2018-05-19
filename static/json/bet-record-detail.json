@@ -1,0 +1,26 @@
+{
+    "result": {
+        "orderId": "20180519087sZpCfly0001",
+        "userId": 52968,
+        "username": "zongdai0001",
+        "orderTime": "2018-05-19 17:57:20",
+        "lottery": "XJSSC",
+        "method": "qsm_zx_fs",
+        "code": "9|9|9",
+        "issue": "20180519-48",
+        "count": 1.0,
+        "perAmount": 2.0,
+        "odds": 1952.0,
+        "lotteryNumber": "1,3,5,8,7",
+        "status": "未中奖",
+        "amount": 2.0,
+        "cancel": 0,
+        "awardMoney": 0.0,
+        "istrace": 0,
+        "isCurrentIssue": 0,
+        "nums": 1,
+        "singleStatus": 3
+    },
+    "code": 1,
+    "msg": "ok"
+}

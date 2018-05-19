@@ -126,13 +126,9 @@ Vue.component('lottery-trend', {
         };
     },
     beforeCreate() {},
-    created() {
-
-    },
+    created() {},
     beforeMount() {},
-    mounted() {
-
-    },
+    mounted() {},
     computed: {
         plateHeight() {
             return store.state.plateHeight;
