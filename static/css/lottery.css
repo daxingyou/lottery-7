@@ -1291,29 +1291,42 @@ body[theme="blue"] .trend-num.trend-num-on {
 
 .record-wrap {
     background: #FFFFFF;
-    border: 1px solid #E0E6ED;
+    padding: 0 16px;
 }
 
 .record-tab {
     height: 30px;
     line-height: 30px;
-    text-align: left;
     font-size: 0;
+    border: 1px solid #E0E6ED;    
+    overflow: hidden;
 }
 
 .record-list {
     font-size: 0;
+    border-bottom: 1px solid #E0E6ED;   
+    border-left: 1px solid #E0E6ED;        
+    border-right: 1px solid #E0E6ED; 
+    max-height: 500px;
 }
 
 body[theme="blue"] .record-tab-bet {
-    padding: 0 12px 4px 12px;
+    padding: 0 12px;
+    height: 28px;
     border-bottom: 2px solid #1FA1DD;
     font-family: PingFangSC-Semibold;
     font-size: 12px;
     color: #1FA1DD;
     letter-spacing: 0;
 }
-
+body[theme="blue"] .record-tab-hide {
+    padding: 0 12px;
+    font-family: PingFangSC-Semibold;
+    font-size: 12px;
+    color: #1FA1DD;
+    letter-spacing: 0;
+    cursor: pointer;
+}
 .record-item {
     height: 30px;
     line-height: 30px;
@@ -1347,7 +1360,7 @@ body[theme="blue"] .record-tab-bet {
 }
 
 .record-item-code {
-    width: 313px;
+    width: 283px;
     display: table-cell;
 }
 
@@ -1356,12 +1369,26 @@ body[theme="blue"] .record-tab-bet {
     display: table-cell;
 }
 
+.record-list-head {
+    border-bottom: none;
+}
+
 .record-item-status {
     width: 74px;
     display: table-cell;
 }
 
 .record-item-mani {
-    width: 90px;
+    width: 120px;
     display: table-cell;
+}
+
+body[theme="blue"] .bet-again {
+    color: #1FA1DD;
+    cursor: pointer;
+}
+body[theme="blue"] .bet-cancel {
+    margin-left: 24px;
+    color: #1FA1DD;
+    cursor: pointer;
 }

@@ -1,10 +1,11 @@
 Vue.component('lottery-record', {
     template: `
         <div class="record-wrap">
-            <div class="record-tab">
-                <span class="record-tab-bet">投注记录</span>
+            <div class="record-tab clearfix">
+                <span class="fl record-tab-bet">投注记录</span>
+                <span class="fr record-tab-hide" @click="hideItem = !hideItem">{{hideItem ? '隐藏' : '展开'}}</span>                
             </div>
-            <ul class="record-list">
+            <ul class="record-list record-list-head">
                 <li class="record-item record-item-head">
                     <span class="record-item-time">投注时间</span>
                     <span class="record-item-issue">奖期</span>
@@ -14,7 +15,9 @@ Vue.component('lottery-record', {
                     <span class="record-item-status">中奖情况</span>
                     <span class="record-item-mani">操作</span>            
                 </li>
-                <li class="record-item" v-for="item in recordData">
+            </ul>
+            <ul class="record-list">
+                <li class="record-item" v-if="hideItem" v-for="item in recordData">
                     <span class="record-item-time">{{formatTime(item.orderTime, 'MM-dd hh:mm:ss')}}</span>
                     <span class="record-item-issue">{{item.issue}}</span>
                     <span class="record-item-method">{{methodCnName(item.method)}}</span>
@@ -32,7 +35,8 @@ Vue.component('lottery-record', {
     props: ['lottery-config'],
     data() {
         return {
-            recordData: []
+            recordData: [],
+            hideItem: true
         };
     },
     beforeCreate() {},
