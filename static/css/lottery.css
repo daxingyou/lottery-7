@@ -1089,6 +1089,18 @@ body[theme="blue"] .lottery-trend-icon {
     letter-spacing: 0;
 }
 
+body[theme="blue"] .trend-col-3 {
+    color: #1FA1DD;
+}
+
+.trend-col-3 {
+    padding-right: 20px;
+}
+
+.trend-col-3>i {
+    display: inline-block;
+}
+
 body[theme="blue"] .trend-num.trend-num-on {
     color: #1FA1DD;
 }
@@ -1099,4 +1111,180 @@ body[theme="blue"] .trend-num.trend-num-on {
     color: #000000;
     letter-spacing: 0;
     margin: 0 4px;
+}
+
+.z120,
+.z24 {
+    color: #1FA1DD;
+}
+
+.z60,
+.z12 {
+    color: #F99C22;
+}
+
+.z30,
+.z3 {
+    color: #F92252;
+}
+
+.z20 {
+    color: #AF3EE8;
+}
+
+.z10,
+.z6 {
+    color: #35C5DF;
+}
+
+.z5,
+.z6 {
+    color: #FF7C4E;
+}
+
+.santiao {
+    color: #FF7C4E;
+}
+
+.sitiao {
+    color: #EE7C4E;
+}
+
+.hulu {
+    color: #1FA1EE;
+}
+
+.baozi {
+    color: #1FA1DD;
+}
+
+.shunzi {
+    color: #F99C22;
+}
+
+.duizi,
+.yidui {
+    color: #F92252;
+}
+
+.banshun {
+    color: #AF3EE8;
+}
+
+.liangdui {
+    color: #AD3EE8;
+}
+
+.za6,
+.danpai {
+    color: #35C5DF;
+}
+
+.long,
+.zhuang,
+.s6 {
+    background: #F92252;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    display: inline-block;
+    border-radius: 50%;
+    color: #FFFFFF;
+    text-align: center;
+    position: relative;
+}
+
+.hu,
+.xian {
+    background: #6998FF;
+    ;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    display: inline-block;
+    border-radius: 50%;
+    color: #FFFFFF;
+    text-align: center;
+    position: relative;
+}
+
+.he,
+.dui {
+    background: #108D7D;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    display: inline-block;
+    border-radius: 50%;
+    color: #FFFFFF;
+    text-align: center;
+}
+
+.zhuangdui {
+    color: #F92252;
+    position: absolute;
+    bottom: 10px;
+    width: 25px;
+}
+
+.xiandui {
+    color: #6998FF;
+    position: absolute;
+    bottom: -10px;
+    width: 25px;
+}
+
+.da {
+    color: #1FA1DD;
+}
+
+.dan {
+    color: #1FA1DD;
+}
+
+.xiao {
+    color: #F99C22;
+}
+
+.shuang {
+    color: #F99C22;
+}
+
+.niuda {
+    color: #1FA1DD;
+}
+
+.niudan {
+    color: #1FA1DD;
+}
+
+.niuxiao {
+    color: #F99C22;
+}
+
+.niushuang {
+    color: #F99C22;
+}
+
+.niuniu {
+    display: inline-block;
+    text-align: center;
+    background: #1FA1DD;
+    color: #FFFFFF;
+    border-radius: 4px;
+    width: 32px;
+    height: 18px;
+    line-height: 18px;
+}
+
+.hz,
+.kd {
+    display: inline-block;
+    text-align: center;
+    background: #1FA1DD;
+    color: #FFFFFF;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
 }

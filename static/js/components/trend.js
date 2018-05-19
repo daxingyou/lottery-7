@@ -8,15 +8,15 @@ Vue.component('lottery-trend', {
                 </span>
             </div>
             <div class="lottery-trend-head" ref="lotteryTrendHead">
-                <span :style="{width: trendColWidth}" class="trend-head-col trend-col-1">期号</span>
-                <span :style="{width: trendColWidth}" class="trend-head-col trend-col-2">开奖号码</span>
-                <span :style="{width: trendColWidth}" class="trend-head-col trend-col-3" v-if="trendXtTitle" v-html="trendXtTitle"></span>
+                <span :style="{width: trendColWidth.left}" class="trend-head-col trend-col-1">期号</span>
+                <span :style="{width: trendColWidth.center}" class="trend-head-col trend-col-2">开奖号码</span>
+                <span :style="{width: trendColWidth.right}" class="trend-head-col trend-col-3" v-if="trendXtTitle" v-html="trendXtTitle"></span>
             </div>
             <div class="lottery-trend-body">
                 <div class="lottery-trend-item" v-for="(item, index) in trendData">
-                    <span :style="{width: trendColWidth}" class="trend-col trend-col-1">{{item.issueNo}}</span>
-                    <span :style="{width: trendColWidth}" class="trend-col trend-col-2" v-html="renderCode(item.code)"></span>
-                    <span :style="{width: trendColWidth}" class="trend-col trend-col-3" v-if="trendXtTitle" v-html="renderXt(item.code)"></span>
+                    <span :style="{width: trendColWidth.left}" class="trend-col trend-col-1">{{item.issueNo}}</span>
+                    <span :style="{width: trendColWidth.center}" class="trend-col trend-col-2" v-html="renderCode(item.code)"></span>
+                    <span :style="{width: trendColWidth.right}" class="trend-col trend-col-3" v-if="trendXtTitle" v-html="renderXt(item.code)"></span>
                 </div>
             </div>
         </div>
@@ -145,9 +145,23 @@ Vue.component('lottery-trend', {
         },
         trendColWidth() {
             if (this.trendXtTitle) {
-                return '33.33%';
+                if (this.method === 'nn_nn_nn') {
+                    return {
+                        left: '30%',
+                        center: '30%',
+                        right: '40%'                    
+                    };
+                }
+                return {
+                    left: '33.33%',
+                    center: '33.33%',
+                    right: '33.33%'                    
+                };
             }
-            return '50%';
+            return {
+                left: '50%',
+                center: '50%'                    
+            };
         },
         getTrendNumAddColorPos() { //中间号码是否加颜色配置 key表示位置 012345对应万千百十个
             //五星玩法
@@ -300,41 +314,41 @@ Vue.component('lottery-trend', {
             switch (this.trendXtTitle) {
                 case '五星组态':
                     if (countItemObjValues.length === 5) { // 1 1 1 1 1
-                        return '组120';
+                        return '<em class="z120">组120</em>';
                     }
                     if (countItemObjValues.length === 4) { //2 1 1 1 2重号 单号
-                        return '组60';
+                        return '<em class="z60">组60</em>';
                     }
                     if (countItemObjValues.length === 3) {
                         if (countItemObjValues.includes(3)) { //3 1 1 3重号 单号
-                            return '组20';
+                            return '<em class="z20">组20</em>';
                         }
                         if (countItemObjValues.includes(2)) { // 2 2 1 2重号 单号
-                            return '组30';
+                            return '<em class="z30">组30</em>';
                         }
                     }
                     if (countItemObjValues.length === 2) {
                         if (countItemObjValues.includes(4)) { //4 1  4重号 单号
-                            return '组5';
+                            return '<em class="z5">组5</em>';
                         }
                         if (countItemObjValues.includes(2)) { // 3 2  3重号 2重号
-                            return '组10';
+                            return '<em class="z10">组10</em>';
                         }
                     }
                     break;
                 case '四星组态':
                     if (countItemObjValues.length === 4) { // 1 1 1 1 
-                        return '组24';
+                        return '<em class="z24">组24</em>';
                     }
                     if (countItemObjValues.length === 3) { //2 1 1  2重号 单号
-                        return '组12';
+                        return '<em class="z12">组12</em>';
                     }
                     if (countItemObjValues.length === 2) {
                         if (countItemObjValues.includes(3)) { //3 1  3重号 单号
-                            return '组4';
+                            return '<em class="z4">组4</em>';
                         }
                         if (countItemObjValues.includes(2)) { // 2 2  2重号 
-                            return '组6';
+                            return '<em class="z6">组6</em>';
                         }
                     }
                     break;
@@ -342,19 +356,19 @@ Vue.component('lottery-trend', {
                 case '中三组态':
                 case '后三组态':
                     if (countItemObjValues.length === 2) {
-                        return '组三';
+                        return '<em class="z3">组三</em>';
                     }
                     if (countItemObjValues.length === 3) {
-                        return '组六';
+                        return '<em class="z6">组六</em>';
                     }
                     return '---';
                     break;
                 case '直选和值':
                 case '组选和值':
-                    return HZ;
+                    return `<em class="hz">${HZ}</em>`;
                     break;
                 case '直选跨度':
-                    return KD;
+                    return `<em class="kd">${KD}</em>`;
                     break;
                 case '<i style="width:50%;">十位</i><i style="width:50%;">个位</i>':
                 case '<i style="width:50%;">万位</i><i style="width:50%;">千位</i>':
@@ -368,7 +382,7 @@ Vue.component('lottery-trend', {
                 case '<i style="width:33.33%;">和值</i><i style="width:33.33%;">大小</i><i style="width:33.33%;">单双</i>':
                 case '<i style="width:33.33%;">和值</i><i style="width:33.33%;">大小</i><i style="width:33.33%;">单双</i>':
                 case '<i style="width:33.33%;">和值</i><i style="width:33.33%;">大小</i><i style="width:33.33%;">单双</i>':
-                    return `<i style="width:33.33%;">${HZ}</i><i style="width:33.33%;">${calcDx(HZ, 22)}</i><i style="width:33.33%;">${calcDs(HZ)}</i>`;
+                    return `<i style="width:33.33%;"><em class="hz">${HZ}</em></i><i style="width:33.33%;">${calcDx(HZ, 22)}</i><i style="width:33.33%;">${calcDs(HZ)}</i>`;
                     break;
                 case '<i style="width:50%;">大</i><i style="width:50%;">小</i>':
                     return `<i style="width:50%;">${calcDxgs(codeArr, 4).daCount}</i><i style="width:50%;">${calcDxgs(codeArr, 4).xiaoCount}</i>`;
@@ -391,27 +405,27 @@ Vue.component('lottery-trend', {
                 case '五星形态':
                     if (countItemObjValues.length === 5) { // 1 1 1 1 1 顺子 单牌
                         if (calcShunzi(codeArr)) {
-                            return '顺子';
+                            return '<em class="shunzi">顺子</em>';
                         }
-                        return '单牌';
+                        return '<em class="danpai">单牌</em>';
                     }
                     if (countItemObjValues.length === 4) { //2 1 1 1 2重号 单号
-                        return '一对';
+                        return '<em class="yidui">一对</em>';
                     }
                     if (countItemObjValues.length === 3) {
                         if (countItemObjValues.includes(3)) { //3 1 1 3重号 单号
-                            return '三条';
+                            return '<em class="santiao">三条</em>';
                         }
                         if (countItemObjValues.includes(2)) { // 2 2 1 2重号 单号
-                            return '两对';
+                            return '<em class="liangdui">两对</em>';
                         }
                     }
                     if (countItemObjValues.length === 2) {
                         if (countItemObjValues.includes(4)) { //4 1  4重号 单号
-                            return '四条';
+                            return '<em class="sitiao">四条</em>';
                         }
                         if (countItemObjValues.includes(2)) { // 3 2  3重号 2重号
-                            return '葫芦';
+                            return '<em class="hulu">葫芦</em>';
                         }
                     }
                     break;
@@ -420,18 +434,18 @@ Vue.component('lottery-trend', {
                 case '后三形态':
                     if (countItemObjValues.length === 3) { //杂六 顺子 半顺
                         if (calcShunzi(codeArr)) {
-                            return '顺子';
+                            return '`<em class="shunzi">顺子</em>';
                         }
                         if (calcBanshunzi(codeArr)) {
-                            return '半顺';
+                            return '`<em class="banshun">半顺</em>';
                         }
-                        return '杂六';
+                        return '`<em class="za6">杂六</em>';
                     }
                     if (countItemObjValues.length === 2) {
-                        return '对子';
+                        return '`<em class="duizi">对子</em>';
                     }
                     if (countItemObjValues.length === 1) {
-                        return '豹子';
+                        return '`<em class="baozi">豹子</em>';
                     }
                     break;
                 case '百家乐':

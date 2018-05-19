@@ -243,16 +243,16 @@ flag 大小的比较值 如4 则大于4为大
 */
 function calcDx(num, flag) {
     if (num > flag) {
-        return '大';
+        return '<em class="da">大</em>';
     }
-    return '小';
+    return '<em class="xiao">小</em>';
 }
 
 function calcDs(num) {
     if (num % 2 === 0) {
-        return '双';
+        return '<em class="dan">双</em>';
     }
-    return '单';
+    return '<em class="shuang">单</em>';
 }
 //计算大小的个数
 function calcDxgs(arr, flag) {
@@ -280,12 +280,12 @@ function calcDsgs(arr) {
 */
 function calcLhh(numLeft, numRight) {
     if (numLeft > numRight) {
-        return '龙';
+        return '<em class="long">龙</em>';
     }
     if (numLeft < numRight) {
-        return '虎';
+        return '<em class="hu">虎</em>';
     }
-    return '和';
+    return '<em class="he">和</em>';
 }
 //计算顺子 参数，数组范围最小值，范围最大值
 function calcShunzi(arr, min = 0, max = 9) {
@@ -344,20 +344,20 @@ function calcBjl(arr) {
     let bjlXtPlus = '';
     if (zhuang > xian) {
         if (wan === qian) {
-            bjlXtPlus = '庄对';
+            bjlXtPlus = '<em class="zhuangdui">庄对</em>';
         }
         if (zhuang === 6 && xian < 6) {
-            return `<i class="trend-bjl">S6<i class="bjl-xt-plus">${bjlXtPlus}</i></i>`;
+            return `<i><em class="s6">S6${bjlXtPlus}</em>`;
         }
-        return `<i class="trend-bjl">庄<i class="bjl-xt-plus">${bjlXtPlus}</i></i>`;
+        return `<i><em class="zhuang">庄${bjlXtPlus}</em>`;
     }
     if (zhuang < xian) {
         if (shi === shi) {
-            bjlXtPlus = '闲对';
+            bjlXtPlus = '<em class="xiandui">闲对</em>';
         }
-        return `<i class="trend-bjl">闲<i class="bjl-xt-plus">${bjlXtPlus}</i></i>`;
+        return `<i><em class="xian">闲${bjlXtPlus}</em>`;
     }
-    return `<i class="trend-bjl">和</i>`;
+    return `<i><em class="he">和</em></i>`;
 }
 /* 
 牛牛：
@@ -383,14 +383,14 @@ function calcNiuniu(arr) {
     let dxXt;
     let dsXt;
     if (!has10X) {
-        niuniuXt = '无牛';
+        niuniuXt = '<em class="niuniu">无牛</em>';
         dxXt = '---';
         dsXt = '---';
         return `<i style="width:33.33%;">${niuniuXt}</i><i style="width:33.33%;">${dxXt}</i><i style="width:33.33%;">${dsXt}</i>`;
     } else {
-        niuniuXt = YU === 0 ? '牛牛' : `牛${YU}`;
-        dxXt = [6, 7, 8, 9, 0].indexOf(YU) !== -1 ? '牛大' : '牛小';
-        dsXt = YU % 2 === 0 ? '牛双' : '牛单';
+        niuniuXt = YU === 0 ? '<em class="niuniu">牛牛</em>' : `<em class="niuniu">牛${YU}</em>`;
+        dxXt = [6, 7, 8, 9, 0].indexOf(YU) !== -1 ? '<em class="niuda">牛大</em>' : '<em class="niuda">牛小</em>';
+        dsXt = YU % 2 === 0 ? '<em class="niushuang">牛双</em>' : '<em class="niudan">牛单</em>';
     }
     return `<i style="width:33.33%;">${niuniuXt}</i><i style="width:33.33%;">${dxXt}</i><i style="width:33.33%;">${dsXt}</i>`;
 }
