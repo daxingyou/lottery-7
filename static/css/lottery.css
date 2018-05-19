@@ -1288,3 +1288,80 @@ body[theme="blue"] .trend-num.trend-num-on {
     height: 20px;
     line-height: 20px;
 }
+
+.record-wrap {
+    background: #FFFFFF;
+    border: 1px solid #E0E6ED;
+}
+
+.record-tab {
+    height: 30px;
+    line-height: 30px;
+    text-align: left;
+    font-size: 0;
+}
+
+.record-list {
+    font-size: 0;
+}
+
+body[theme="blue"] .record-tab-bet {
+    padding: 0 12px 4px 12px;
+    border-bottom: 2px solid #1FA1DD;
+    font-family: PingFangSC-Semibold;
+    font-size: 12px;
+    color: #1FA1DD;
+    letter-spacing: 0;
+}
+
+.record-item {
+    height: 30px;
+    line-height: 30px;
+    box-shadow: inset 0 -1px 0 0 #E0E6ED;
+    text-align: left;
+    font-family: PingFangSC-Regular;
+    font-size: 12px;
+    color: #8998AC;
+    letter-spacing: 0;
+    display: table;
+}
+
+.record-item-head {
+    background: #EFFAFF;
+}
+
+.record-item-time {
+    padding-left: 12px;
+    width: 116px;
+    display: table-cell;
+}
+
+.record-item-issue {
+    width: 160px;
+    display: table-cell;
+}
+
+.record-item-method {
+    width: 116px;
+    display: table-cell;
+}
+
+.record-item-code {
+    width: 313px;
+    display: table-cell;
+}
+
+.record-item-amount {
+    width: 105px;
+    display: table-cell;
+}
+
+.record-item-status {
+    width: 74px;
+    display: table-cell;
+}
+
+.record-item-mani {
+    width: 90px;
+    display: table-cell;
+}
