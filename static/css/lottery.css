@@ -771,7 +771,9 @@ body[theme="blue"] .plate-numbet-bottom-bottom .total-money {
 
 .add-number,
 .quick-bet,
-.right-now-bet {
+.right-now-bet,
+.input-upload-btn,
+.input-clear-btn {
     width: 90px;
     height: 34px;
     line-height: 34px;
@@ -786,6 +788,14 @@ body[theme="blue"] .plate-numbet-bottom-bottom .total-money {
 
 body[theme="blue"] .quick-bet {
     background: rgb(248, 155, 34);
+    color: #FFFFFF;
+    border: none;
+    margin-right: 12px;
+}
+
+body[theme="blue"] .input-upload-btn {
+    background: #1FA1DD;
+    ;
     color: #FFFFFF;
     border: none;
     margin-right: 12px;
@@ -860,9 +870,14 @@ body[theme="blue"] .total-order-money {
     margin-right: 23px;
 }
 
+.input-button-wrap {
+    margin-top: 8px;
+}
+
 .add-number.disabled,
 .quick-bet.disabled,
-.right-now-bet.disabled {
+.right-now-bet.disabled,
+.input-clear-btn.disabled {
     background: #F4F4F4 !important;
     color: #C0CCDA !important;
     border: 1px solid #E0E6ED !important;
@@ -1298,15 +1313,15 @@ body[theme="blue"] .trend-num.trend-num-on {
     height: 30px;
     line-height: 30px;
     font-size: 0;
-    border: 1px solid #E0E6ED;    
+    border: 1px solid #E0E6ED;
     overflow: hidden;
 }
 
 .record-list {
     font-size: 0;
-    border-bottom: 1px solid #E0E6ED;   
-    border-left: 1px solid #E0E6ED;        
-    border-right: 1px solid #E0E6ED; 
+    border-bottom: 1px solid #E0E6ED;
+    border-left: 1px solid #E0E6ED;
+    border-right: 1px solid #E0E6ED;
     max-height: 500px;
 }
 
@@ -1319,6 +1334,7 @@ body[theme="blue"] .record-tab-bet {
     color: #1FA1DD;
     letter-spacing: 0;
 }
+
 body[theme="blue"] .record-tab-hide {
     padding: 0 12px;
     font-family: PingFangSC-Semibold;
@@ -1327,6 +1343,7 @@ body[theme="blue"] .record-tab-hide {
     letter-spacing: 0;
     cursor: pointer;
 }
+
 .record-item {
     height: 30px;
     line-height: 30px;
@@ -1387,6 +1404,7 @@ body[theme="blue"] .bet-again {
     color: #1FA1DD;
     cursor: pointer;
 }
+
 body[theme="blue"] .bet-cancel {
     margin-left: 24px;
     color: #1FA1DD;

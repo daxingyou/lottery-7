@@ -53,8 +53,11 @@ Vue.component('lottery-plate', {
                             </ul>
                             <textarea class="ds-input" v-model="dsInputValue" :placeholder="methodHint" @input="pushDsValue"></textarea>
                         </div>
-                        <span class="input-upload-btn">上传文件</span>
-                        <span class="input-clear-btn">清空</span>
+                        <div class="clearfix input-button-wrap">
+                            <span class="fl input-upload-btn" @click="uploadBetNumbers" title="txt文件,选号以分号隔开">上传文件</span>
+                            <span class="fl input-clear-btn" :class="{disabled: totalBet === 0}">清空</span>
+                            <input type="file" style="opacity: 0;" ref="fileInput" @change="getFileValue($event)">                        
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1039,6 +1042,16 @@ Vue.component('lottery-plate', {
                     return;
                 }
             })();
+        },
+        uploadBetNumbers() { //上传选号
+            this.$refs.fileInput.click();
+        },
+        getFileValue(event) {
+            const reader = new FileReader();
+            reader.readAsText(event.target.files[0], "gb2312");
+            reader.onload = (e) => {
+                console.log(e.target.result);
+            };
         },
         renderNum(num) {
             //拆弹情况 拆单玩法 配置json里面有&后加字段
