@@ -430,18 +430,18 @@ Vue.component('lottery-trend', {
                 case '后三形态':
                     if (countItemObjValues.length === 3) { //杂六 顺子 半顺
                         if (calcShunzi(codeArr)) {
-                            return '`<em class="shunzi">顺子</em>';
+                            return '<em class="shunzi">顺子</em>';
                         }
                         if (calcBanshunzi(codeArr)) {
-                            return '`<em class="banshun">半顺</em>';
+                            return '<em class="banshun">半顺</em>';
                         }
-                        return '`<em class="za6">杂六</em>';
+                        return '<em class="za6">杂六</em>';
                     }
                     if (countItemObjValues.length === 2) {
-                        return '`<em class="duizi">对子</em>';
+                        return '<em class="duizi">对子</em>';
                     }
                     if (countItemObjValues.length === 1) {
-                        return '`<em class="baozi">豹子</em>';
+                        return '<em class="baozi">豹子</em>';
                     }
                     break;
                 case '百家乐':
